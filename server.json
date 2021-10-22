@@ -2,7 +2,7 @@
     "name": "MeteoBridgeAuthPG3",
     "docs": "https://github.com/VE7GEL/",
     "type": "python3",
-    "executable": "meteobridgeauth.py",
+    "executable": "mbcontrol.py",
     "install": "install.sh",
     "description": "Node Server using Meteobridge Templates",
     "notice": "",
