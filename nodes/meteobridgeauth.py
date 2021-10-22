@@ -88,7 +88,7 @@ class Controller(udi_interface.Node):
         LOGGER.info('Started MeteoBridge Template NodeServer')
 
         self.discover()
-        if self.ip is not "":
+        if self.ip != "":
             self.getstationdata(self.ip, self.username, self.password)
             self.set_drivers()
 
@@ -97,7 +97,7 @@ class Controller(udi_interface.Node):
             pass
         else:
             # read data
-            if self.ip is "":
+            if self.ip == "":
                 return
 
             self.getstationdata(self.ip, self.username, self.password)
@@ -247,12 +247,12 @@ class Controller(udi_interface.Node):
         self.password = self.Parameters['Password']
 
         # Add notices about missing configuration
-        if self.ip is "":
+        if self.ip == "":
             self.Notices['ipaddr'] = "IP address or hostname of your MeteoBridge device is required."
         else:
             ip_exists = True
 
-        if self.units is "":
+        if self.password == "":
             self.Notices['Password'] = 'Password for MeteoBridge must be set'
         else:
             password_exists = True
