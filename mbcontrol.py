@@ -1,5 +1,5 @@
 # !/usr/bin/env python3
-
+import sys
 import udi_interface
 from nodes import meteobridgeauth
 
@@ -13,7 +13,7 @@ if __name__ == "__main__":
         polyglot.start()
 
         # Start the node server (I.E. create the controller node)
-        control = meteobridgeauth.Controller(polyglot, 'controller', 'controller', 'MeteoBridgeAuth')
+        control = meteobridgeauth.Controller(polyglot, 'primary',  'address', 'MeteoBridgeAuth')
 
         # Enter main event loop waiting for messages from Polyglot
         polyglot.runForever()
