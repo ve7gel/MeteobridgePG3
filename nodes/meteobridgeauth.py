@@ -30,7 +30,7 @@ class Controller(udi_interface.Node):
     id = 'MeteoBridgeAuth'
 
     def __init__(self, polyglot, primary, address, name):
-        super(Controller, self).__init__(polyglot)
+        super(Controller, self).__init__(polyglot, primary, address, name)
         self.hb = 0
         self.poly = polyglot
         self.name = name
