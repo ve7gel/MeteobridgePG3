@@ -7,13 +7,13 @@ if __name__ == "__main__":
     try:
         # Create an instance of the Polyglot interface. We need to
         # pass in array of node classes (or an empty array).
-        polyglot = udi_interface.Interface([meteobridgeauth.Controller])
+        polyglot = udi_interface.Interface([])
 
         # Initialize the interface
         polyglot.start()
 
         # Start the node server (I.E. create the controller node)
-        control = meteobridgeauth.Controller(polyglot, 'primary',  'address', 'MeteoBridgeAuth')
+        control = meteobridgeauth.Controller(polyglot, 'controller',  'controller', 'MeteoBridgeAuth')
 
         # Enter main event loop waiting for messages from Polyglot
         polyglot.runForever()
