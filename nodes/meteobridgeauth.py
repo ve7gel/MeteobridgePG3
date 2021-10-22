@@ -95,6 +95,7 @@ class Controller(udi_interface.Node):
             self.discover()
             LOGGER.debug('Connecting to Meteobridge at: {}'.format(self.ip))
             self.getstationdata(self.ip, self.username, self.password)
+            LOGGER.debug("self.drivers= {}".format(self.drivers))
             self.set_drivers()
 
     def poll(self, polltype):
