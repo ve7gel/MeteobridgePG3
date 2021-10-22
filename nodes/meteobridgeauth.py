@@ -61,6 +61,7 @@ class Controller(udi_interface.Node):
         self.myConfig = {}  # custom parameters
         self.units = 'metric'
         self.ip = ""
+        self.n_queue = []
 
         self.wind_card_dict = {
             'N': 0,
@@ -88,6 +89,14 @@ class Controller(udi_interface.Node):
         polyglot.ready()
         polyglot.addNode(self)
 
+    def node_queue(self, data):
+        self.n_queue.append(data['address'])
+
+    def wait_for_node_done(self):
+        while len(self.n_queue) == 0:
+            time.sleep(0.1)
+        self.n_queue.pop()
+
     def start(self):
         LOGGER.info('Started MeteoBridge Template NodeServer')
 
@@ -95,7 +104,6 @@ class Controller(udi_interface.Node):
             self.discover()
             LOGGER.debug('Connecting to Meteobridge at: {}'.format(self.ip))
             self.getstationdata(self.ip, self.username, self.password)
-            LOGGER.debug("self.drivers= {}".format(self.drivers))
             self.set_drivers()
 
     def poll(self, polltype):
@@ -169,6 +177,7 @@ class Controller(udi_interface.Node):
 
         LOGGER.info("Creating nodes.")
         node = TemperatureNode(self.poly, self.address, 'temperature', 'Temperatures')
+        LOGGER.debug("TemperatureNode = {}".format(node))
         node.SetUnits(self.units)
         for d in self.temperature_list:
             node.drivers.append(
@@ -178,6 +187,7 @@ class Controller(udi_interface.Node):
                     'uom': uom.UOM[self.temperature_list[d]]
                 })
         self.poly.addNode(node)
+        self.wait_for_node_done()
 
         node = HumidityNode(self, self.address, 'humidity', 'Humidity')
         node.SetUnits(self.units)
@@ -189,6 +199,7 @@ class Controller(udi_interface.Node):
                     'uom': uom.UOM[self.humidity_list[d]]
                 })
         self.poly.addNode(node)
+        self.wait_for_node_done()
 
         node = PressureNode(self, self.address, 'pressure', 'Barometric Pressure')
         node.SetUnits(self.units)
@@ -200,6 +211,7 @@ class Controller(udi_interface.Node):
                     'uom': uom.UOM[self.pressure_list[d]]
                 })
         self.poly.addNode(node)
+        self.wait_for_node_done()
 
         node = WindNode(self, self.address, 'wind', 'Wind')
         node.SetUnits(self.units)
@@ -211,6 +223,8 @@ class Controller(udi_interface.Node):
                     'uom': uom.UOM[self.wind_list[d]]
                 })
         self.poly.addNode(node)
+        self.wait_for_node_done()
+
         LOGGER.debug("Wind nodes: {}".format(node.drivers))
 
         node = PrecipitationNode(self, self.address, 'rain', 'Precipitation')
@@ -223,6 +237,7 @@ class Controller(udi_interface.Node):
                     'uom': uom.UOM[self.rain_list[d]]
                 })
         self.poly.addNode(node)
+        self.wait_for_node_done()
 
         node = LightNode(self, self.address, 'light', 'Illumination')
         node.SetUnits(self.units)
@@ -234,6 +249,7 @@ class Controller(udi_interface.Node):
                     'uom': uom.UOM[self.light_list[d]]
                 })
         self.poly.addNode(node)
+        self.wait_for_node_done()
 
     def delete(self):
         self.stopping = True
