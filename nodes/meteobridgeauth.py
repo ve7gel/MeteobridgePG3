@@ -90,8 +90,9 @@ class Controller(udi_interface.Node):
     def start(self):
         LOGGER.info('Started MeteoBridge Template NodeServer')
 
-        self.discover()
+
         if self.ip != "":
+            self.discover()
             LOGGER.debug('Connecting to Meteobridge at: {}'.format(self.ip))
             self.getstationdata(self.ip, self.username, self.password)
             self.set_drivers()
