@@ -84,6 +84,9 @@ class Controller(udi_interface.Node):
         self.uvpresent = False
         self.lastgooddata = None
 
+        polyglot.ready()
+        polyglot.addNode(self)
+
     def start(self):
         LOGGER.info('Started MeteoBridge Template NodeServer')
 
