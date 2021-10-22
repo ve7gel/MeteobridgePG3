@@ -59,7 +59,7 @@ class Controller(udi_interface.Node):
         self.lightning_list = {}
         self.myConfig = {}  # custom parameters
         self.units = 'metric'
-        self.ip = ''
+        self.ip = ""
 
         self.wind_card_dict = {
             'N': 0,
@@ -92,6 +92,7 @@ class Controller(udi_interface.Node):
 
         self.discover()
         if self.ip != "":
+            LOGGER.debug('Connecting to Meteobridge at: {}'.format(self.ip))
             self.getstationdata(self.ip, self.username, self.password)
             self.set_drivers()
 
