@@ -1,3 +1,5 @@
+# !/usr/bin/env python3
+
 import udi_interface
 from nodes import meteobridgeauth
 
