@@ -8,6 +8,7 @@ Customized to use template queries from MeteoBridge by Gordon Larsen
 
 Copyright 2020 Robert Paauwe and Gordon Larsen, MIT License
 """
+import time
 
 import udi_interface
 
@@ -301,6 +302,7 @@ class Controller(udi_interface.Node):
         write_profile.write_profile(LOGGER, self.temperature_list,
                                     self.humidity_list, self.pressure_list, self.wind_list,
                                     self.rain_list, self.light_list, self.lightning_list)
+        time.sleep(3)
         # push updated profile to ISY
         try:
             self.poly.installprofile()
@@ -509,8 +511,9 @@ class PrecipitationNode(udi_interface.Node):
         self.units = u
 
     def setDriver(self, driver, value, **kwargs):
-        if (self.units == 'us'):
+        if self.units == 'us':
             value = round(value * 0.03937, 2)
+        LOGGER.debug("In PrecipNode: {} {} {}".format(driver, value, units))
         super(PrecipitationNode, self).setDriver(driver, round(value, 2), report=True, force=True)
 
 
