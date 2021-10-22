@@ -11,7 +11,7 @@
     "testMode": false,
     "profile_version": "3.0.0",
         "customParams": {
-            "IPAddress": "0.0.0.0",
+            "IPAddress": "",
             "Units": "metric",
             "Password": ""
         },
