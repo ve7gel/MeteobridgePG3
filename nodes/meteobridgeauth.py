@@ -169,7 +169,7 @@ class Controller(udi_interface.Node):
     def discover(self, *args, **kwargs):
 
         LOGGER.info("Creating nodes.")
-        node = TemperatureNode(self, self.address, 'temperature', 'Temperatures')
+        node = TemperatureNode(self.poly, self.address, 'temperature', 'Temperatures')
         node.SetUnits(self.units)
         for d in self.temperature_list:
             node.drivers.append(
