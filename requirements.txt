@@ -1,2 +1,2 @@
-polyinterface >= 2.1.0
+udi-interface >= 3.0.18
 requests >= 2.4.3

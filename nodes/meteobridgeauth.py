@@ -9,16 +9,16 @@ Customized to use template queries from MeteoBridge by Gordon Larsen
 Copyright 2020 Robert Paauwe and Gordon Larsen, MIT License
 """
 
-try:
-    import polyinterface
-except ImportError:
-    import pgc_interface as polyinterface
+import udi_interface
+
 import sys
 import write_profile
 import uom
 import requests
 
-LOGGER = polyinterface.LOGGER
+LOGGER = udi_interface.LOGGER
+Custom = udi_interface.Custom
+
 """
 polyinterface has a LOGGER that is created by default and logs to:
 logs/debug.log
@@ -26,18 +26,30 @@ You can use LOGGER.info, LOGGER.warning, LOGGER.debug, LOGGER.error levels as ne
 """
 
 
-class MBAuthController(polyinterface.Controller):
+class Controller(udi_interface.Node):
+    id = 'MeteoBridgeAuth'
 
-    def __init__(self, polyglot):
-        super(MBAuthController, self).__init__(polyglot)
+    def __init__(self, polyglot, primary, address, name):
+        super(Controller, self).__init__(polyglot)
         self.hb = 0
-        self.name = 'MeteoBridge Weather'
-        self.address = 'mbweather'
-        self.primary = self.address
+        self.poly = polyglot
+        self.name = name
+        self.address = address
+        self.primary = primary
+        self.configured = False
+
         self.password = ""
         self.username = "meteobridge"
-        self.ip = ""
-        self.units = ""
+
+        self.Parameters = Custom(polyglot, 'customparams')
+        self.Notices = Custom(polyglot, 'notices')
+
+        # self.poly.subscribe(self.poly.CONFIG, self.configHandler)
+        self.poly.subscribe(self.poly.CUSTOMPARAMS, self.parameterHandler)
+        self.poly.subscribe(self.poly.START, self.start, address)
+        self.poly.subscribe(self.poly.POLL, self.poll)
+        # self.poly.subscribe(self.poly.ADDNODEDONE, self.nodeHandler)
+
         self.temperature_list = {}
         self.humidity_list = {}
         self.pressure_list = {}
@@ -46,15 +58,9 @@ class MBAuthController(polyinterface.Controller):
         self.light_list = {}
         self.lightning_list = {}
         self.myConfig = {}  # custom parameters
-        self.currentloglevel = 10
-        self.loglevel = {
-            0: 'None',
-            10: 'Debug',
-            20: 'Info',
-            30: 'Error',
-            40: 'Warning',
-            50: 'Critical'
-        }
+        self.units = 'metric'
+        self.ip = ''
+
         self.wind_card_dict = {
             'N': 0,
             'NNE': 1,
@@ -74,121 +80,68 @@ class MBAuthController(polyinterface.Controller):
             'NNW': 15
         }
         self.last_wind_dir = ''
-        self.poly.onConfig(self.process_config)
         self.vp2plus = False
         self.uvpresent = False
         self.lastgooddata = None
 
     def start(self):
         LOGGER.info('Started MeteoBridge Template NodeServer')
-        self.check_params()
 
         self.discover()
         if self.ip is not "":
             self.getstationdata(self.ip, self.username, self.password)
             self.set_drivers()
 
-    def shortPoll(self):
-        pass
+    def poll(self, polltype):
+        if 'shortPoll' in polltype:
+            pass
+        else:
+            # read data
+            if self.ip is "":
+                return
 
-    def longPoll(self):
-
-        # read data
-        if self.ip is "":
-            return
-
-        self.getstationdata(self.ip, self.username, self.password)
-        self.set_drivers()
-        LOGGER.info("Updated data from Meteobridge")
+            self.getstationdata(self.ip, self.username, self.password)
+            self.set_drivers()
+            LOGGER.info("Updated data from Meteobridge")
 
     def set_drivers(self):
         try:
-            self.nodes['temperature'].setDriver(
-                uom.TEMP_DRVS['main'], self.temperature
-            )
-            self.nodes['temperature'].setDriver(
-                uom.TEMP_DRVS['dewpoint'], self.dewpoint
-            )
-            self.nodes['temperature'].setDriver(
-                uom.TEMP_DRVS['windchill'], self.windchill
-            )
-            self.nodes['temperature'].setDriver(
-                uom.TEMP_DRVS['tempmax'], self.maxtemp
-            )
-            self.nodes['temperature'].setDriver(
-                uom.TEMP_DRVS['tempmin'], self.mintemp
-            )
-            self.nodes['rain'].setDriver(
-                uom.RAIN_DRVS['rate'], self.rain_rate
-            )
-            self.nodes['rain'].setDriver(
-                uom.RAIN_DRVS['daily'], self.rain_today
-            )
-            self.nodes['rain'].setDriver(
-                uom.RAIN_DRVS['24hour'], self.rain_24hour
-            )
-            self.nodes['rain'].setDriver(
-                uom.RAIN_DRVS['yesterday'], self.rain_yesterday
-            )
-            self.nodes['rain'].setDriver(
-                uom.RAIN_DRVS['monthly'], self.rain_month
-            )
-            self.nodes['rain'].setDriver(
-                uom.RAIN_DRVS['yearly'], self.rain_year
-            )
-            self.nodes['wind'].setDriver(
-                uom.WIND_DRVS['windspeed'], self.wind
-            )
-            self.nodes['wind'].setDriver(
-                uom.WIND_DRVS['winddir'], self.wind_dir
-            )
-            self.nodes['wind'].setDriver(
-                uom.WIND_DRVS['gustspeed'], self.wind_gust
-            )
-            self.nodes['wind'].setDriver(
-                uom.WIND_DRVS['windspeed1'], self.wind
-            )
-            self.nodes['wind'].setDriver(
-                uom.WIND_DRVS['gustspeed1'], self.wind_gust
-            )
-            self.nodes['wind'].setDriver(
-                uom.WIND_DRVS['winddircard'], self.wind_dir_cardinal
-            )
-            self.nodes['light'].setDriver(
-                uom.LITE_DRVS['solar_radiation'], self.solarradiation
-            )
+            self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['main'], self.temperature, )
+            self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['dewpoint'], self.dewpoint, )
+            self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['windchill'], self.windchill, )
+            self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['tempmax'], self.maxtemp, )
+            self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['tempmin'], self.mintemp, )
+            self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['rate'], self.rain_rate, )
+            self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['daily'], self.rain_today, )
+            self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['24hour'], self.rain_24hour, )
+            self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['yesterday'], self.rain_yesterday, )
+            self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['monthly'], self.rain_month, )
+            self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['yearly'], self.rain_year, )
+            self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['windspeed'], self.wind, )
+            self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['winddir'], self.wind_dir, )
+            self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['gustspeed'], self.wind_gust, )
+            self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['windspeed1'], self.wind, )
+            self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['gustspeed1'], self.wind_gust, )
+            self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['winddircard'], self.wind_dir_cardinal, )
+            self.poly.nodes['light'].setDriver(uom.LITE_DRVS['solar_radiation'], self.solarradiation, )
             if self.uvpresent:
-                self.nodes['light'].setDriver(uom.LITE_DRVS['uv'], self.uv
-                                              )
+                self.poly.nodes['light'].setDriver(uom.LITE_DRVS['uv'], self.uv, )
             else:
-                self.nodes['light'].setDriver(
-                    uom.LITE_DRVS['uv'], 0
-                )
+                self.poly.nodes['light'].setDriver(uom.LITE_DRVS['uv'], 0, )
             if self.vp2plus:
                 et0_conv = self.et0
                 if self.units == 'us':
                     et0_conv = round(et0_conv / 25.4, 3)
 
-                self.nodes['light'].setDriver(
-                    uom.LITE_DRVS['evapotranspiration'], et0_conv
-                )
+                self.poly.nodes['light'].setDriver(uom.LITE_DRVS['evapotranspiration'], et0_conv, )
             else:
-                self.nodes['light'].setDriver(uom.LITE_DRVS['evapotranspiration'], 0
-                                              )
+                self.poly.nodes['light'].setDriver(uom.LITE_DRVS['evapotranspiration'], 0, )
                 LOGGER.info("Evapotranspiration not available (Davis Vantage stations with Solar Sensor only)")
 
-            self.nodes['pressure'].setDriver(
-                uom.PRES_DRVS['station'], self.stn_pressure
-            )
-            self.nodes['pressure'].setDriver(
-                uom.PRES_DRVS['sealevel'], self.sl_pressure
-            )
-            self.nodes['pressure'].setDriver(
-                uom.PRES_DRVS['trend'], self.pressure_trend
-            )
-            self.nodes['humidity'].setDriver(
-                uom.HUMD_DRVS['main'], self.rh
-            )
+            self.poly.nodes['pressure'].setDriver(uom.PRES_DRVS['station'], self.stn_pressure, )
+            self.poly.nodes['pressure'].setDriver(uom.PRES_DRVS['sealevel'], self.sl_pressure, )
+            self.poly.nodes['pressure'].setDriver(uom.PRES_DRVS['trend'], self.pressure_trend, )
+            self.poly.nodes['humidity'].setDriver(uom.HUMD_DRVS['main'], self.rh, )
 
             # Update controller drivers now
             self.setDriver('GV3', self.lastgooddata)
@@ -203,9 +156,8 @@ class MBAuthController(polyinterface.Controller):
             LOGGER.error("Error in assigning driver values from template: {}".format(e))
 
     def query(self, command=None):
-        self.check_params()
-        for node in self.nodes:
-            self.nodes[node].reportDrivers()
+        for node in self.poly.nodes:
+            self.poly.nodes[node].reportDrivers()
 
     def discover(self, *args, **kwargs):
 
@@ -219,7 +171,7 @@ class MBAuthController(polyinterface.Controller):
                     'value': 0,
                     'uom': uom.UOM[self.temperature_list[d]]
                 })
-        self.addNode(node)
+        self.poly.addNode(node)
 
         node = HumidityNode(self, self.address, 'humidity', 'Humidity')
         node.SetUnits(self.units)
@@ -230,7 +182,7 @@ class MBAuthController(polyinterface.Controller):
                     'value': 0,
                     'uom': uom.UOM[self.humidity_list[d]]
                 })
-        self.addNode(node)
+        self.poly.addNode(node)
 
         node = PressureNode(self, self.address, 'pressure', 'Barometric Pressure')
         node.SetUnits(self.units)
@@ -241,7 +193,7 @@ class MBAuthController(polyinterface.Controller):
                     'value': 0,
                     'uom': uom.UOM[self.pressure_list[d]]
                 })
-        self.addNode(node)
+        self.poly.addNode(node)
 
         node = WindNode(self, self.address, 'wind', 'Wind')
         node.SetUnits(self.units)
@@ -252,7 +204,7 @@ class MBAuthController(polyinterface.Controller):
                     'value': 0,
                     'uom': uom.UOM[self.wind_list[d]]
                 })
-        self.addNode(node)
+        self.poly.addNode(node)
         LOGGER.debug("Wind nodes: {}".format(node.drivers))
 
         node = PrecipitationNode(self, self.address, 'rain', 'Precipitation')
@@ -264,7 +216,7 @@ class MBAuthController(polyinterface.Controller):
                     'value': 0,
                     'uom': uom.UOM[self.rain_list[d]]
                 })
-        self.addNode(node)
+        self.poly.addNode(node)
 
         node = LightNode(self, self.address, 'light', 'Illumination')
         node.SetUnits(self.units)
@@ -275,7 +227,7 @@ class MBAuthController(polyinterface.Controller):
                     'value': 0,
                     'uom': uom.UOM[self.light_list[d]]
                 })
-        self.addNode(node)
+        self.poly.addNode(node)
 
     def delete(self):
         self.stopping = True
@@ -284,85 +236,30 @@ class MBAuthController(polyinterface.Controller):
     def stop(self):
         LOGGER.info('NodeServer stopped.')
 
-    def process_config(self, config):
-        if 'customParams' in config:
-            if config['customParams'] != self.myConfig:
-                # Configuration has changed, we need to handle it
-                LOGGER.info('New configuration, updating configuration')
-                self.set_configuration(config)
-                self.setup_nodedefs(self.units)
-                self.discover()
-                self.myConfig = config['customParams']
+    def parameterHandler(self, config):
+        self.Parameters.load(config)
+        self.Notices.clear()
+        ip_exists = False
+        password_exists = False
 
-                # Remove all existing notices
-                self.removeNoticesAll()
+        self.ip = self.Parameters['IPAddr']
+        self.units = self.Parameters['Units'].lower()
+        self.password = self.Parameters['Password']
 
-                # Add notices about missing configuration
-                if self.ip is "":
-                    self.addNotice("IP address or hostname of your MeteoBridge device is required.")
-
-    def check_params(self):
-        self.set_configuration(self.polyConfig)
-        self.setup_nodedefs(self.units)
-
-        # Make sure they are in the params  -- does this cause a
-        # configuration event?
-        LOGGER.info("Adding configuration")
-        self.addCustomParam({
-            'IPAddress': self.ip,
-            'Units': self.units,
-            'Password': self.password,
-        })
-
-        self.myConfig = self.polyConfig['customParams']
-
-        if 'Loglevel' in self.polyConfig['customData']:
-            self.currentloglevel = self.polyConfig['customData']['Loglevel']
-            LOGGER.debug(
-                "Custom data: {0}, currentloglevel: {1}".format(self.polyConfig['customData'], self.currentloglevel))
-
-            LOGGER.setLevel(int(self.currentloglevel))
-            self.setDriver('GV4', self.currentloglevel)
-
-        else:
-            LOGGER.debug("Custom data: {}".format(self.polyConfig['customData']))
-            self.currentloglevel = 10
-            self.saveCustomData({
-                'Loglevel': self.currentloglevel,  # set default loglevel to 'Debug'
-            })
-            LOGGER.setLevel(self.currentloglevel)
-            self.setDriver('GV4', self.currentloglevel)
-
-        # Remove all existing notices
-        LOGGER.info("remove all notices")
-        self.removeNoticesAll()
-
-        # Add a notice?
+        # Add notices about missing configuration
         if self.ip is "":
-            self.addNotice("IP address or hostname of your MeteoBridge device is required.")
-        if self.password == "":
-            self.addNotice("Password for your MeteoBridge is required.")
-
-    def set_configuration(self, config):
-
-        LOGGER.info("Check for existing configuration value")
-
-        if 'IPAddress' in config['customParams']:
-            self.ip = config['customParams']['IPAddress']
+            self.Notices['ipaddr'] = "IP address or hostname of your MeteoBridge device is required."
         else:
-            self.ip = ""
+            ip_exists = True
 
-        if 'Units' in config['customParams']:
-            self.units = config['customParams']['Units'].lower()
+        if self.units is "":
+            self.Notices['Password'] = 'Password for MeteoBridge must be set'
         else:
-            self.units = 'metric'
+            password_exists = True
 
-        if 'Password' in config['customParams']:
-            self.password = config['customParams']['Password']
-        else:
-            self.password = ""
-
-        return self.units
+        if ip_exists and password_exists:
+            self.Notices.clear()
+            self.setup_nodedefs(self.units)
 
     def setup_nodedefs(self, units):
         # Configure the units for each node driver
@@ -401,13 +298,9 @@ class MBAuthController(polyinterface.Controller):
         # push updated profile to ISY
         try:
             self.poly.installprofile()
+
         except:
             LOGGER.error('Failed to push profile to ISY')
-
-    def remove_notices_all(self, command):
-        LOGGER.info('remove_notices_all: notices={}'.format(self.poly.config['notices']))
-        # Remove all existing notices
-        self.removeNoticesAll()
 
     def update_profile(self, command):
         LOGGER.info('update_profile:')
@@ -417,24 +310,10 @@ class MBAuthController(polyinterface.Controller):
     def SetUnits(self, u):
         self.units = u
 
-    def set_loglevel(self, command):
-        LOGGER.info("Received command {} in 'set_log_level'".format(command))
-        self.currentloglevel = int(command.get('value'))
-        self.saveCustomData({
-            'Loglevel': self.currentloglevel,
-        })
-        LOGGER.setLevel(int(self.currentloglevel))
-        LOGGER.info("Set Logging Level to {}".format(self.loglevel[self.currentloglevel]))
-        self.setDriver('GV4', self.currentloglevel)
-
-    id = 'MeteoBridgeAuth'
-
     commands = {
         'QUERY': query,
         'DISCOVER': discover,
         'UPDATE_PROFILE': update_profile,
-        'REMOVE_NOTICES_ALL': remove_notices_all,
-        'LOG_LEVEL': set_loglevel,
     }
     # Hub status information here: battery and data health values.
     drivers = [
@@ -517,12 +396,12 @@ class MBAuthController(polyinterface.Controller):
 
             LOGGER.debug(
                 "mbr wind: {}, gust: {}, dir: {}, wdc: {}, wind_dir_cardinal: {}, last_wind_dir: {}".format(self.wind,
-                                                                                                self.wind_gust,
-                                                                                                self.wind_dir,
-                                                                                                mbrarray[
-                                                                                                    17],
-                                                                                                self.wind_dir_cardinal,
-                                                                                                self.last_wind_dir))
+                                                                                                            self.wind_gust,
+                                                                                                            self.wind_dir,
+                                                                                                            mbrarray[
+                                                                                                                17],
+                                                                                                            self.wind_dir_cardinal,
+                                                                                                            self.last_wind_dir))
 
             self.rain_rate = float(mbrarray[18])
             self.rain_today = float(mbrarray[19])
@@ -598,7 +477,7 @@ class CreateTemplate:
         return mbtemplate.strip("%20")
 
 
-class TemperatureNode(polyinterface.Node):
+class TemperatureNode(udi_interface.Node):
     id = 'temperature'
     units = 'metric'
     drivers = []
@@ -607,14 +486,14 @@ class TemperatureNode(polyinterface.Node):
     def SetUnits(self, u):
         self.units = u
 
-    def setDriver(self, driver, value):
+    def setDriver(self, driver, value, **kwargs):
         if (self.units == "us"):
             value = (value * 1.8) + 32  # convert to F
 
         super(TemperatureNode, self).setDriver(driver, round(value, 1), report=True, force=True)
 
 
-class PrecipitationNode(polyinterface.Node):
+class PrecipitationNode(udi_interface.Node):
     id = 'precipitation'
     units = 'metric'
     drivers = []
@@ -623,13 +502,13 @@ class PrecipitationNode(polyinterface.Node):
     def SetUnits(self, u):
         self.units = u
 
-    def setDriver(self, driver, value):
+    def setDriver(self, driver, value, **kwargs):
         if (self.units == 'us'):
             value = round(value * 0.03937, 2)
         super(PrecipitationNode, self).setDriver(driver, round(value, 2), report=True, force=True)
 
 
-class HumidityNode(polyinterface.Node):
+class HumidityNode(udi_interface.Node):
     id = 'humidity'
     units = 'metric'
     drivers = [{'driver': 'ST', 'value': 0, 'uom': 22}]
@@ -638,11 +517,11 @@ class HumidityNode(polyinterface.Node):
     def SetUnits(self, u):
         self.units = u
 
-    def setDriver(self, driver, value):
+    def setDriver(self, driver, value, **kwargs):
         super(HumidityNode, self).setDriver(driver, value, report=True, force=True)
 
 
-class PressureNode(polyinterface.Node):
+class PressureNode(udi_interface.Node):
     id = 'pressure'
     units = 'metric'
     drivers = []
@@ -653,7 +532,7 @@ class PressureNode(polyinterface.Node):
 
     # We want to override the SetDriver method so that we can properly
     # convert the units based on the user preference.
-    def setDriver(self, driver, value):
+    def setDriver(self, driver, value, **kwargs):
         if driver != 'GV1':
             if (self.units == 'us'):
                 value = round(value * 0.02952998751, 2)
@@ -661,7 +540,7 @@ class PressureNode(polyinterface.Node):
         super(PressureNode, self).setDriver(driver, value, report=True, force=True)
 
 
-class WindNode(polyinterface.Node):
+class WindNode(udi_interface.Node):
     id = 'wind'
     units = 'metric'
     drivers = []
@@ -670,7 +549,7 @@ class WindNode(polyinterface.Node):
     def SetUnits(self, u):
         self.units = u
 
-    def setDriver(self, driver, value):
+    def setDriver(self, driver, value, **kwargs):
         if driver == 'ST' or driver == 'GV0':
             # Metric value is meters/sec (not KPH)
             if self.units != 'metric':
@@ -682,7 +561,7 @@ class WindNode(polyinterface.Node):
         super(WindNode, self).setDriver(driver, value, report=True, force=True)
 
 
-class LightNode(polyinterface.Node):
+class LightNode(udi_interface.Node):
     id = 'light'
     units = 'metric'
     drivers = []
@@ -691,34 +570,5 @@ class LightNode(polyinterface.Node):
     def SetUnits(self, u):
         self.units = u
 
-    def setDriver(self, driver, value):
+    def setDriver(self, driver, value, **kwargs):
         super(LightNode, self).setDriver(driver, value, report=True, force=True)
-
-
-if __name__ == "__main__":
-    try:
-        polyglot = polyinterface.Interface('MeteoBridgeAuth')
-        """
-        Instantiates the Interface to Polyglot.
-        """
-        polyglot.start()
-        """
-        Starts MQTT and connects to Polyglot.
-        """
-        control = MBAuthController(polyglot)
-        """
-        Creates the Controller Node and passes in the Interface
-        """
-        control.runForever()
-        """
-        Sits around and does nothing forever, keeping your program running.
-        """
-    except (KeyboardInterrupt, SystemExit):
-        LOGGER.warning("Received interrupt or exit...")
-        """
-        Catch SIGTERM or Control-C and exit cleanly.
-        """
-        polyglot.stop()
-    except Exception as err:
-        LOGGER.error('Exception: {0}'.format(err), exc_info=True)
-    sys.exit(0)
