@@ -30,13 +30,13 @@ You can use LOGGER.info, LOGGER.warning, LOGGER.debug, LOGGER.error levels as ne
 class Controller(udi_interface.Node):
     id = 'MeteoBridgeAuth'
 
-    def __init__(self, polyglot, primary, address, name):
-        super(Controller, self).__init__(polyglot, primary, address, name)
+    def __init__(self, polyglot, parent, address, name):
+        super(Controller, self).__init__(polyglot, parent, address, name)
         self.hb = 0
         self.poly = polyglot
         self.name = name
         self.address = address
-        self.primary = primary
+        self.primary = parent
         self.configured = False
 
         self.password = ""
@@ -90,7 +90,6 @@ class Controller(udi_interface.Node):
 
     def start(self):
         LOGGER.info('Started MeteoBridge Template NodeServer')
-
 
         if self.ip != "":
             self.discover()
