@@ -245,7 +245,7 @@ class Controller(udi_interface.Node):
         ip_exists = False
         password_exists = False
 
-        self.ip = self.Parameters['IPAddr']
+        self.ip = self.Parameters['IPAddress']
         self.units = self.Parameters['Units'].lower()
         self.password = self.Parameters['Password']
 
