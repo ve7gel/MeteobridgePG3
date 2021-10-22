@@ -13,7 +13,7 @@ if __name__ == "__main__":
         polyglot.start()
 
         # Start the node server (I.E. create the controller node)
-        control = meteobridgeauth.Controller(polyglot, 'controller',  'controller', 'MeteoBridgeAuth')
+        control = meteobridgeauth.Controller(polyglot, 'controller',  'controller', 'MeteoBridge')
 
         # Enter main event loop waiting for messages from Polyglot
         polyglot.runForever()

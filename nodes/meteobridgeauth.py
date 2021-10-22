@@ -28,7 +28,7 @@ You can use LOGGER.info, LOGGER.warning, LOGGER.debug, LOGGER.error levels as ne
 
 
 class Controller(udi_interface.Node):
-    id = 'MeteoBridgeAuth'
+    id = 'MeteoBridge'
 
     def __init__(self, polyglot, parent, address, name):
         super(Controller, self).__init__(polyglot, parent, address, name)
