@@ -177,7 +177,6 @@ class Controller(udi_interface.Node):
 
         LOGGER.info("Creating nodes.")
         node = TemperatureNode(self.poly, self.address, 'temperature', 'Temperatures')
-        LOGGER.debug("TemperatureNode = {}".format(node))
         node.SetUnits(self.units)
         for d in self.temperature_list:
             node.drivers.append(
@@ -186,6 +185,7 @@ class Controller(udi_interface.Node):
                     'value': 0,
                     'uom': uom.UOM[self.temperature_list[d]]
                 })
+        LOGGER.debug("addNode(node): {}".format(node))
         self.poly.addNode(node)
         self.wait_for_node_done()
 
@@ -320,14 +320,14 @@ class Controller(udi_interface.Node):
         time.sleep(3)
         # push updated profile to ISY
         try:
-            self.poly.installprofile()
+            self.poly.updateProfile()
 
         except:
             LOGGER.error('Failed to push profile to ISY')
 
     def update_profile(self, command):
         LOGGER.info('update_profile:')
-        st = self.poly.installprofile()
+        st = self.poly.updateProfile()
         return st
 
     def SetUnits(self, u):
