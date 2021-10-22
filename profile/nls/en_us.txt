@@ -1,0 +1,139 @@
+# controller
+ND-MeteoBridgeAuth-NAME = MeteoBridge
+ND-MeteoBridgeAuth-ICON = Weather
+CMD-ctl-DISCOVER-NAME = Re-Discover
+CMD-ctl-UPDATE_PROFILE-NAME = Update Profile
+CMD-ctl-REMOVE_NOTICES_ALL-NAME = Remove Notices
+CMD-ctl-LOG_LEVEL-NAME = Set Logging Level
+ST-ctl-ST-NAME = NodeServer Online
+ST-ctl-GV0-NAME = Console Battery
+ST-ctl-GV1-NAME = ISS Battery
+ST-ctl-GV2-NAME = Last Observation Time
+ST-ctl-GV3-NAME = Last Good Data
+ST-ctl-GV4-NAME = Logging Level
+
+# mynodetype
+ND-temperature-NAME = Temperatures
+ND-temperature-ICON = Input
+ST-TEMP-ST-NAME = Temperature
+ST-TEMP-GV0-NAME = DewPoint
+ST-TEMP-GV1-NAME = Windchill
+ST-TEMP-GV2-NAME = Heat Index
+ST-TEMP-GV3-NAME = Apparent Temperature
+ST-TEMP-GV4-NAME = Inside Temperature
+ST-TEMP-GV5-NAME = Extra Temperature 1
+ST-TEMP-GV6-NAME = Extra Temperature 2
+ST-TEMP-GV7-NAME = Extra Temperature 3
+ST-TEMP-GV8-NAME = Extra Temperature 4
+ST-TEMP-GV9-NAME = Extra Temperature 5
+ST-TEMP-GV10-NAME = Extra Temperature 6
+ST-TEMP-GV11-NAME = Extra Temperature 7
+ST-TEMP-GV12-NAME = Extra Temperature 8
+ST-TEMP-GV13-NAME = Extra Temperature 9
+ST-TEMP-GV14-NAME = Extra Temperature 10
+ST-TEMP-GV15-NAME = Maximum Temperature
+ST-TEMP-GV16-NAME = Minimum Temperature
+ST-TEMP-GV17-NAME = Soil Temperature
+
+ND-humidity-NAME = Humidity
+ND-humidity-ICON = Input
+ST-HUM-ST-NAME = Humidity
+ST-HUM-GV0-NAME = Inside Humidity
+ST-HUM-GV1-NAME = Extra Humidity 1
+ST-HUM-GV2-NAME = Extra Humidity 2
+ST-HUM-GV3-NAME = Extra Humidity 3
+ST-HUM-GV4-NAME = Extra Humidity 4
+ST-HUM-GV5-NAME = Extra Humidity 5
+
+ND-pressure-NAME = Barometric Pressures
+ND-pressure-ICON = Input
+ST-PRESS-ST-NAME = Station Pressure
+ST-PRESS-GV0-NAME = Sea Level Pressure
+ST-PRESS-GV1-NAME = Pressure Trend
+
+ND-wind-NAME = Wind
+ND-wind-ICON = Input
+ST-WIND-ST-NAME = Wind Speed
+ST-WIND-GV0-NAME = Gust Speed
+ST-WIND-GV1-NAME = Wind Direction
+ST-WIND-GV2-NAME = Wind Direction
+ST-WIND-GV3-NAME = Wind Speed
+ST-WIND-GV4-NAME = Gust Speed
+
+ND-precipitation-NAME = Rainfall
+ND-precipitation-ICON = Input
+ST-RAIN-ST-NAME = Rain Rate
+ST-RAIN-GV0-NAME = Hourly Rainfall
+ST-RAIN-GV1-NAME = Daily Rainfall
+ST-RAIN-GV2-NAME = 24 Hour Rainfall
+ST-RAIN-GV3-NAME = Monthly Rainfall
+ST-RAIN-GV4-NAME = Yearly Rainfall
+ST-RAIN-GV5-NAME = Max Daily Rainfall
+ST-RAIN-GV6-NAME = Rainfall Yesterday
+ST-RAIN-GV7-NAME = Total Rainfall
+
+
+ND-light-NAME = Light
+ND-light-ICON = Input
+ST-LIGHT-ST-NAME = UV Index
+ST-LIGHT-GV0-NAME = Solar Radiation
+ST-LIGHT-GV1-NAME = Illumination
+ST-LIGHT-GV2-NAME = Evapotranspiration
+
+ND-lightning-NAME = Lightning Strike
+ND-lightning-ICON = Input
+ST-139S-ST-NAME = Strikes
+ST-139S-GV0-NAME = Distance
+
+EN_RAINTYPE-0 = None
+EN_RAINTYPE-1 = Rain
+EN_RAINTYPE-2 = Hail
+EN_RAINTYPE-3 = Rain & Hail
+
+EN_TREND-0 = Falling
+EN_TREND-1 = Steady
+EN_TREND-2 = Rising
+
+EN_BATTERY-0 = Ok
+EN_BATTERY-1 = Replace
+
+EN_CARDINAL-0 = N
+EN_CARDINAL-1 = NNE
+EN_CARDINAL-2 = NE
+EN_CARDINAL-3 = ENE
+EN_CARDINAL-4 = E
+EN_CARDINAL-5 = ESE
+EN_CARDINAL-6 = SE
+EN_CARDINAL-7 = SSE
+EN_CARDINAL-8 = S
+EN_CARDINAL-9 = SSW
+EN_CARDINAL-10 = SW
+EN_CARDINAL-11 = WSW
+EN_CARDINAL-12 = W
+EN_CARDINAL-13 = WNW
+EN_CARDINAL-14 = NW
+EN_CARDINAL-15 = NNW
+
+EN_WIND_DIRECTION-0 = N
+EN_WIND_DIRECTION-1 = NNE
+EN_WIND_DIRECTION-2 = NE
+EN_WIND_DIRECTION-3 = ENE
+EN_WIND_DIRECTION-4 = E
+EN_WIND_DIRECTION-5 = ESE
+EN_WIND_DIRECTION-6 = SE
+EN_WIND_DIRECTION-7 = SSE
+EN_WIND_DIRECTION-8 = S
+EN_WIND_DIRECTION-9 = SSW
+EN_WIND_DIRECTION-10 = SW
+EN_WIND_DIRECTION-11 = WSW
+EN_WIND_DIRECTION-12 = W
+EN_WIND_DIRECTION-13 = WNW
+EN_WIND_DIRECTION-14 = NW
+EN_WIND_DIRECTION-15 = NNW
+
+LOGLEVEL-0 = None
+LOGLEVEL-10 = Debug
+LOGLEVEL-20 = Info
+LOGLEVEL-30 = Error
+LOGLEVEL-40 = Warning
+LOGLEVEL-50 = Critical
