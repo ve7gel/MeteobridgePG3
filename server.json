@@ -1,5 +1,5 @@
 {
-    "name": "MeteoBridgeAuthPG3",
+    "name": "MeteoBridge",
     "docs": "https://github.com/VE7GEL/",
     "type": "python3",
     "executable": "mbcontrol.py",
@@ -17,7 +17,7 @@
         },
     "credits": [
         {
-            "title": "MeteoBridgeAuth: a NodeServer for MeteoBridge Template Integration",
+            "title": "MeteoBridge: a NodeServer for MeteoBridge Template Integration",
             "author": "Gordon Larsen",
             "version": "3.0.0",
             "date": "November 10, 2021",
