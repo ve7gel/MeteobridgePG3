@@ -16,6 +16,7 @@ import sys
 import write_profile
 import uom
 import requests
+from nodes import TemperatureNode
 
 LOGGER = udi_interface.LOGGER
 Custom = udi_interface.Custom
@@ -176,8 +177,8 @@ class Controller(udi_interface.Node):
     def discover(self, *args, **kwargs):
 
         LOGGER.info("Creating nodes.")
-        node = TemperatureNode(self.poly, self.address, 'temperature', 'Temperatures')
-        node.SetUnits(self.units)
+        node = TemperatureNode.TemperatureNode(self.poly, self.address, 'temperature', 'Temperatures')
+        # node.SetUnits(self.units)
         for d in self.temperature_list:
             node.drivers.append(
                 {
@@ -186,7 +187,7 @@ class Controller(udi_interface.Node):
                     'uom': uom.UOM[self.temperature_list[d]]
                 })
         LOGGER.debug("addNode(node): {}".format(node))
-        self.poly.addNode(node)
+        self.poly.addNode(node.drivers)
         self.wait_for_node_done()
 
         node = HumidityNode(self, self.address, 'humidity', 'Humidity')
@@ -498,22 +499,6 @@ class CreateTemplate:
             mbtemplate = mbtemplate + tempstr + "%20"
 
         return mbtemplate.strip("%20")
-
-
-class TemperatureNode(udi_interface.Node):
-    id = 'temperature'
-    units = 'metric'
-    drivers = []
-    hint = [1, 0x0b, 1, 0]
-
-    def SetUnits(self, u):
-        self.units = u
-
-    def setDriver(self, driver, value, **kwargs):
-        if (self.units == "us"):
-            value = (value * 1.8) + 32  # convert to F
-
-        super(TemperatureNode, self).setDriver(driver, round(value, 1), report=True, force=True)
 
 
 class PrecipitationNode(udi_interface.Node):

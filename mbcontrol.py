@@ -1,7 +1,7 @@
 # !/usr/bin/env python3
 import sys
 import udi_interface
-from nodes import meteobridgeauth
+from nodes import meteobridge
 
 if __name__ == "__main__":
     try:
