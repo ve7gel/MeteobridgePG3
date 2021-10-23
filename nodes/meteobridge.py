@@ -187,7 +187,7 @@ class Controller(udi_interface.Node):
                     'uom': uom.UOM[self.temperature_list[d]]
                 })
         LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
-        self.poly.addNode(node.drivers)
+        self.poly.addNode(node)
         self.wait_for_node_done()
 
         node = HumidityNode(self, self.address, 'humidity', 'Humidity')
