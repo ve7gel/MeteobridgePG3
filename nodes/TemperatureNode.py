@@ -36,6 +36,8 @@ class TemperatureNode(udi_interface.Node):
         self.units = self.Parameters['Units']
 
     def getnode_drivers(self, driverdata):
+        LOGGER.debug("Drivers are: {}".format(driverdata))
+
         self.drivers = self.node_drivers.load(driverdata)
         LOGGER.debug("Drivers are: {}".format(self.drivers))
     """
