@@ -200,7 +200,7 @@ class Controller(udi_interface.Node):
                     'uom': uom.UOM[self.temperature_list[d]]
                 })
         drivers_list.insert(0, 'drivers')
-        LOGGER.debug('Drivers list: {}, {}'.format(drivers_list, list(drivers_list)))
+        LOGGER.debug('Drivers list:{}'.format(list(drivers_list)))
         self.node_drivers.load(drivers_list, save=True)
 
         LOGGER.debug("addNode(node): {}, drivers: {}".format(node, self.node_drivers))
