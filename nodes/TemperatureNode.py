@@ -29,7 +29,6 @@ class TemperatureNode(udi_interface.Node):
         self.poly.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
         self.poly.subscribe(self.poly.START, self.start, address)
         self.poly.subscribe(self.poly.CUSTOMNS, self.getnode_drivers)
-        LOGGER.debug("Finished TemperatureNode __init__, drivers are: {}".format(self.drivers))
 
     def parameterHandler(self, params):
         self.Parameters.load(params)

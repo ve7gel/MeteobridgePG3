@@ -199,7 +199,7 @@ class Controller(udi_interface.Node):
                     'value': 0,
                     'uom': uom.UOM[self.temperature_list[d]]
                 })
-        self.node_drivers[uom.TEMP_DRVS[d]]
+        LOGGER.debug('Drivers list: {}'.format(drivers_list))
         self.node_drivers.load(drivers_list, save=True)
 
         LOGGER.debug("addNode(node): {}, drivers: {}".format(node, self.node_drivers))
@@ -259,7 +259,6 @@ class Controller(udi_interface.Node):
                 })
         LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
         self.poly.addNode(node)
-        #self.wait_for_node_done()
 
         node = ln.LightNode(self.poly, self.address, 'solar', 'Illumination')
         # node.SetUnits(self.units)
@@ -521,85 +520,3 @@ class CreateTemplate:
             mbtemplate = mbtemplate + tempstr + "%20"
 
         return mbtemplate.strip("%20")
-
-
-class PrecipitationNode(udi_interface.Node):
-    id = 'precipitation'
-    units = 'metric'
-    drivers = []
-    hint = [1, 0x0b, 5, 0]
-
-    def SetUnits(self, u):
-        self.units = u
-
-    def setDriver(self, driver, value, **kwargs):
-        if self.units == 'us':
-            value = round(value * 0.03937, 2)
-        LOGGER.debug("In PrecipNode: {} {} {}".format(driver, value, units))
-        super(PrecipitationNode, self).setDriver(driver, round(value, 2), report=True, force=True)
-
-
-class HumidityNode(udi_interface.Node):
-    id = 'humidity'
-    units = 'metric'
-    drivers = [{'driver': 'ST', 'value': 0, 'uom': 22}]
-    hint = [1, 0x0b, 2, 0]
-
-    def SetUnits(self, u):
-        self.units = u
-
-    def setDriver(self, driver, value, **kwargs):
-        super(HumidityNode, self).setDriver(driver, value, report=True, force=True)
-
-
-class PressureNode(udi_interface.Node):
-    id = 'pressure'
-    units = 'metric'
-    drivers = []
-    hint = [1, 0x0b, 3, 0]
-
-    def SetUnits(self, u):
-        self.units = u
-
-    # We want to override the SetDriver method so that we can properly
-    # convert the units based on the user preference.
-    def setDriver(self, driver, value, **kwargs):
-        if driver != 'GV1':
-            if (self.units == 'us'):
-                value = round(value * 0.02952998751, 2)
-
-        super(PressureNode, self).setDriver(driver, value, report=True, force=True)
-
-
-class WindNode(udi_interface.Node):
-    id = 'wind'
-    units = 'metric'
-    drivers = []
-    hint = [1, 0x0b, 4, 0]
-
-    def SetUnits(self, u):
-        self.units = u
-
-    def setDriver(self, driver, value, **kwargs):
-        if driver == 'ST' or driver == 'GV0':
-            # Metric value is meters/sec (not KPH)
-            if self.units != 'metric':
-                value = round(value * 2.23694, 2)
-        if (driver == 'GV3' or driver == 'GV4'):
-            # Alternate metric value is KPH)
-            if (self.units == 'metric'):
-                value = round(value * 3.6, 1)
-        super(WindNode, self).setDriver(driver, value, report=True, force=True)
-
-
-class LightNode(udi_interface.Node):
-    id = 'light'
-    units = 'metric'
-    drivers = []
-    hint = [1, 0x0b, 6, 0]
-
-    def SetUnits(self, u):
-        self.units = u
-
-    def setDriver(self, driver, value, **kwargs):
-        super(LightNode, self).setDriver(driver, value, report=True, force=True)
