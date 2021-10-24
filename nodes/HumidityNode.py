@@ -11,7 +11,7 @@ Custom = udi_interface.Custom
 
 
 class HumidityNode(udi_interface.Node):
-    id = 'temperature'
+    id = 'humidity'
     units = 'metric'
     drivers = []
     hint = [1, 0x0b, 1, 0]
