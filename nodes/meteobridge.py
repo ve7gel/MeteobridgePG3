@@ -126,6 +126,8 @@ class Controller(udi_interface.Node):
 
     def set_drivers(self):
         try:
+            tn.TemperatureNode.setDriver(uom.TEMP_DRVS['main'], self.temperature, )
+
             self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['main'], self.temperature, )
             self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['dewpoint'], self.dewpoint, )
             self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['windchill'], self.windchill, )
