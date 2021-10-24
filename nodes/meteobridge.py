@@ -113,7 +113,7 @@ class Controller(udi_interface.Node):
             self.set_drivers()
 
     def poll(self, polltype):
-        if 'shortPoll' in polltype:
+        if 'longPoll' in polltype:
             pass
         else:
             # read data
