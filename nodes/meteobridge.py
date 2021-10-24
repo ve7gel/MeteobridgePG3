@@ -208,7 +208,7 @@ class Controller(udi_interface.Node):
         self.poly.addNode(node)
         # self.wait_for_node_done()
 
-        node = pn.PressureNode(self, self.address, 'pressure', 'Barometric Pressure')
+        node = pn.PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
         # node.SetUnits(self.units)
         for d in self.pressure_list:
             node.drivers.append(
@@ -221,7 +221,7 @@ class Controller(udi_interface.Node):
         self.poly.addNode(node)
         # self.wait_for_node_done()
 
-        node = wn.WindNode(self, self.address, 'wind', 'Wind')
+        node = wn.WindNode(self.poly, self.address, 'winds', 'Wind')
         # node.SetUnits(self.units)
         for d in self.wind_list:
             node.drivers.append(
@@ -237,7 +237,7 @@ class Controller(udi_interface.Node):
 
         LOGGER.debug("Wind nodes: {}".format(node.drivers))
 
-        node = rn.PrecipNode(self, self.address, 'rain', 'Precipitation')
+        node = rn.PrecipNode(self.poly, self.address, 'rain', 'Precipitation')
         # node.SetUnits(self.units)
         for d in self.rain_list:
             node.drivers.append(
@@ -250,7 +250,7 @@ class Controller(udi_interface.Node):
         self.poly.addNode(node)
         #self.wait_for_node_done()
 
-        node = ln.LightNode(self, self.address, 'light', 'Illumination')
+        node = ln.LightNode(self.poly, self.address, 'light', 'Illumination')
         # node.SetUnits(self.units)
         for d in self.light_list:
             node.drivers.append(
