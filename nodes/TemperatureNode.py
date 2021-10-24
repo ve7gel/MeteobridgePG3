@@ -27,7 +27,7 @@ class TemperatureNode(udi_interface.Node):
         # subscribe to the events we want
         self.poly.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
         self.poly.subscribe(self.poly.START, self.start, address)
-        LOGGER.debug("Finished TemperatureNode __init__")
+        LOGGER.debug("Finished TemperatureNode __init__, drivers are: {}".format(self.drivers))
 
     def parameterHandler(self, params):
         self.Parameters.load(params)
@@ -58,5 +58,5 @@ class TemperatureNode(udi_interface.Node):
 
         LOGGER.debug("In TempNode.setDriver: {} {}".format(driver, value))
         LOGGER.debug("Driver : {}".format(self.getDriver(driver)))
-        #self.setDriver(driver, value)
+        # self.setDriver(driver, value)
         super(TemperatureNode, self).setDriver(driver, round(value, 1), report=True, force=True)
