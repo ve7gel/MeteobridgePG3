@@ -13,7 +13,13 @@ Custom = udi_interface.Custom
 class TemperatureNode(udi_interface.Node):
     id = 'temperature'
     units = 'metric'
-    drivers = []
+    drivers = [{'driver': 'ST','value': 0, 'uom': 4},
+               {'driver': 'GV0', 'value': 0, 'uom': 4},
+               {'driver': 'GV1', 'value': 0, 'uom': 4},
+               {'driver': 'GV15', 'value': 0, 'uom': 4},
+               {'driver': 'GV16', 'value': 0, 'uom': 4}
+
+    ]
     hint = [1, 0x0b, 1, 0]
 
     def __init__(self, polyglot, parent, address, name):
