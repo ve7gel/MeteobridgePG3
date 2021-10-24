@@ -128,7 +128,7 @@ class Controller(udi_interface.Node):
         try:
             node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
             # tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], self.temperature, )
-            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], self.dewpoint, )
+            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['dewpoint'], self.dewpoint, )
 
             '''
             self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['main'], self.temperature, )
