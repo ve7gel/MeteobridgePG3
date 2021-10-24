@@ -50,11 +50,13 @@ class Controller(udi_interface.Node):
 
         self.Parameters = Custom(polyglot, 'customparams')
         self.Notices = Custom(polyglot, 'notices')
+        self.node_drivers = Custom(polyglot, 'driverlist')
 
         # self.poly.subscribe(self.poly.CONFIG, self.configHandler)
         self.poly.subscribe(self.poly.CUSTOMPARAMS, self.parameterHandler)
         self.poly.subscribe(self.poly.START, self.start, address)
         self.poly.subscribe(self.poly.POLL, self.poll)
+        # self.poly.subscribe(self.poly.CUSTOMNS, address)
         # self.poly.subscribe(self.poly.ADDNODEDONE, self.nodeHandler)
 
         self.temperature_list = {}
@@ -187,16 +189,20 @@ class Controller(udi_interface.Node):
     def discover(self, *args, **kwargs):
 
         LOGGER.info("Creating nodes.")
+        node_drivers = []
         node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
         # node.SetUnits(self.units)
         for d in self.temperature_list:
-            node.drivers.append(
+            node_drivers.append(
                 {
                     'driver': uom.TEMP_DRVS[d],
                     'value': 0,
                     'uom': uom.UOM[self.temperature_list[d]]
                 })
-        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
+
+        self.node_drivers = node_drivers
+
+        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, self.node.drivers))
         self.poly.addNode(node)
         # self.wait_for_node_done()
 
