@@ -30,7 +30,7 @@ UOM = {
 
 
 TEMP_DRVS = {
-        'main' : 'ST',
+        'main' : 'GV18',
         'dewpoint' : 'GV0',
         'windchill' : 'GV1',
         'heatindex' : 'GV2',
@@ -52,7 +52,7 @@ TEMP_DRVS = {
         }
 
 HUMD_DRVS = {
-        'main' : 'ST',
+        'main' : 'GV6',
         'inside' : 'GV0',
         'extra1' : 'GV1',
         'extra2' : 'GV2',
@@ -62,13 +62,13 @@ HUMD_DRVS = {
         }
 
 PRES_DRVS = {
-        'station' : 'ST',
+        'station' : 'GV2',
         'sealevel' : 'GV0',
         'trend' : 'GV1'
         }
 
 WIND_DRVS = {
-        'windspeed' : 'ST',
+        'windspeed' : 'GV2',
         'gustspeed' : 'GV0',
         'winddir' : 'GV1',
         'winddircard' : 'GV2',
@@ -77,7 +77,7 @@ WIND_DRVS = {
 }
 
 RAIN_DRVS = {
-        'rate' : 'ST',
+        'rate' : 'GV8',
         'hourly' : 'GV0',
         'daily' : 'GV1',
         '24hour' : 'GV2',
@@ -89,7 +89,7 @@ RAIN_DRVS = {
         }
 
 LITE_DRVS = {
-        'uv' : 'ST',
+        'uv' : 'GV3',
         'solar_radiation' : 'GV0',
         'illuminace' : 'GV1',
         'evapotranspiration' : 'GV2'
