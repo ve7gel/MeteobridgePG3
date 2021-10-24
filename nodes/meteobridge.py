@@ -199,7 +199,6 @@ class Controller(udi_interface.Node):
                     'value': 0,
                     'uom': uom.UOM[self.temperature_list[d]]
                 })
-        self.node_drivers.load()
         self.node_drivers.load(drivers_list, save=True)
 
         LOGGER.debug("addNode(node): {}, drivers: {}".format(node, self.node_drivers))
