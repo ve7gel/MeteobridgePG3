@@ -50,5 +50,6 @@ class TemperatureNode(udi_interface.Node):
         if self.units == "us":
             value = (value * 1.8) + 32  # convert to F
         LOGGER.debug("In TempNode.setDriver: {} {}".format(driver, value))
+        LOGGER.debug("Driver 'ST': {}".format(self.getDriver('ST')))
         self.setDriver(driver, value)
         # super(TemperatureNode, self).setDriver(driver, round(value, 1), report=True, force=True)
