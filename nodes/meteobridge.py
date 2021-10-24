@@ -128,7 +128,7 @@ class Controller(udi_interface.Node):
         try:
             node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
             tn.TemperatureNode.setDriver(node, uom.TEMP_DRVS['main'], self.temperature, )
-
+            '''
             self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['main'], self.temperature, )
             self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['dewpoint'], self.dewpoint, )
             self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['windchill'], self.windchill, )
@@ -172,7 +172,7 @@ class Controller(udi_interface.Node):
             self.setDriver('GV1', self.issbattery)
             # value 0 = Ok, 1 = Replace
             self.setDriver('GV2', self.timestamp)
-
+            '''
             LOGGER.debug("Last good data: {} second(s) ago".format(self.lastgooddata))
 
         except ValueError as e:
