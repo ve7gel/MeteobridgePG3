@@ -202,7 +202,7 @@ class Controller(udi_interface.Node):
 
         self.node_drivers = node_drivers
 
-        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, self.node.drivers))
+        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, self.node_drivers))
         self.poly.addNode(node)
         # self.wait_for_node_done()
 
