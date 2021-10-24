@@ -18,6 +18,10 @@ import uom
 import requests
 from nodes import TemperatureNode as tn
 from nodes import HumidityNode as hn
+from nodes import PressNode as pn
+from nodes import WindNode as wn
+from nodes import PrecipNode as rn
+from nodes import LightNode as ln
 
 LOGGER = udi_interface.LOGGER
 Custom = udi_interface.Custom
@@ -202,9 +206,9 @@ class Controller(udi_interface.Node):
                 })
         LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
         self.poly.addNode(node)
-        self.wait_for_node_done()
+        # self.wait_for_node_done()
 
-        node = PressureNode(self, self.address, 'pressure', 'Barometric Pressure')
+        node = pn.PressureNode(self, self.address, 'pressure', 'Barometric Pressure')
         # node.SetUnits(self.units)
         for d in self.pressure_list:
             node.drivers.append(
@@ -213,10 +217,11 @@ class Controller(udi_interface.Node):
                     'value': 0,
                     'uom': uom.UOM[self.pressure_list[d]]
                 })
+        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
         self.poly.addNode(node)
-        self.wait_for_node_done()
+        # self.wait_for_node_done()
 
-        node = WindNode(self, self.address, 'wind', 'Wind')
+        node = wn.WindNode(self, self.address, 'wind', 'Wind')
         # node.SetUnits(self.units)
         for d in self.wind_list:
             node.drivers.append(
@@ -225,12 +230,14 @@ class Controller(udi_interface.Node):
                     'value': 0,
                     'uom': uom.UOM[self.wind_list[d]]
                 })
+        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
+
         self.poly.addNode(node)
-        self.wait_for_node_done()
+        # self.wait_for_node_done()
 
         LOGGER.debug("Wind nodes: {}".format(node.drivers))
 
-        node = PrecipitationNode(self, self.address, 'rain', 'Precipitation')
+        node = rn.PrecipNode(self, self.address, 'rain', 'Precipitation')
         # node.SetUnits(self.units)
         for d in self.rain_list:
             node.drivers.append(
@@ -239,10 +246,11 @@ class Controller(udi_interface.Node):
                     'value': 0,
                     'uom': uom.UOM[self.rain_list[d]]
                 })
+        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
         self.poly.addNode(node)
-        self.wait_for_node_done()
+        #self.wait_for_node_done()
 
-        node = LightNode(self, self.address, 'light', 'Illumination')
+        node = ln.LightNode(self, self.address, 'light', 'Illumination')
         # node.SetUnits(self.units)
         for d in self.light_list:
             node.drivers.append(
@@ -251,6 +259,7 @@ class Controller(udi_interface.Node):
                     'value': 0,
                     'uom': uom.UOM[self.light_list[d]]
                 })
+        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
         self.poly.addNode(node)
         self.wait_for_node_done()
 
