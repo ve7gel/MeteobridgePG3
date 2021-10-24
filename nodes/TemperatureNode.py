@@ -47,9 +47,8 @@ class TemperatureNode(udi_interface.Node):
             self.setDriver('GV1', (self.count * mult), True, True)
     """
     def start(self):
-        nodes = self.poly.getNodes()
-        for n in nodes:
-            LOGGER.info('Found node {} = {}'.format(n, nodes[n]))
+        nodes = self.poly.getNode('GV0')
+        LOGGER.info("Found node {} ".format(nodes))
 
     def set_Driver(self, driver, value, **kwargs):
         if self.units == "us":
