@@ -250,7 +250,7 @@ class Controller(udi_interface.Node):
         self.poly.addNode(node)
         #self.wait_for_node_done()
 
-        node = ln.LightNode(self.poly, self.address, 'illum', 'Illumination')
+        node = ln.LightNode(self.poly, self.address, 'light', 'Illumination')
         # node.SetUnits(self.units)
         for d in self.light_list:
             node.drivers.append(
