@@ -191,7 +191,7 @@ class Controller(udi_interface.Node):
         LOGGER.info("Creating nodes.")
         drivers_list = []
         node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
-        # node.SetUnits(self.units)
+
         for d in self.temperature_list:
             drivers_list.append(
                 {
@@ -199,6 +199,7 @@ class Controller(udi_interface.Node):
                     'value': 0,
                     'uom': uom.UOM[self.temperature_list[d]]
                 })
+        drivers_list = drivers_list.insert(0, 'drivers')
         LOGGER.debug('Drivers list: {}'.format(drivers_list))
         self.node_drivers.load(drivers_list, save=True)
 
