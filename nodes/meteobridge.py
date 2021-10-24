@@ -16,7 +16,8 @@ import sys
 import write_profile
 import uom
 import requests
-from nodes import TemperatureNode
+from nodes import TemperatureNode as tn
+from nodes import HumidityNode as hn
 
 LOGGER = udi_interface.LOGGER
 Custom = udi_interface.Custom
@@ -177,7 +178,7 @@ class Controller(udi_interface.Node):
     def discover(self, *args, **kwargs):
 
         LOGGER.info("Creating nodes.")
-        node = TemperatureNode.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
+        node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
         # node.SetUnits(self.units)
         for d in self.temperature_list:
             node.drivers.append(
@@ -190,8 +191,8 @@ class Controller(udi_interface.Node):
         self.poly.addNode(node)
         self.wait_for_node_done()
 
-        node = HumidityNode(self, self.address, 'humidity', 'Humidity')
-        node.SetUnits(self.units)
+        node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity')
+        # node.SetUnits(self.units)
         for d in self.humidity_list:
             node.drivers.append(
                 {
@@ -203,7 +204,7 @@ class Controller(udi_interface.Node):
         self.wait_for_node_done()
 
         node = PressureNode(self, self.address, 'pressure', 'Barometric Pressure')
-        node.SetUnits(self.units)
+        # node.SetUnits(self.units)
         for d in self.pressure_list:
             node.drivers.append(
                 {
@@ -215,7 +216,7 @@ class Controller(udi_interface.Node):
         self.wait_for_node_done()
 
         node = WindNode(self, self.address, 'wind', 'Wind')
-        node.SetUnits(self.units)
+        # node.SetUnits(self.units)
         for d in self.wind_list:
             node.drivers.append(
                 {
@@ -229,7 +230,7 @@ class Controller(udi_interface.Node):
         LOGGER.debug("Wind nodes: {}".format(node.drivers))
 
         node = PrecipitationNode(self, self.address, 'rain', 'Precipitation')
-        node.SetUnits(self.units)
+        # node.SetUnits(self.units)
         for d in self.rain_list:
             node.drivers.append(
                 {
@@ -241,7 +242,7 @@ class Controller(udi_interface.Node):
         self.wait_for_node_done()
 
         node = LightNode(self, self.address, 'light', 'Illumination')
-        node.SetUnits(self.units)
+        # node.SetUnits(self.units)
         for d in self.light_list:
             node.drivers.append(
                 {
