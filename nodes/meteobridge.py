@@ -131,13 +131,11 @@ class Controller(udi_interface.Node):
             node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], self.temperature, )
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['dewpoint'], self.dewpoint, )
-
+            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['windchill'], self.windchill, )
+            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmax'], self.maxtemp, )
+            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmin'], self.mintemp, )
             '''
-            self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['main'], self.temperature, )
-            self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['dewpoint'], self.dewpoint, )
-            self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['windchill'], self.windchill, )
-            self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['tempmax'], self.maxtemp, )
-            self.poly.nodes['temperature'].setDriver(uom.TEMP_DRVS['tempmin'], self.mintemp, )
+            node = rn.PrecipNode(self.poly, self.address, 'temps', 'Temperatures')
             self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['rate'], self.rain_rate, )
             self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['daily'], self.rain_today, )
             self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['24hour'], self.rain_24hour, )
