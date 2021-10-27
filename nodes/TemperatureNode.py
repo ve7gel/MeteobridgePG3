@@ -34,6 +34,7 @@ class TemperatureNode(udi_interface.Node):
         self.temperature_list = {}
 
         self.Parameters = Custom(polyglot, 'customparams')
+        self.discover()
 
         # subscribe to the events we want
         self.poly.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
@@ -59,7 +60,7 @@ class TemperatureNode(udi_interface.Node):
     """
 
     def start(self):
-        self.discover()
+        # self.discover()
         # self.drivers = self.node_drivers.load(driverdata)
         LOGGER.debug("Drivers are: {}".format(self.drivers))
 
