@@ -5,7 +5,7 @@ Copyright (C) 2021 Gordon Larsen
 """
 import udi_interface
 import sys
-from .. import uom
+import uom
 
 LOGGER = udi_interface.LOGGER
 Custom = udi_interface.Custom
