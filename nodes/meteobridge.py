@@ -188,7 +188,7 @@ class Controller(udi_interface.Node):
 
         LOGGER.info("Creating nodes.")
 
-        self.poly.addnode(tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
+        self.poly.addnode(tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures'))
         '''
         for d in self.temperature_list:
             node.drivers.append(
