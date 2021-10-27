@@ -187,7 +187,6 @@ class Controller(udi_interface.Node):
     def discover(self, *args, **kwargs):
 
         LOGGER.info("Creating nodes.")
-        drivers_list = []
         node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.node_drivers)
 
         for d in self.temperature_list:
@@ -198,7 +197,7 @@ class Controller(udi_interface.Node):
                     'uom': uom.UOM[self.temperature_list[d]]
                 })
         self.node_drivers = node.drivers
-        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, drivers_list))
+        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
         self.poly.addNode(node)
         # self.wait_for_node_done()
 
