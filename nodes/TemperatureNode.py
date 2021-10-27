@@ -26,7 +26,7 @@ class TemperatureNode(udi_interface.Node):
     '''
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name, drivers):
+    def __init__(self, polyglot, parent, address, name):
         super(TemperatureNode, self).__init__(polyglot, parent, address, name)
 
         self.poly = polyglot
