@@ -5,6 +5,7 @@ Copyright (C) 2021 Gordon Larsen
 """
 import udi_interface
 import sys
+from .. import uom
 
 LOGGER = udi_interface.LOGGER
 Custom = udi_interface.Custom
@@ -13,6 +14,8 @@ Custom = udi_interface.Custom
 class TemperatureNode(udi_interface.Node):
     id = 'temperature'
     units = 'metric'
+    drivers = []
+    '''
     drivers = [{'driver': 'ST','value': 0, 'uom': 4},
                {'driver': 'GV0', 'value': 0, 'uom': 4},
                {'driver': 'GV1', 'value': 0, 'uom': 4},
@@ -20,6 +23,7 @@ class TemperatureNode(udi_interface.Node):
                {'driver': 'GV16', 'value': 0, 'uom': 4}
 
     ]
+    '''
     hint = [1, 0x0b, 1, 0]
 
     def __init__(self, polyglot, parent, address, name, drivers):
@@ -27,7 +31,7 @@ class TemperatureNode(udi_interface.Node):
 
         self.poly = polyglot
         self.count = 0
-        self.drivers = drivers
+        self.temperature_list = {}
 
         self.Parameters = Custom(polyglot, 'customparams')
         self.node_drivers = Custom(polyglot, 'customdata')
@@ -37,14 +41,12 @@ class TemperatureNode(udi_interface.Node):
         self.poly.subscribe(self.poly.CUSTOMNS, self.getnode_drivers)
         self.poly.subscribe(self.poly.START, self.start, address)
 
-
     def parameterHandler(self, params):
         self.Parameters.load(params)
         self.units = self.Parameters['Units']
 
     def getnode_drivers(self, driverdata):
         LOGGER.debug("Drivers are: {}".format(driverdata))
-
 
     """
     def poll(self, polltype):
@@ -62,9 +64,10 @@ class TemperatureNode(udi_interface.Node):
     """
 
     def start(self):
+        self.discover()
         nodes = self.poly.getNode('GV0')
         LOGGER.info("Found node {} ".format(nodes))
-        #self.drivers = self.node_drivers.load(driverdata)
+        # self.drivers = self.node_drivers.load(driverdata)
         LOGGER.debug("Drivers are: {}".format(self.drivers))
 
     def set_Driver(self, driver, value, **kwargs):
@@ -75,3 +78,23 @@ class TemperatureNode(udi_interface.Node):
         LOGGER.debug("Driver : {}".format(self.getDriver(driver)))
         # self.setDriver(driver, value)
         super(TemperatureNode, self).setDriver(driver, round(value, 1), report=True, force=True)
+
+    def discover(self):
+        self.temperature_list['main'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
+        self.temperature_list['dewpoint'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
+        self.temperature_list['windchill'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
+        self.temperature_list['tempmax'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
+        self.temperature_list['tempmin'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
+        node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
+
+        for d in self.temperature_list:
+            node.drivers.append(
+                {
+                    'driver': uom.TEMP_DRVS[d],
+                    'value': 0,
+                    'uom': uom.UOM[self.temperature_list[d]]
+                })
+        self.node_drivers = node.drivers
+        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
+
+        # self.wait_for_node_done()
