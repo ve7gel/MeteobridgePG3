@@ -168,7 +168,7 @@ class Controller(udi_interface.Node):
                 self.poly.nodes['light'].setDriver(uom.LITE_DRVS['evapotranspiration'], 0, )
                 LOGGER.info("Evapotranspiration not available (Davis Vantage stations with Solar Sensor only)")
             '''
-            node = pn.PressureNode(self.poly, self.address, 'humid', 'Humidity')
+            node = pn.PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
 
             pn.PressureNode.set_Driver(node, uom.PRES_DRVS['station'], self.stn_pressure, )
             pn.PressureNode.set_Driver(node, uom.PRES_DRVS['sealevel'], self.sl_pressure, )
