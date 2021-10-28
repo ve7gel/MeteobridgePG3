@@ -80,15 +80,15 @@ class TemperatureNode(udi_interface.Node):
         self.temperature_list['tempmax'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
         self.temperature_list['tempmin'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
         # node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
-        node = {}
+        driver_list = {}
 
         for d in self.temperature_list:
-            node.drivers.append(
+            driver_list.append(
                 {
                     'driver': uom.TEMP_DRVS[d],
                     'value': 0,
                     'uom': uom.UOM[self.temperature_list[d]]
                 })
-        self.drivers = node.drivers
+        self.drivers = driver_list
         LOGGER.debug('in discover, drivers = {}'.format(self.drivers))
         # self.wait_for_node_done()
