@@ -5,6 +5,7 @@ Copyright (C) 2021 Gordon Larsen
 """
 import udi_interface
 import sys
+import uom
 
 LOGGER = udi_interface.LOGGER
 Custom = udi_interface.Custom
@@ -21,16 +22,19 @@ class PrecipNode(udi_interface.Node):
 
         self.poly = polyglot
         self.count = 0
+        self.rain_list = {}
 
         self.Parameters = Custom(polyglot, 'customparams')
 
         # subscribe to the events we want
         polyglot.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
-#        polyglot.subscribe(polyglot.POLL, self.poll)
+
+    #        polyglot.subscribe(polyglot.POLL, self.poll)
 
     def parameterHandler(self, params):
         self.Parameters.load(params)
         self.units = self.Parameters['Units']
+
     """
     def poll(self, polltype):
 
@@ -46,8 +50,29 @@ class PrecipNode(udi_interface.Node):
             self.setDriver('GV1', (self.count * mult), True, True)
     """
 
-    def setDriver(self, driver, value, **kwargs):
+    def set_Driver(self, driver, value, **kwargs):
         if self.units == "us":
             value = (value * 1.8) + 32  # convert to F
 
         super(PrecipNode, self).setDriver(driver, round(value, 1), report=True, force=True)
+
+    def create_drivers(self):
+        self.rain_list['rate'] = 'I_MMHR' if self.units == 'metric' else 'I_INHR'
+        self.rain_list['daily'] = 'I_MM' if self.units == 'metric' else 'I_INCHES'
+        self.rain_list['24hour'] = 'I_MM' if self.nits == 'metric' else 'I_INCHES'
+        self.rain_list['yesterday'] = 'I_MM' if self.units == 'metric' else 'I_INCHES'
+        self.rain_list['monthly'] = 'I_MM' if self.units == 'metric' else 'I_INCHES'
+        self.rain_list['yearly'] = 'I_MM' if self.units == 'metric' else 'I_INCHES'
+
+        driver_list = []
+
+        for d in self.rain_list:
+            driver_list.append(
+                {
+                    'driver': uom.RAIN_DRVS[d],
+                    'value': 0,
+                    'uom': uom.UOM[self.rain_list[d]]
+                })
+        self.drivers = driver_list
+        LOGGER.debug('in discover, drivers = {}'.format(self.drivers))
+        # self.wait_for_node_done()

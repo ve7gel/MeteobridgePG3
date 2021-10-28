@@ -15,15 +15,7 @@ class TemperatureNode(udi_interface.Node):
     id = 'temperature'
     units = 'metric'
     drivers = []
-    '''
-    drivers = [{'driver': 'ST','value': 0, 'uom': 4},
-               {'driver': 'GV0', 'value': 0, 'uom': 4},
-               {'driver': 'GV1', 'value': 0, 'uom': 4},
-               {'driver': 'GV15', 'value': 0, 'uom': 4},
-               {'driver': 'GV16', 'value': 0, 'uom': 4}
 
-    ]
-    '''
     hint = [1, 0x0b, 1, 0]
 
     def __init__(self, polyglot, parent, address, name):
@@ -34,7 +26,7 @@ class TemperatureNode(udi_interface.Node):
         self.temperature_list = {}
 
         self.Parameters = Custom(polyglot, 'customparams')
-        self.discover()
+        self.define_drivers()
 
         # subscribe to the events we want
         self.poly.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
@@ -43,21 +35,6 @@ class TemperatureNode(udi_interface.Node):
     def parameterHandler(self, params):
         self.Parameters.load(params)
         self.units = self.Parameters['Units']
-
-    """
-    def poll(self, polltype):
-
-        if 'shortPoll' in polltype:
-            if self.Parameters['multiplier'] is not None:
-                mult = int(self.Parameters['multiplier'])
-            else:
-                mult = 1
-
-            self.count += 1
-
-            self.setDriver('GV0', self.count, True, True)
-            self.setDriver('GV1', (self.count * mult), True, True)
-    """
 
     def start(self):
         # self.discover()
@@ -73,7 +50,7 @@ class TemperatureNode(udi_interface.Node):
         # self.setDriver(driver, value)
         super(TemperatureNode, self).setDriver(driver, round(value, 1), report=True, force=True)
 
-    def discover(self):
+    def define_drivers(self):
         self.temperature_list['main'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
         self.temperature_list['dewpoint'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
         self.temperature_list['windchill'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'

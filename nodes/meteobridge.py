@@ -134,14 +134,19 @@ class Controller(udi_interface.Node):
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['windchill'], self.windchill, )
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmax'], self.maxtemp, )
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmin'], self.mintemp, )
+
+            node = rn.PrecipNode(self.poly, self.address, 'precip', 'Precipitation')
+            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['rate'], self.rain_rate, )
+            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['daily'], self.rain_today, )
+            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['24hour'], self.rain_24hour, )
+            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['yesterday'], self.rain_yesterday, )
+            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['monthly'], self.rain_month, )
+            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['yearly'], self.rain_year, )
+
+            node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity')
+            hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['main'], self.rh, )
+
             '''
-            node = rn.PrecipNode(self.poly, self.address, 'temps', 'Temperatures')
-            self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['rate'], self.rain_rate, )
-            self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['daily'], self.rain_today, )
-            self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['24hour'], self.rain_24hour, )
-            self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['yesterday'], self.rain_yesterday, )
-            self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['monthly'], self.rain_month, )
-            self.poly.nodes['rain'].setDriver(uom.RAIN_DRVS['yearly'], self.rain_year, )
             self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['windspeed'], self.wind, )
             self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['winddir'], self.wind_dir, )
             self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['gustspeed'], self.wind_gust, )
@@ -166,7 +171,7 @@ class Controller(udi_interface.Node):
             self.poly.nodes['pressure'].setDriver(uom.PRES_DRVS['station'], self.stn_pressure, )
             self.poly.nodes['pressure'].setDriver(uom.PRES_DRVS['sealevel'], self.sl_pressure, )
             self.poly.nodes['pressure'].setDriver(uom.PRES_DRVS['trend'], self.pressure_trend, )
-            self.poly.nodes['humidity'].setDriver(uom.HUMD_DRVS['main'], self.rh, )
+
 
             # Update controller drivers now
             self.setDriver('GV3', self.lastgooddata)
@@ -187,86 +192,39 @@ class Controller(udi_interface.Node):
     def discover(self, *args, **kwargs):
 
         LOGGER.info("Creating nodes.")
-
+        # Temperatures Node
         node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
-        '''
-        for d in self.temperature_list:
-            node.drivers.append(
-                {
-                    'driver': uom.TEMP_DRVS[d],
-                    'value': 0,
-                    'uom': uom.UOM[self.temperature_list[d]]
-                })
-        self.node_drivers = node.drivers
-        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
-        '''
+
         self.poly.addNode(node)
         # self.wait_for_node_done()
 
+        # Humidity Node
         node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity')
-        # node.SetUnits(self.units)
-        for d in self.humidity_list:
-            node.drivers.append(
-                {
-                    'driver': uom.HUMD_DRVS[d],
-                    'value': 0,
-                    'uom': uom.UOM[self.humidity_list[d]]
-                })
-        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
+
         self.poly.addNode(node)
         # self.wait_for_node_done()
 
+        # Barometric Pressures Node
         node = pn.PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
-        # node.SetUnits(self.units)
-        for d in self.pressure_list:
-            node.drivers.append(
-                {
-                    'driver': uom.PRES_DRVS[d],
-                    'value': 0,
-                    'uom': uom.UOM[self.pressure_list[d]]
-                })
-        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
+
         self.poly.addNode(node)
         # self.wait_for_node_done()
 
+        # Winds Node
         node = wn.WindNode(self.poly, self.address, 'winds', 'Wind')
-        # node.SetUnits(self.units)
-        for d in self.wind_list:
-            node.drivers.append(
-                {
-                    'driver': uom.WIND_DRVS[d],
-                    'value': 0,
-                    'uom': uom.UOM[self.wind_list[d]]
-                })
-        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
 
         self.poly.addNode(node)
         # self.wait_for_node_done()
 
         LOGGER.debug("Wind nodes: {}".format(node.drivers))
 
+        # Precipitation node
         node = rn.PrecipNode(self.poly, self.address, 'precip', 'Precipitation')
-        # node.SetUnits(self.units)
-        for d in self.rain_list:
-            node.drivers.append(
-                {
-                    'driver': uom.RAIN_DRVS[d],
-                    'value': 0,
-                    'uom': uom.UOM[self.rain_list[d]]
-                })
-        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
+
         self.poly.addNode(node)
 
         node = ln.LightNode(self.poly, self.address, 'solar', 'Illumination')
-        # node.SetUnits(self.units)
-        for d in self.light_list:
-            node.drivers.append(
-                {
-                    'driver': uom.LITE_DRVS[d],
-                    'value': 0,
-                    'uom': uom.UOM[self.light_list[d]]
-                })
-        LOGGER.debug("addNode(node): {}, drivers: {}".format(node, node.drivers))
+
         self.poly.addNode(node)
         self.wait_for_node_done()
 
