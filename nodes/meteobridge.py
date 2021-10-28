@@ -195,38 +195,28 @@ class Controller(udi_interface.Node):
         LOGGER.info("Creating nodes.")
         # Temperatures Node
         node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
-
         self.poly.addNode(node)
-        # self.wait_for_node_done()
 
         # Humidity Node
         node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity')
-
         self.poly.addNode(node)
-        # self.wait_for_node_done()
 
         # Barometric Pressures Node
         node = pn.PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
-
         self.poly.addNode(node)
-        # self.wait_for_node_done()
 
         # Winds Node
         node = wn.WindNode(self.poly, self.address, 'winds', 'Wind')
-
         self.poly.addNode(node)
-        # self.wait_for_node_done()
-
-        LOGGER.debug("Wind nodes: {}".format(node.drivers))
 
         # Precipitation node
         node = rn.PrecipNode(self.poly, self.address, 'precip', 'Precipitation')
-
         self.poly.addNode(node)
 
+        # Illumination node
         node = ln.LightNode(self.poly, self.address, 'solar', 'Illumination')
-
         self.poly.addNode(node)
+
         self.wait_for_node_done()
 
     def delete(self):
