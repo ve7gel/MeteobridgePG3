@@ -168,11 +168,11 @@ class Controller(udi_interface.Node):
                 self.poly.nodes['light'].setDriver(uom.LITE_DRVS['evapotranspiration'], 0, )
                 LOGGER.info("Evapotranspiration not available (Davis Vantage stations with Solar Sensor only)")
             '''
-            node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity')
+            node = pn.PressureNode(self.poly, self.address, 'humid', 'Humidity')
 
-            pn.PressureNode.set_driver(node, uom.PRES_DRVS['station'], self.stn_pressure, )
-            self.poly.nodes['pressure'].setDriver(uom.PRES_DRVS['sealevel'], self.sl_pressure, )
-            self.poly.nodes['pressure'].setDriver(uom.PRES_DRVS['trend'], self.pressure_trend, )
+            pn.PressureNode.set_Driver(node, uom.PRES_DRVS['station'], self.stn_pressure, )
+            pn.PressureNode.set_Driver(node, uom.PRES_DRVS['sealevel'], self.sl_pressure, )
+            pn.PressureNode.set_Driver(node, uom.PRES_DRVS['trend'], self.pressure_trend, )
 
             # Update controller drivers now
             self.setDriver('GV3', self.lastgooddata)
