@@ -46,7 +46,7 @@ class LightNode(udi_interface.Node):
             self.setDriver('GV1', (self.count * mult), True, True)
     """
 
-    def setDriver(self, driver, value, **kwargs):
+    def set_Driver(self, driver, value, **kwargs):
         if self.units == "us":
             value = (value * 1.8) + 32  # convert to F
 

@@ -56,7 +56,7 @@ class Controller(udi_interface.Node):
         self.poly.subscribe(self.poly.CUSTOMPARAMS, self.parameterHandler)
         self.poly.subscribe(self.poly.START, self.start, address)
         self.poly.subscribe(self.poly.POLL, self.poll)
-        #self.poly.subscribe(self.poly.CUSTOMNDATA, address)
+        # self.poly.subscribe(self.poly.CUSTOMNDATA, address)
         # self.poly.subscribe(self.poly.ADDNODEDONE, self.nodeHandler)
 
         self.temperature_list = {}
@@ -167,11 +167,12 @@ class Controller(udi_interface.Node):
             else:
                 self.poly.nodes['light'].setDriver(uom.LITE_DRVS['evapotranspiration'], 0, )
                 LOGGER.info("Evapotranspiration not available (Davis Vantage stations with Solar Sensor only)")
+            '''
+            node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity')
 
-            self.poly.nodes['pressure'].setDriver(uom.PRES_DRVS['station'], self.stn_pressure, )
+            pn.PressureNode.set_driver(node, uom.PRES_DRVS['station'], self.stn_pressure, )
             self.poly.nodes['pressure'].setDriver(uom.PRES_DRVS['sealevel'], self.sl_pressure, )
             self.poly.nodes['pressure'].setDriver(uom.PRES_DRVS['trend'], self.pressure_trend, )
-
 
             # Update controller drivers now
             self.setDriver('GV3', self.lastgooddata)
@@ -179,7 +180,7 @@ class Controller(udi_interface.Node):
             self.setDriver('GV1', self.issbattery)
             # value 0 = Ok, 1 = Replace
             self.setDriver('GV2', self.timestamp)
-            '''
+
             LOGGER.debug("Last good data: {} second(s) ago".format(self.lastgooddata))
 
         except ValueError as e:
