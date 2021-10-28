@@ -24,6 +24,7 @@ class PrecipNode(udi_interface.Node):
         self.rain_list = {}
 
         self.Parameters = Custom(polyglot, 'customparams')
+        self.define_drivers()
 
         # subscribe to the events we want
         polyglot.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
@@ -40,7 +41,7 @@ class PrecipNode(udi_interface.Node):
 
         super(PrecipNode, self).setDriver(driver, round(value, 1), report=True, force=True)
 
-    def create_drivers(self):
+    def define_drivers(self):
         self.rain_list['rate'] = 'I_MMHR' if self.units == 'metric' else 'I_INHR'
         self.rain_list['daily'] = 'I_MM' if self.units == 'metric' else 'I_INCHES'
         self.rain_list['24hour'] = 'I_MM' if self.units == 'metric' else 'I_INCHES'

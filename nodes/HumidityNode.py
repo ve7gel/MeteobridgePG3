@@ -25,7 +25,7 @@ class HumidityNode(udi_interface.Node):
         self.humidity_list = {}
 
         self.Parameters = Custom(polyglot, 'customparams')
-        self.create_drivers()
+        self.define_drivers()
 
         # subscribe to the events we want
         polyglot.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
@@ -34,20 +34,6 @@ class HumidityNode(udi_interface.Node):
     def parameterHandler(self, params):
         self.Parameters.load(params)
         self.units = self.Parameters['Units']
-    """
-    def poll(self, polltype):
-
-        if 'shortPoll' in polltype:
-            if self.Parameters['multiplier'] is not None:
-                mult = int(self.Parameters['multiplier'])
-            else:
-                mult = 1
-
-            self.count += 1
-
-            self.setDriver('GV0', self.count, True, True)
-            self.setDriver('GV1', (self.count * mult), True, True)
-    """
 
     def set_Driver(self, driver, value, **kwargs):
         if self.units == "us":
@@ -55,7 +41,7 @@ class HumidityNode(udi_interface.Node):
 
         super(HumidityNode, self).setDriver(driver, round(value, 1), report=True, force=True)
 
-    def create_drivers(self):
+    def define_drivers(self):
         self.humidity_list['main'] = 'I_HUMIDITY'
 
         driver_list = []
