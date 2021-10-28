@@ -80,7 +80,7 @@ class TemperatureNode(udi_interface.Node):
         self.temperature_list['tempmax'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
         self.temperature_list['tempmin'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
         # node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
-        driver_list = {}
+        driver_list = []
 
         for d in self.temperature_list:
             driver_list.append(
