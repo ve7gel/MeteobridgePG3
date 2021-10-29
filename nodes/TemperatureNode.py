@@ -45,9 +45,6 @@ class TemperatureNode(udi_interface.Node):
         if self.units == "us":
             value = (value * 1.8) + 32  # convert to F
 
-        LOGGER.debug("In TempNode.setDriver: {} {}".format(driver, value))
-        LOGGER.debug("Driver : {}".format(self.getDriver(driver)))
-        # self.setDriver(driver, value)
         super(TemperatureNode, self).setDriver(driver, round(value, 1), report=True, force=True)
 
     def define_drivers(self):
@@ -56,7 +53,7 @@ class TemperatureNode(udi_interface.Node):
         self.temperature_list['windchill'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
         self.temperature_list['tempmax'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
         self.temperature_list['tempmin'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
-        # node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
+
         driver_list = []
 
         for d in self.temperature_list:

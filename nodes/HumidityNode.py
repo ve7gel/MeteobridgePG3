@@ -36,8 +36,6 @@ class HumidityNode(udi_interface.Node):
         self.units = self.Parameters['Units']
 
     def set_Driver(self, driver, value, **kwargs):
-        if self.units == "us":
-            value = (value * 1.8) + 32  # convert to F
 
         super(HumidityNode, self).setDriver(driver, round(value, 1), report=True, force=True)
 
