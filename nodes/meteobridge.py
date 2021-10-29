@@ -55,7 +55,7 @@ class Controller(udi_interface.Node):
         self.poly.subscribe(self.poly.START, self.start, address)
         self.poly.subscribe(self.poly.POLL, self.poll)
         # self.poly.subscribe(self.poly.CUSTOMNDATA, address)
-        self.poly.subscribe(self.poly.ADDNODEDONE, self.node_queue())
+        self.poly.subscribe(self.poly.ADDNODEDONE, self.node_queue)
 
         self.temperature_list = {}
         self.humidity_list = {}
