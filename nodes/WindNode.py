@@ -36,6 +36,7 @@ class WindNode(udi_interface.Node):
         self.units = self.Parameters['Units']
 
     def set_Driver(self, driver, value, **kwargs):
+        LOGGER.debug("WindNode.set_Driver driver {} value {}".format(driver, value))
         if self.units == "us":
             value = (value * 1.8) + 32  # convert to F
 
