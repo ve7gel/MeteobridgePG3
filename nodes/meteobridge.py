@@ -12,7 +12,6 @@ import time
 
 import udi_interface
 
-import sys
 import write_profile
 import uom
 import requests
@@ -50,14 +49,13 @@ class Controller(udi_interface.Node):
 
         self.Parameters = Custom(polyglot, 'customparams')
         self.Notices = Custom(polyglot, 'notices')
-        self.node_drivers = Custom(polyglot, 'customdata')
 
         # self.poly.subscribe(self.poly.CONFIG, self.configHandler)
         self.poly.subscribe(self.poly.CUSTOMPARAMS, self.parameterHandler)
         self.poly.subscribe(self.poly.START, self.start, address)
         self.poly.subscribe(self.poly.POLL, self.poll)
         # self.poly.subscribe(self.poly.CUSTOMNDATA, address)
-        # self.poly.subscribe(self.poly.ADDNODEDONE, self.nodeHandler)
+        self.poly.subscribe(self.poly.ADDNODEDONE, self.nodeHandler)
 
         self.temperature_list = {}
         self.humidity_list = {}
@@ -197,6 +195,7 @@ class Controller(udi_interface.Node):
         # Temperatures Node
         node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
         self.poly.addNode(node)
+        self.wait_for_node_done()
 
         # Humidity Node
         node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity')

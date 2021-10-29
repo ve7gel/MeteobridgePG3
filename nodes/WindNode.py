@@ -38,7 +38,7 @@ class WindNode(udi_interface.Node):
     def set_Driver(self, driver, value, **kwargs):
         LOGGER.debug("WindNode.set_Driver driver {} value {}".format(driver, value))
         if self.units == "us" and (driver == 'GV3' or driver == 'GV4'):
-            value = (value * 8)  # convert to MPH
+            value = (value * .8)  # convert to MPH
 
         super(WindNode, self).setDriver(driver, round(value, 1), report=True, force=True)
 
