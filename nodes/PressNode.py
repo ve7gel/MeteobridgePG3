@@ -55,5 +55,5 @@ class PressureNode(udi_interface.Node):
                     'uom': uom.UOM[self.pressure_list[d]]
                 })
         self.drivers = driver_list
-        LOGGER.debug('in discover, drivers = {}'.format(self.drivers))
+        LOGGER.debug('Defining pressure drivers = {}'.format(self.drivers))
 

@@ -60,5 +60,5 @@ class WindNode(udi_interface.Node):
                     'uom': uom.UOM[self.wind_list[d]]
                 })
         self.drivers = driver_list
-        LOGGER.debug('in discover, drivers = {}'.format(self.drivers))
+        LOGGER.debug('Defining wind drivers = {}'.format(self.drivers))
         # self.wait_for_node_done()
