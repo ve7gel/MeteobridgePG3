@@ -152,22 +152,23 @@ class Controller(udi_interface.Node):
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed1'], self.wind, )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed1'], self.wind_gust, )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddircard'], self.wind_dir_cardinal, )
-            '''
-            self.poly.nodes['light'].setDriver(uom.LITE_DRVS['solar_radiation'], self.solarradiation, )
+
+            node = ln.LightNode(self.poly, self.address, 'solar', 'Illumination')
+            ln.LightNode.set_Driver(node, uom.LITE_DRVS['solar_radiation'], self.solarradiation, )
             if self.uvpresent:
-                self.poly.nodes['light'].setDriver(uom.LITE_DRVS['uv'], self.uv, )
+                ln.LightNode.set_Driver(node, uom.LITE_DRVS['uv'], self.uv, )
             else:
-                self.poly.nodes['light'].setDriver(uom.LITE_DRVS['uv'], 0, )
+                ln.LightNode.set_Driver(node, uom.LITE_DRVS['uv'], 0, )
             if self.vp2plus:
                 et0_conv = self.et0
                 if self.units == 'us':
                     et0_conv = round(et0_conv / 25.4, 3)
 
-                self.poly.nodes['light'].setDriver(uom.LITE_DRVS['evapotranspiration'], et0_conv, )
+                ln.LightNode.set_Driver(node, uom.LITE_DRVS['evapotranspiration'], et0_conv, )
             else:
-                self.poly.nodes['light'].setDriver(uom.LITE_DRVS['evapotranspiration'], 0, )
+                ln.LightNode.set_Driver(node, uom.LITE_DRVS['evapotranspiration'], 0, )
                 LOGGER.info("Evapotranspiration not available (Davis Vantage stations with Solar Sensor only)")
-            '''
+
             node = pn.PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
 
             pn.PressureNode.set_Driver(node, uom.PRES_DRVS['station'], self.stn_pressure, )

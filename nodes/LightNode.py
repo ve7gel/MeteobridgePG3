@@ -4,7 +4,7 @@ Polyglot v3 node server for Meteobridge
 Copyright (C) 2021 Gordon Larsen
 """
 import udi_interface
-import sys
+import uom
 
 LOGGER = udi_interface.LOGGER
 Custom = udi_interface.Custom
@@ -21,8 +21,10 @@ class LightNode(udi_interface.Node):
 
         self.poly = polyglot
         self.count = 0
+        self.light_list = {}
 
         self.Parameters = Custom(polyglot, 'customparams')
+        self.define_drivers()
 
         # subscribe to the events we want
         polyglot.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
@@ -31,23 +33,24 @@ class LightNode(udi_interface.Node):
     def parameterHandler(self, params):
         self.Parameters.load(params)
         self.units = self.Parameters['Units']
-    """
-    def poll(self, polltype):
-
-        if 'shortPoll' in polltype:
-            if self.Parameters['multiplier'] is not None:
-                mult = int(self.Parameters['multiplier'])
-            else:
-                mult = 1
-
-            self.count += 1
-
-            self.setDriver('GV0', self.count, True, True)
-            self.setDriver('GV1', (self.count * mult), True, True)
-    """
 
     def set_Driver(self, driver, value, **kwargs):
-        if self.units == "us":
-            value = (value * 1.8) + 32  # convert to F
 
         super(LightNode, self).setDriver(driver, round(value, 1), report=True, force=True)
+
+    def define_drivers(self):
+
+        self.light_list['uv'] = 'I_UV'
+        self.light_list['solar_radiation'] = 'I_RADIATION'
+        self.light_list['evapotranspiration'] = 'I_MM' if self.units == 'metric' else 'I_INCHES'
+        driver_list = []
+
+        for d in self.light_list:
+            driver_list.append(
+                {
+                    'driver': uom.LITE_DRVS[d],
+                    'value': 0,
+                    'uom': uom.UOM[self.light_list[d]]
+                })
+        self.drivers = driver_list
+        LOGGER.debug('Defining light drivers = {}'.format(self.drivers))

@@ -37,10 +37,16 @@ class WindNode(udi_interface.Node):
 
     def set_Driver(self, driver, value, **kwargs):
         LOGGER.debug("WindNode.set_Driver driver {} value {}, type {}".format(driver, value, type(value)))
-        if self.units == "us" and (driver == 'GV3' or driver == 'GV4'):
-            value = (value * .8)  # convert to MPH
+        if driver == 'ST' or driver == 'GV0':
+            # Metric value is meters/sec (not KPH)
+            if self.units != 'metric':
+                value = round(value * 2.23694, 2)
+        if driver == 'GV3' or driver == 'GV4':
+            # Alternate metric value is KPH)
+            if self.units == 'metric':
+                value = round(value * 3.6, 1)
 
-        super(WindNode, self).setDriver(driver, round(value, 1), report=True, force=True)
+        super(WindNode, self).setDriver(driver, value, report=True, force=True)
 
     def define_drivers(self):
         self.wind_list['windspeed'] = 'I_MPS' if self.units == 'metric' else 'I_MPH'

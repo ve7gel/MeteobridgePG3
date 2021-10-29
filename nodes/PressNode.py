@@ -35,8 +35,13 @@ class PressureNode(udi_interface.Node):
         self.units = self.Parameters['Units']
 
     def set_Driver(self, driver, value, **kwargs):
+        if driver != 'GV1':
+            if (self.units == 'us'):
+                value = round(value * 0.02952998751, 2)
+            else:
+                value = round(value, 1)
 
-        super(PressureNode, self).setDriver(driver, round(value, 1), report=True, force=True)
+        super(PressureNode, self).setDriver(driver, value, report=True, force=True)
 
     def define_drivers(self):
         # self.wait_for_node_done()

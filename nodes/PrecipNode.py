@@ -36,10 +36,13 @@ class PrecipNode(udi_interface.Node):
         self.units = self.Parameters['Units']
 
     def set_Driver(self, driver, value, **kwargs):
-        if self.units == "us":
-            value = (value / 25.4)  # convert to F
 
-        super(PrecipNode, self).setDriver(driver, round(value, 1), report=True, force=True)
+        if self.units == 'us':
+            value = round(value * 0.03937, 2)
+        else:
+            value = round(value, 1)
+
+        super(PrecipNode, self).setDriver(driver, value, report=True, force=True)
 
     def define_drivers(self):
         self.rain_list['rate'] = 'I_MMHR' if self.units == 'metric' else 'I_INHR'
