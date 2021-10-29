@@ -146,13 +146,14 @@ class Controller(udi_interface.Node):
             node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity')
             hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['main'], self.rh, )
 
+            node = wn.WindNode(self.poly, self.address, 'winds', 'Wind')
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed'], self.wind, )
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddir'], self.wind_dir, )
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed'], self.wind_gust, )
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed1'], self.wind, )
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed1'], self.wind_gust, )
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddircard'], self.wind_dir_cardinal, )
             '''
-            self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['windspeed'], self.wind, )
-            self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['winddir'], self.wind_dir, )
-            self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['gustspeed'], self.wind_gust, )
-            self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['windspeed1'], self.wind, )
-            self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['gustspeed1'], self.wind_gust, )
-            self.poly.nodes['wind'].setDriver(uom.WIND_DRVS['winddircard'], self.wind_dir_cardinal, )
             self.poly.nodes['light'].setDriver(uom.LITE_DRVS['solar_radiation'], self.solarradiation, )
             if self.uvpresent:
                 self.poly.nodes['light'].setDriver(uom.LITE_DRVS['uv'], self.uv, )
