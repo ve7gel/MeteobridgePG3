@@ -200,18 +200,22 @@ class Controller(udi_interface.Node):
         # Humidity Node
         node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity')
         self.poly.addNode(node)
+        self.wait_for_node_done()
 
         # Barometric Pressures Node
         node = pn.PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
         self.poly.addNode(node)
+        self.wait_for_node_done()
 
         # Winds Node
         node = wn.WindNode(self.poly, self.address, 'winds', 'Wind')
         self.poly.addNode(node)
+        self.wait_for_node_done()
 
         # Precipitation node
         node = rn.PrecipNode(self.poly, self.address, 'precip', 'Precipitation')
         self.poly.addNode(node)
+        self.wait_for_node_done()
 
         # Illumination node
         node = ln.LightNode(self.poly, self.address, 'solar', 'Illumination')
