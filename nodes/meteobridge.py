@@ -145,6 +145,7 @@ class Controller(udi_interface.Node):
             hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['main'], self.rh, )
 
             node = wn.WindNode(self.poly, self.address, 'winds', 'Wind')
+            LOGGER.debug("Wind variable type: {}".format(type(self.wind)))
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed'], self.wind, )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddir'], self.wind_dir, )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed'], self.wind_gust, )
