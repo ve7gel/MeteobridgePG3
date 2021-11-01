@@ -17,7 +17,7 @@ class HumidityNode(udi_interface.Node):
     drivers = []
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name):
+    def __init__(self, polyglot, parent, address, name, driver_list):
         super(HumidityNode, self).__init__(polyglot, parent, address, name)
 
         self.poly = polyglot
@@ -25,7 +25,7 @@ class HumidityNode(udi_interface.Node):
         self.humidity_list = {}
 
         self.Parameters = Custom(polyglot, 'customparams')
-        self.define_drivers()
+        self.define_drivers(driver_list)
 
         # subscribe to the events we want
         polyglot.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
@@ -39,7 +39,7 @@ class HumidityNode(udi_interface.Node):
 
         super(HumidityNode, self).setDriver(driver, round(value, 1), report=True, force=True)
 
-    def define_drivers(self):
+    def define_drivers(self, drivers):
         self.humidity_list['main'] = 'I_HUMIDITY'
 
         driver_list = []

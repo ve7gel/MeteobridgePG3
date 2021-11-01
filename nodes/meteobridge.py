@@ -6,7 +6,7 @@ others, not tested.  At the moment, only DAVIS stations provide ET0 readings.
 Based on MeteoBridge nodeserver (meteobridgepoly) authored by Bob Paauwe
 Customized to use template queries from MeteoBridge by Gordon Larsen
 
-Copyright 2020 Robert Paauwe and Gordon Larsen, MIT License
+Copyright 2021 Robert Paauwe and Gordon Larsen, MIT License
 """
 import time
 
@@ -192,7 +192,6 @@ class Controller(udi_interface.Node):
             self.poly.nodes[node].reportDrivers()
 
     def discover(self, *args, **kwargs):
-
         LOGGER.info("Creating nodes.")
         # Temperatures Node
         node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
@@ -200,7 +199,9 @@ class Controller(udi_interface.Node):
         self.wait_for_node_done()
 
         # Humidity Node
-        node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity')
+        driver_list = []
+
+        node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity', driver_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
