@@ -55,8 +55,10 @@ def write_profile(logger, temperature_list, humidity_list, pressure_list,
     nodedef.write("      <st id=\"GV3\" editor=\"I_SECONDS\" />\n")
     nodedef.write("    </sts>\n")
     nodedef.write("    <cmds>\n")
+    nodedef.write("    <accepts>")
     nodedef.write("        <cmd id=\"DISCOVER\" />\n")
     nodedef.write("        <cmd id=\"UPDATE_PROFILE\" />\n")
+    nodedef.write("     </accepts>")
     nodedef.write("    </cmds>\n")
     nodedef.write("  </nodeDef>\n\n")
 
