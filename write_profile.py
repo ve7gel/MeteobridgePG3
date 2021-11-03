@@ -58,7 +58,6 @@ def write_profile(logger, temperature_list, humidity_list, pressure_list,
     nodedef.write("        <cmd id=\"DISCOVER\" />\n")
     nodedef.write("        <cmd id=\"REMOVE_NOTICES_ALL\" />\n")
     nodedef.write("        <cmd id=\"UPDATE_PROFILE\" />\n")
-    nodedef.write("      </accepts>\n")
     nodedef.write("    </cmds>\n")
     nodedef.write("  </nodeDef>\n\n")
 
