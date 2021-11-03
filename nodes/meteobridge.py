@@ -68,6 +68,7 @@ class Controller(udi_interface.Node):
         self.units = 'metric'
         self.ip = ""
         self.n_queue = []
+        self.driver_list = []
 
         self.wind_card_dict = {
             'N': 0,
@@ -141,7 +142,7 @@ class Controller(udi_interface.Node):
             rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['monthly'], self.rain_month, )
             rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['yearly'], self.rain_year, )
 
-            node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity')
+            node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.driver_list)
             hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['main'], self.rh, )
 
             node = wn.WindNode(self.poly, self.address, 'winds', 'Wind')
@@ -199,9 +200,9 @@ class Controller(udi_interface.Node):
         self.wait_for_node_done()
 
         # Humidity Node
-        driver_list = []  # Pending development
+        # driver_list = []   Pending development
 
-        node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity', driver_list)
+        node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.driver_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
