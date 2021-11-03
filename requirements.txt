@@ -1,2 +1,2 @@
-udi-interface >= 3.0.18
-requests >= 2.4.3
+udi-interface >= 3.0.20
+requests >= 2.25.1
