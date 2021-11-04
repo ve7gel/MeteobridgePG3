@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 
 import collections
-import polyinterface
+import udi_interface
 import re
 import os
 import zipfile
 import json
 import uom
 
-LOGGER = polyinterface.LOGGER
+LOGGER = udi_interface.LOGGER
 pfx = "write_profile:"
 
 VERSION_FILE = "profile/version.txt"
@@ -65,7 +65,7 @@ def write_profile(logger, temperature_list, humidity_list, pressure_list,
     # Need to translate temperature.main into <st id="ST" editor="TEMP_C" />
     # and     translate temperature.extra1 into <st id="GV5" editor="TEMP_C" />
 
-    if (len(temperature_list) > 0):
+    if len(temperature_list) > 0:
         nodedef.write(NODEDEF_TMPL % ('temperature', 'TEMP'))
         nodedef.write("    <sts>\n")
         for t in temperature_list:
