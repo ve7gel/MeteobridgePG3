@@ -16,12 +16,13 @@ class PressureNode(udi_interface.Node):
     drivers = []
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name):
+    def __init__(self, polyglot, parent, address, name, units):
         super(PressureNode, self).__init__(polyglot, parent, address, name)
 
         self.poly = polyglot
         self.count = 0
         self.pressure_list = {}
+        self.units = units
 
         self.Parameters = Custom(polyglot, 'customparams')
         self.define_drivers()
@@ -36,7 +37,7 @@ class PressureNode(udi_interface.Node):
 
     def set_Driver(self, driver, value, **kwargs):
         if driver != 'GV1':
-            if (self.units == 'us'):
+            if self.units == 'us':
                 value = round(value * 0.02952998751, 2)
             else:
                 value = round(value, 1)

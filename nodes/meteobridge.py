@@ -128,7 +128,7 @@ class Controller(udi_interface.Node):
 
     def set_drivers(self):
         try:
-            node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
+            node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.units)
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], self.temperature, )
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['dewpoint'], self.dewpoint, )
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['windchill'], self.windchill, )
@@ -146,7 +146,7 @@ class Controller(udi_interface.Node):
             node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.driver_list)
             hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['main'], self.rh, )
 
-            node = wn.WindNode(self.poly, self.address, 'winds', 'Wind')
+            node = wn.WindNode(self.poly, self.address, 'winds', 'Wind', self.units)
             LOGGER.debug("Wind variable type: {}".format(type(self.wind)))
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed'], self.wind,)
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddir'], self.wind_dir, )
@@ -155,7 +155,7 @@ class Controller(udi_interface.Node):
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed1'], self.wind_gust, )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddircard'], self.wind_dir_cardinal, )
 
-            node = ln.LightNode(self.poly, self.address, 'solar', 'Illumination')
+            node = ln.LightNode(self.poly, self.address, 'solar', 'Illumination', self.units)
             ln.LightNode.set_Driver(node, uom.LITE_DRVS['solar_radiation'], self.solarradiation, )
             if self.uvpresent:
                 ln.LightNode.set_Driver(node, uom.LITE_DRVS['uv'], self.uv, )
@@ -171,7 +171,7 @@ class Controller(udi_interface.Node):
                 ln.LightNode.set_Driver(node, uom.LITE_DRVS['evapotranspiration'], 0, )
                 LOGGER.info("Evapotranspiration not available (Davis Vantage stations with Solar Sensor only)")
 
-            node = pn.PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
+            node = pn.PressureNode(self.poly, self.address, 'press', 'Barometric Pressure', self.units)
 
             pn.PressureNode.set_Driver(node, uom.PRES_DRVS['station'], self.stn_pressure, )
             pn.PressureNode.set_Driver(node, uom.PRES_DRVS['sealevel'], self.sl_pressure, )
@@ -196,7 +196,7 @@ class Controller(udi_interface.Node):
     def discover(self, *args, **kwargs):
         LOGGER.info("Creating nodes.")
         # Temperatures Node
-        node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
+        node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.units)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
@@ -208,12 +208,12 @@ class Controller(udi_interface.Node):
         self.wait_for_node_done()
 
         # Barometric Pressures Node
-        node = pn.PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
+        node = pn.PressureNode(self.poly, self.address, 'press', 'Barometric Pressure', self.units)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
         # Winds Node
-        node = wn.WindNode(self.poly, self.address, 'winds', 'Wind')
+        node = wn.WindNode(self.poly, self.address, 'winds', 'Wind', self.units)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
@@ -223,7 +223,7 @@ class Controller(udi_interface.Node):
         self.wait_for_node_done()
 
         # Illumination node
-        node = ln.LightNode(self.poly, self.address, 'solar', 'Illumination')
+        node = ln.LightNode(self.poly, self.address, 'solar', 'Illumination', self.units)
         self.poly.addNode(node)
 
         self.wait_for_node_done()
