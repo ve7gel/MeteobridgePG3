@@ -218,7 +218,7 @@ class Controller(udi_interface.Node):
         self.wait_for_node_done()
 
         # Precipitation node
-        node = rn.PrecipNode(self.poly, self.address, 'precip', 'Precipitation')
+        node = rn.PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.units)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
