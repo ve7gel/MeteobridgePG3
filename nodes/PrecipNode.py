@@ -34,6 +34,7 @@ class PrecipNode(udi_interface.Node):
     def parameterHandler(self, params):
         self.Parameters.load(params)
         self.units = self.Parameters['Units']
+        LOGGER.debug(f'self.units in PrecipNode = {self.units}')
 
     def set_Driver(self, driver, value, **kwargs):
 
