@@ -12,7 +12,6 @@ Custom = udi_interface.Custom
 
 class PrecipNode(udi_interface.Node):
     id = 'precipitation'
-    units = 'metric'
     drivers = []
     hint = [1, 0x0b, 1, 0]
 
@@ -39,7 +38,6 @@ class PrecipNode(udi_interface.Node):
     '''
 
     def set_Driver(self, driver, value, **kwargs):
-        self.units = None
 
         if self.units == 'us':
             value = round(value * 0.03937, 2)
