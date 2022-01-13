@@ -38,11 +38,11 @@ class WindNode(udi_interface.Node):
 
     def set_Driver(self, driver, value, **kwargs):
         LOGGER.debug("WindNode.set_Driver driver {} value {}, type {}".format(driver, value, type(value)))
-        if driver == 'ST' or driver == 'GV0':
+        if driver == 'GV3' or driver == 'GV4':
             # Metric value is meters/sec (not KPH)
             if self.units != 'metric':
                 value = round(value * 2.23694, 2)
-        if driver == 'GV3' or driver == 'GV4':
+        if driver == 'ST' or driver == '0':
             # Alternate metric value is KPH)
             if self.units == 'metric':
                 value = round(value * 3.6, 1)
@@ -50,13 +50,12 @@ class WindNode(udi_interface.Node):
         super(WindNode, self).setDriver(driver, value, report=True, force=True)
 
     def define_drivers(self):
-        self.wind_list['windspeed'] = 'I_MPS' if self.units == 'metric' else 'I_MPH'
-        self.wind_list['gustspeed'] = 'I_MPS' if self.units == 'metric' else 'I_MPH'
+        self.wind_list['windspeed'] = 'I_MPS'
+        self.wind_list['gustspeed'] = 'I_MPS'
         self.wind_list['winddir'] = 'I_DEGREE'
         self.wind_list['winddircard'] = 'I_CARDINAL'
-        # if self.units == 'metric':
-        #     self.wind_list['windspeed1'] = 'I_KPH'
-        #     self.wind_list['gustspeed1'] = 'I_KPH'
+        self.wind_list['windspeed1'] = 'I_KPH' if self.units == 'metric' else 'I_MPH'
+        self.wind_list['gustspeed1'] = 'I_KPH' if self.units == 'metric' else 'I_MPH'
 
         driver_list = []
 
