@@ -54,9 +54,9 @@ class WindNode(udi_interface.Node):
         self.wind_list['gustspeed'] = 'I_MPS' if self.units == 'metric' else 'I_MPH'
         self.wind_list['winddir'] = 'I_DEGREE'
         self.wind_list['winddircard'] = 'I_CARDINAL'
-        if self.units == 'metric':
-            self.wind_list['windspeed1'] = 'I_KPH'
-            self.wind_list['gustspeed1'] = 'I_KPH'
+        # if self.units == 'metric':
+        #     self.wind_list['windspeed1'] = 'I_KPH'
+        #     self.wind_list['gustspeed1'] = 'I_KPH'
 
         driver_list = []
 
