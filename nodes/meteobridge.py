@@ -278,7 +278,9 @@ class Controller(udi_interface.Node):
         if units == 'metric':
             self.wind_list['windspeed1'] = 'I_KPH'
             self.wind_list['gustspeed1'] = 'I_KPH'
-
+        else:
+            self.wind_list['windspeed1'] = 'I_MPH'
+            self.wind_list['gustspeed1'] = 'I_MPH'
         self.rain_list['rate'] = 'I_MMHR' if units == 'metric' else 'I_INHR'
         self.rain_list['daily'] = 'I_MM' if units == 'metric' else 'I_INCHES'
         self.rain_list['24hour'] = 'I_MM' if units == 'metric' else 'I_INCHES'
