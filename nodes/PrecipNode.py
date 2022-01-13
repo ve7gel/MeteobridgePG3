@@ -46,6 +46,8 @@ class PrecipNode(udi_interface.Node):
         else:
             value = round(value, 1)
 
+        LOGGER.debug(f'Units is set to {self.units}, value {value}')
+
         super(PrecipNode, self).setDriver(driver, value, report=True, force=True)
 
     def define_drivers(self):
