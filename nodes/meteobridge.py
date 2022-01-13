@@ -135,7 +135,7 @@ class Controller(udi_interface.Node):
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmax'], self.maxtemp, )
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmin'], self.mintemp, )
 
-            node = rn.PrecipNode(self.poly, self.address, 'precip', 'Precipitation')
+            node = rn.PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.units)
             rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['rate'], self.rain_rate, )
             rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['daily'], self.rain_today, )
             rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['24hour'], self.rain_24hour, )
@@ -148,9 +148,9 @@ class Controller(udi_interface.Node):
 
             node = wn.WindNode(self.poly, self.address, 'winds', 'Wind')
             LOGGER.debug("Wind variable type: {}".format(type(self.wind)))
-            wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed'], self.wind, )
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed'], self.wind,)
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddir'], self.wind_dir, )
-            wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed'], self.wind_gust, )
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed'], self.wind_gust,)
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed1'], self.wind, )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed1'], self.wind_gust, )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddircard'], self.wind_dir_cardinal, )

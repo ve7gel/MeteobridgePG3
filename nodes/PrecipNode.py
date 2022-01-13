@@ -16,27 +16,30 @@ class PrecipNode(udi_interface.Node):
     drivers = []
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name):
-        super(PrecipNode, self).__init__(polyglot, parent, address, name)
+    def __init__(self, polyglot, parent, address, name, units):
+        super(PrecipNode, self).__init__(polyglot, parent, address, name, units)
 
         self.poly = polyglot
         self.count = 0
         self.rain_list = {}
-
-        self.Parameters = Custom(polyglot, 'customparams')
+        self.units = units
+        # self.Parameters = Custom(polyglot, 'customparams')
         self.define_drivers()
 
         # subscribe to the events we want
-        polyglot.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
+        # polyglot.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
 
     #        polyglot.subscribe(polyglot.POLL, self.poll)
 
+    '''
     def parameterHandler(self, params):
         self.Parameters.load(params)
         self.units = self.Parameters['Units']
         LOGGER.debug(f'self.units in PrecipNode = {self.units}')
+    '''
 
     def set_Driver(self, driver, value, **kwargs):
+        self.units = None
 
         if self.units == 'us':
             value = round(value * 0.03937, 2)
