@@ -106,6 +106,7 @@ class Controller(udi_interface.Node):
 
     def start(self):
         LOGGER.info('Started MeteoBridge Template NodeServer')
+        self.poly.setCustomParamsDoc()
 
         if self.ip != "":
             self.discover()
