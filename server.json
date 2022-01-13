@@ -1,6 +1,6 @@
 {
     "name": "MeteoBridge",
-    "docs": "https://github.com/VE7GEL/",
+    "docs": "https://github.com/VE7GEL/MeteobridgePG3/blob/main/README.md",
     "type": "python3",
     "executable": "mbcontrol.py",
     "install": "install.sh",
@@ -19,8 +19,8 @@
         {
             "title": "MeteoBridge: a NodeServer for MeteoBridge Template Integration",
             "author": "Gordon Larsen",
-            "version": "3.0.0",
-            "date": "November 10, 2021",
+            "version": "3.0.1",
+            "date": "January 13, 2022",
             "source": "https://github.com/ve7gel/MeteobridgePG3",
             "license": "https://github.com/ve7gel/MeteobridgePG3/blob/master/LICENSE"
         }
