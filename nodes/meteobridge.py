@@ -423,8 +423,8 @@ class Controller(udi_interface.Node):
 
         except ValueError or AttributeError as e:
             LOGGER.error("Error in getstationdata: {}".format(e))
-            LOGGER.debug("Invalid value")
-            LOGGER.debug(mbrarray)
+            LOGGER.error("Invalid value")
+            LOGGER.error(mbrarray)
 
 
 class CreateTemplate:
