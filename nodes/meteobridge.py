@@ -422,7 +422,7 @@ class Controller(udi_interface.Node):
             LOGGER.debug("Timestamp: {}, good data: {}".format(self.timestamp, self.lastgooddata))
 
         except ValueError or AttributeError as e:
-            LOGGER.error("Error in getstationdata: {}".format(e))
+            LOGGER.error(f"Error in getstationdata: {e}")
             LOGGER.error("Invalid value")
             LOGGER.error(mbrarray)
 
