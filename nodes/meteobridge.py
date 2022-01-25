@@ -37,6 +37,7 @@ class Controller(udi_interface.Node):
 
     def __init__(self, polyglot, parent, address, name):
         super(Controller, self).__init__(polyglot, parent, address, name)
+        self.stopping = None
         self.hb = 0
         self.poly = polyglot
         self.name = name
@@ -230,10 +231,10 @@ class Controller(udi_interface.Node):
 
     def delete(self):
         self.stopping = True
-        LOGGER.info('Removing MeteoBridge Template nodeserver.')
+        LOGGER.warning('Removing MeteoBridge Template nodeserver.')
 
     def stop(self):
-        LOGGER.info('NodeServer stopped.')
+        LOGGER.warning('NodeServer stopped.')
 
     def parameterHandler(self, config):
         self.Parameters.load(config)
@@ -313,7 +314,6 @@ class Controller(udi_interface.Node):
         self.units = u
 
     commands = {
-        'QUERY': query,
         'DISCOVER': discover,
         'UPDATE_PROFILE': update_profile,
     }
