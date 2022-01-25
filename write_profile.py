@@ -130,7 +130,7 @@ def write_profile(logger, temperature_list, humidity_list, pressure_list,
     outfile.close()
 
     # Create the zip file that can be uploaded to the ISY
-    write_profile_zip(logger)
+    #write_profile_zip(logger)
 
     logger.info(pfx + " done.")
 
