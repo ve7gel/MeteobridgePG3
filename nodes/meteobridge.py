@@ -190,10 +190,6 @@ class Controller(udi_interface.Node):
         except ValueError as e:
             LOGGER.error("Error in assigning driver values from template: {}".format(e))
 
-    def query(self, command=None):
-        for node in self.poly.nodes:
-            self.poly.nodes[node].reportDrivers()
-
     def discover(self, *args, **kwargs):
         LOGGER.info("Creating nodes.")
         # Temperatures Node
