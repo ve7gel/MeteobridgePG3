@@ -6,10 +6,10 @@
     "install": "install.sh",
     "description": "PG3 Node Server using Meteobridge Templates",
     "notice": "",
-    "shortPoll": "15",
-    "longPoll": "60",
+    "shortPoll": "30",
+    "longPoll": "120",
     "testMode": false,
-    "profile_version": "3.0.0",
+    "profile_version": "3.0.2",
         "customParams": {
             "IPAddress": "",
             "Units": "metric",
@@ -19,8 +19,8 @@
         {
             "title": "MeteoBridge: a NodeServer for MeteoBridge Template Integration",
             "author": "Gordon Larsen",
-            "version": "3.0.1",
-            "date": "January 13, 2022",
+            "version": "3.0.2",
+            "date": "January 25, 2022",
             "source": "https://github.com/ve7gel/MeteobridgePG3",
             "license": "https://github.com/ve7gel/MeteobridgePG3/blob/master/LICENSE"
         }
