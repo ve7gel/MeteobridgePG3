@@ -301,18 +301,9 @@ class Controller(udi_interface.Node):
         except:
             LOGGER.error('Failed to push profile to ISY')
 
-    def update_profile(self, command):
-        LOGGER.info('update_profile:')
-        st = self.poly.updateProfile()
-        return st
-
     def SetUnits(self, u):
         self.units = u
 
-    commands = {
-        'DISCOVER': discover,
-        'UPDATE_PROFILE': update_profile,
-    }
     # Hub status information here: battery and data health values.
     drivers = [
         {'driver': 'ST', 'value': 1, 'uom': 2},
@@ -320,7 +311,6 @@ class Controller(udi_interface.Node):
         {'driver': 'GV1', 'value': 0, 'uom': 25},
         {'driver': 'GV2', 'value': 0, 'uom': 0},
         {'driver': 'GV3', 'value': 0, 'uom': 58},
-        {'driver': 'GV4', 'value': 0, 'uom': 25},
     ]
 
     def getstationdata(self, ipaddr, username, password):
