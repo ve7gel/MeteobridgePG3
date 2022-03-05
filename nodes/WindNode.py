@@ -47,7 +47,7 @@ class WindNode(udi_interface.Node):
             if self.units == 'metric':
                 value = round(value * 3.6, 1)
 
-        super(WindNode, self).setDriver(driver, value, report=True, force=True)
+        super(WindNode, self).setDriver(driver, value)
 
     def define_drivers(self):
         self.wind_list['windspeed'] = 'I_MPS'

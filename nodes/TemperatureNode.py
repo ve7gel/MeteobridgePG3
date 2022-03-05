@@ -46,7 +46,7 @@ class TemperatureNode(udi_interface.Node):
         if self.units == "us":
             value = (value * 1.8) + 32  # convert to F
 
-        super(TemperatureNode, self).setDriver(driver, round(value, 1), report=True, force=True)
+        super(TemperatureNode, self).setDriver(driver, round(value, 1))
 
     def define_drivers(self):
         self.temperature_list['main'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'

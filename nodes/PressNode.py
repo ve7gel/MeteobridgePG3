@@ -42,7 +42,7 @@ class PressureNode(udi_interface.Node):
             else:
                 value = round(value, 1)
 
-        super(PressureNode, self).setDriver(driver, value, report=True, force=True)
+        super(PressureNode, self).setDriver(driver, value)
 
     def define_drivers(self):
         # self.wait_for_node_done()

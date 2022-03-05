@@ -46,7 +46,7 @@ class PrecipNode(udi_interface.Node):
 
         LOGGER.debug(f'Units is set to {self.units}, value {value}')
 
-        super(PrecipNode, self).setDriver(driver, value, report=True, force=True)
+        super(PrecipNode, self).setDriver(driver, value)
 
     def define_drivers(self):
         self.rain_list['rate'] = 'I_MMHR' if self.units == 'metric' else 'I_INHR'

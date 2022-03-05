@@ -37,7 +37,7 @@ class LightNode(udi_interface.Node):
 
     def set_Driver(self, driver, value, **kwargs):
 
-        super(LightNode, self).setDriver(driver, round(value, 1), report=True, force=True)
+        super(LightNode, self).setDriver(driver, round(value, 1))
 
     def define_drivers(self):
 

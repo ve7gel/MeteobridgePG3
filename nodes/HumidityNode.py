@@ -37,7 +37,7 @@ class HumidityNode(udi_interface.Node):
 
     def set_Driver(self, driver, value, **kwargs):
 
-        super(HumidityNode, self).setDriver(driver, round(value, 1), report=True, force=True)
+        super(HumidityNode, self).setDriver(driver, round(value, 1))
 
     def define_drivers(self, drivers):
         self.humidity_list['main'] = 'I_HUMIDITY'
