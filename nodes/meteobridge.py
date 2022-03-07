@@ -34,6 +34,13 @@ You can use LOGGER.info, LOGGER.warning, LOGGER.debug, LOGGER.error levels as ne
 
 class Controller(udi_interface.Node):
     id = 'meteobridge'
+    drivers = [
+        {'driver': 'ST', 'value': 1, 'uom': 2},
+        {'driver': 'GV0', 'value': 0, 'uom': 25},
+        {'driver': 'GV1', 'value': 0, 'uom': 25},
+        {'driver': 'GV2', 'value': 0, 'uom': 56},
+        {'driver': 'GV3', 'value': 0, 'uom': 58},
+    ]
 
     def __init__(self, polyglot, parent, address, name):
         super(Controller, self).__init__(polyglot, parent, address, name)
@@ -305,13 +312,6 @@ class Controller(udi_interface.Node):
         self.units = u
 
     # Hub status information here: battery and data health values.
-    drivers = [
-        {'driver': 'ST', 'value': 1, 'uom': 2},
-        {'driver': 'GV0', 'value': 0, 'uom': 25},
-        {'driver': 'GV1', 'value': 0, 'uom': 25},
-        {'driver': 'GV2', 'value': 0, 'uom': 0},
-        {'driver': 'GV3', 'value': 0, 'uom': 58},
-    ]
 
     def getstationdata(self, ipaddr, username, password):
         """
