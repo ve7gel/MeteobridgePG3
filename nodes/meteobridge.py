@@ -106,7 +106,7 @@ class Controller(udi_interface.Node):
         self.n_queue.pop()
 
     def start(self):
-        LOGGER.info('Started MeteoBridge Template NodeServer')
+        LOGGER.info('Started Meteobridge NodeServer')
         self.poly.setCustomParamsDoc()
 
         if self.ip != "":
@@ -227,7 +227,7 @@ class Controller(udi_interface.Node):
 
     def delete(self):
         self.stopping = True
-        LOGGER.warning('Removing MeteoBridge Template nodeserver.')
+        LOGGER.warning('Removing MeteoBridge nodeserver.')
 
     def stop(self):
         LOGGER.warning('NodeServer stopped.')
@@ -328,8 +328,7 @@ class Controller(udi_interface.Node):
             mbrdata = u.content.decode('utf-8')
 
         except OSError as err:
-            LOGGER.error("Unable to connect to your MeteoBridge device")
-            LOGGER.error(err)
+            LOGGER.error(f"Unable to connect to your Meteobridge device: {err}")
             return
 
         mbrarray = mbrdata.split(" ")
