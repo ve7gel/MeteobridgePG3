@@ -1,6 +1,6 @@
 # controller
-ND-MeteoBridge-NAME = MeteoBridge
-ND-MeteoBridge-ICON = Weather
+ND-meteobridge-NAME = Meteobridge
+ND-meteobridge-ICON = Weather
 ST-ctl-ST-NAME = NodeServer Online
 ST-ctl-GV0-NAME = Console Battery
 ST-ctl-GV1-NAME = ISS Battery

@@ -46,7 +46,7 @@ def write_profile(logger, temperature_list, humidity_list, pressure_list,
     nodedef.write("<nodeDefs>\n")
 
     # First, write the controller node definition
-    nodedef.write(NODEDEF_TMPL % ('MeteoBridge', 'ctl'))
+    nodedef.write(NODEDEF_TMPL % ('meteobridge', 'ctl'))
     nodedef.write("    <sts>\n")
     nodedef.write("      <st id=\"ST\" editor=\"bool\" />\n")
     nodedef.write("      <st id=\"GV0\" editor=\"I_BATTERY\" />\n")

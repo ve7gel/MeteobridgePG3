@@ -1,1 +1,63 @@
-#Placeholder file to ensure nodedef folder is included by Git.
+<nodeDefs>
+  <nodeDef id="meteobridge" nls="ctl">
+    <sts>
+      <st id="ST" editor="bool" />
+      <st id="GV0" editor="I_BATTERY" />
+      <st id="GV1" editor="I_BATTERY" />
+      <st id="GV2" editor="I_LAST_UPDATE" />
+      <st id="GV3" editor="I_SECONDS" />
+    </sts>
+    <cmds>
+    <accepts>     </accepts>    </cmds>
+  </nodeDef>
+
+  <nodeDef id="temperature" nls="TEMP">
+    <sts>
+      <st id="ST" editor="I_TEMP_C" />
+      <st id="GV0" editor="I_TEMP_C" />
+      <st id="GV1" editor="I_TEMP_C" />
+      <st id="GV15" editor="I_TEMP_C" />
+      <st id="GV16" editor="I_TEMP_C" />
+    </sts>
+  </nodeDef>
+  <nodeDef id="humidity" nls="HUM">
+    <sts>
+      <st id="ST" editor="I_HUMIDITY" />
+    </sts>
+  </nodeDef>
+  <nodeDef id="pressure" nls="PRESS">
+    <sts>
+      <st id="ST" editor="I_MB" />
+      <st id="GV0" editor="I_MB" />
+      <st id="GV1" editor="I_TREND" />
+    </sts>
+  </nodeDef>
+  <nodeDef id="wind" nls="WIND">
+    <editors   />
+    <sts>
+      <st id="ST" editor="I_MPS" />
+      <st id="GV0" editor="I_MPS" />
+      <st id="GV1" editor="I_DEGREE" />
+      <st id="GV2" editor="I_CARDINAL" />
+      <st id="GV3" editor="I_KPH" />
+      <st id="GV4" editor="I_KPH" />
+    </sts>
+  </nodeDef>
+  <nodeDef id="precipitation" nls="RAIN">
+    <sts>
+      <st id="ST" editor="I_MMHR" />
+      <st id="GV1" editor="I_MM" />
+      <st id="GV2" editor="I_MM" />
+      <st id="GV6" editor="I_MM" />
+      <st id="GV3" editor="I_MM" />
+      <st id="GV4" editor="I_MM" />
+    </sts>
+  </nodeDef>
+  <nodeDef id="light" nls="LIGHT">
+    <sts>
+      <st id="ST" editor="I_UV" />
+      <st id="GV0" editor="I_RADIATION" />
+      <st id="GV2" editor="I_MM" />
+    </sts>
+  </nodeDef>
+</nodeDefs>
