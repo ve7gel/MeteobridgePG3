@@ -64,6 +64,7 @@ class Controller(udi_interface.Node):
         self.poly.subscribe(self.poly.POLL, self.poll)
         # self.poly.subscribe(self.poly.CUSTOMNDATA, address)
         self.poly.subscribe(self.poly.ADDNODEDONE, self.node_queue)
+        self.poly.subscribe(self.poly.STOP, self.stop)
 
         self.temperature_list = {}
         self.humidity_list = {}
@@ -237,7 +238,8 @@ class Controller(udi_interface.Node):
         LOGGER.warning('Removing MeteoBridge nodeserver.')
 
     def stop(self):
-        LOGGER.warning('NodeServer stopped.')
+        LOGGER.warning('Rainmachine NodeServer stopped.')
+        self.poly.stop
 
     def parameterHandler(self, config):
         self.Parameters.load(config)
