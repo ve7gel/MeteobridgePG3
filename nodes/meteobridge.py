@@ -239,7 +239,7 @@ class Controller(udi_interface.Node):
 
     def stop(self):
         LOGGER.warning('Rainmachine NodeServer stopped.')
-        self.poly.stop
+        self.poly.stop()
 
     def parameterHandler(self, config):
         self.Parameters.load(config)
