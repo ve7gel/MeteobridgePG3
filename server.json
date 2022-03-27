@@ -26,6 +26,7 @@
         }
     ],
         "store": {
+          "developer": "gordon@the-larsens.ca",
 		"purchaseOptions": [
 			{
 				"isPerpetual": true,
