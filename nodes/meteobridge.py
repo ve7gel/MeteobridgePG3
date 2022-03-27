@@ -117,11 +117,13 @@ class Controller(udi_interface.Node):
         LOGGER.info('Started Meteobridge NodeServer')
         self.poly.setCustomParamsDoc()
 
-        if self.ip != "":
-            self.discover()
-            LOGGER.debug('Connecting to Meteobridge at: {}'.format(self.ip))
-            self.getstationdata(self.ip, self.username, self.password)
-            self.set_drivers()
+        if not self.configured:
+            return
+
+        self.discover()
+        LOGGER.debug('Connecting to Meteobridge at: {}'.format(self.ip))
+        self.getstationdata(self.ip, self.username, self.password)
+        self.set_drivers()
 
     def poll(self, polltype):
         if 'longPoll' in polltype:
