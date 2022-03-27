@@ -237,10 +237,10 @@ class Controller(udi_interface.Node):
 
     def delete(self):
         self.stopping = True
-        LOGGER.warning('Removing MeteoBridge nodeserver.')
+        LOGGER.warning('Removing Meteobridge nodeserver.')
 
     def stop(self):
-        LOGGER.warning('Rainmachine NodeServer stopped.')
+        LOGGER.warning('Meteobridge NodeServer stopped.')
         self.poly.stop()
 
     def parameterHandler(self, config):
