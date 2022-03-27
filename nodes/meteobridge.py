@@ -128,7 +128,7 @@ class Controller(udi_interface.Node):
             pass
         else:
             # read data
-            if self.ip == "":
+            if not self.configured:
                 return
 
             self.getstationdata(self.ip, self.username, self.password)
@@ -265,6 +265,7 @@ class Controller(udi_interface.Node):
         if ip_exists and password_exists:
             self.Notices.clear()
             self.setup_nodedefs(self.units)
+            self.configured = True
 
     def setup_nodedefs(self, units):
         # Configure the units for each node driver
