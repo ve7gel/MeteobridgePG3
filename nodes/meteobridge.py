@@ -245,6 +245,7 @@ class Controller(udi_interface.Node):
 
     def parameterHandler(self, config):
         self.Parameters.load(config)
+        LOGGER.debug(f'Parameters: {self.Parameters}')
         self.Notices.clear()
         ip_exists = False
         password_exists = False
