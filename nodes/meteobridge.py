@@ -133,6 +133,7 @@ class Controller(udi_interface.Node):
             pass
         else:
             # read data
+            LOGGER.debug(f'Configured: {self.configured}')
             if not self.configured:
                 return
 
