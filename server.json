@@ -19,7 +19,7 @@
         {
             "title": "MeteoBridge: a NodeServer for MeteoBridge Template Integration",
             "author": "Gordon Larsen",
-            "version": "3.0.4",
+            "version": "3.0.5",
             "date": "March 9, 2022",
             "source": "https://github.com/ve7gel/MeteobridgePG3",
             "license": "https://github.com/ve7gel/MeteobridgePG3/blob/master/LICENSE"
