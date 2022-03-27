@@ -118,16 +118,14 @@ class Controller(udi_interface.Node):
         LOGGER.info('Started Meteobridge NodeServer')
         self.poly.setCustomParamsDoc()
 
-        if not self.configured:
-            return
-
-        self.discover()
         LOGGER.debug(f'Discovery done: {self.discovery_done}')
         if self.discovery_done:
 
             LOGGER.debug(f'Connecting to Meteobridge at: {self.ip}')
             self.getstationdata(self.ip, self.username, self.password)
             self.set_drivers()
+        else:
+            self.discover()
 
     def poll(self, polltype):
         if 'longPoll' in polltype:
@@ -164,9 +162,9 @@ class Controller(udi_interface.Node):
 
             node = wn.WindNode(self.poly, self.address, 'winds', 'Wind', self.units)
             LOGGER.debug("Wind variable type: {}".format(type(self.wind)))
-            wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed'], self.wind,)
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed'], self.wind, )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddir'], self.wind_dir, )
-            wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed'], self.wind_gust,)
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed'], self.wind_gust, )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed1'], self.wind, )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed1'], self.wind_gust, )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddircard'], self.wind_dir_cardinal, )
