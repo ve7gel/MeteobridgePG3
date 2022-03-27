@@ -122,6 +122,7 @@ class Controller(udi_interface.Node):
             return
 
         self.discover()
+        LOGGER.debug(f'Discovery done: {self.discovery_done}')
         if self.discovery_done:
 
             LOGGER.debug(f'Connecting to Meteobridge at: {self.ip}')
