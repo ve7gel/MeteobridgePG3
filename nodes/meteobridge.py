@@ -44,6 +44,7 @@ class Controller(udi_interface.Node):
 
     def __init__(self, polyglot, parent, address, name):
         super(Controller, self).__init__(polyglot, parent, address, name)
+        self.discovery_done = None
         self.stopping = None
         self.hb = 0
         self.poly = polyglot
@@ -121,9 +122,11 @@ class Controller(udi_interface.Node):
             return
 
         self.discover()
-        LOGGER.debug(f'Connecting to Meteobridge at: {self.ip}')
-        self.getstationdata(self.ip, self.username, self.password)
-        self.set_drivers()
+        if self.discovery_done:
+
+            LOGGER.debug(f'Connecting to Meteobridge at: {self.ip}')
+            self.getstationdata(self.ip, self.username, self.password)
+            self.set_drivers()
 
     def poll(self, polltype):
         if 'longPoll' in polltype:
@@ -234,7 +237,7 @@ class Controller(udi_interface.Node):
         self.poly.addNode(node)
 
         self.wait_for_node_done()
-        self.configured = True
+        self.discovery_done = True
 
     def delete(self):
         self.stopping = True
@@ -269,6 +272,8 @@ class Controller(udi_interface.Node):
         if ip_exists and password_exists:
             self.Notices.clear()
             self.setup_nodedefs(self.units)
+
+        self.configured = True
 
     def setup_nodedefs(self, units):
         # Configure the units for each node driver
