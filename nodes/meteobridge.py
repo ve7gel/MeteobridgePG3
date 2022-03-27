@@ -121,7 +121,7 @@ class Controller(udi_interface.Node):
             return
 
         self.discover()
-        LOGGER.debug('Connecting to Meteobridge at: {}'.format(self.ip))
+        LOGGER.debug(f'Connecting to Meteobridge at: {self.ip}')
         self.getstationdata(self.ip, self.username, self.password)
         self.set_drivers()
 
@@ -234,6 +234,7 @@ class Controller(udi_interface.Node):
         self.poly.addNode(node)
 
         self.wait_for_node_done()
+        self.configured = True
 
     def delete(self):
         self.stopping = True
@@ -268,7 +269,6 @@ class Controller(udi_interface.Node):
         if ip_exists and password_exists:
             self.Notices.clear()
             self.setup_nodedefs(self.units)
-            self.configured = True
 
     def setup_nodedefs(self, units):
         # Configure the units for each node driver
