@@ -255,7 +255,8 @@ class Controller(udi_interface.Node):
         password_exists = False
 
         self.ip = self.Parameters['IPAddress']
-        self.units = self.Parameters['Units'].lower()
+        if self.units is not None:
+            self.units = self.Parameters['Units'].lower()
         self.password = self.Parameters['Password']
 
         # Add notices about missing configuration
@@ -273,7 +274,7 @@ class Controller(udi_interface.Node):
             self.Notices.clear()
             self.setup_nodedefs(self.units)
 
-        self.configured = True
+            self.configured = True
 
     def setup_nodedefs(self, units):
         # Configure the units for each node driver
