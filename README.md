@@ -15,10 +15,7 @@ the evapotranspiration values provided by the VP2+ will be missing
    * Really, do the backup, please
 2. Go to the Polyglot Store in the UI and install.
 3. Add NodeServer in Polyglot Web
-   * After the install completes, Polyglot will reboot your ISY, you can watch the status in the main polyglot log.
-4. Once your ISY is back up open the Admin Console.
-5. The node server should automatically run and find your hub(s) and start adding weather sensors.  It can take a couple of minutes to discover the sensors. Verify by checking the nodeserver log. 
-   * While this is running you can view the nodeserver log in the Polyglot UI to see what it's doing
+4. Enter the configuration parameters as needed.  A restart may be required.
 
 ### Node Settings
 The settings for this node are:
