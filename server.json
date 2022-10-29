@@ -9,7 +9,7 @@
     "shortPoll": "30",
     "longPoll": "120",
     "testMode": false,
-    "profile_version": "3.0.2",
+    "profile_version": "3.1.0",
         "customParams": {
             "IPAddress": "",
             "Units": "metric",
@@ -19,8 +19,8 @@
         {
             "title": "MeteoBridge: a NodeServer for MeteoBridge Template Integration",
             "author": "Gordon Larsen",
-            "version": "3.0.5",
-            "date": "March 9, 2022",
+            "version": "3.0.6",
+            "date": "October, 2022",
             "source": "https://github.com/ve7gel/MeteobridgePG3",
             "license": "https://github.com/ve7gel/MeteobridgePG3/blob/master/LICENSE"
         }

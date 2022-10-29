@@ -39,7 +39,7 @@ The settings for this node are:
 ## Requirements
 
 1. This NS has been tested and verified for compatibility with UDI Polisy.
-2. This has only been tested with ISY 5.0.16C so it is not guaranteed to work with any other version.
+2. This has only been tested with ISY 5.4 so it is not guaranteed to work with any other version.
 3. The NS has only been tested with a Davis Vantage Pro2+ via Meteobridge, so full compatibility with other platforms is not guaranteed.
 
 ## Issues
@@ -53,6 +53,10 @@ Then restart the MeteoBridge nodeserver by selecting it in the Polyglot dashboar
 The MeteoBridge nodeserver keeps track of the version number and when a profile rebuild is necessary.  The profile/version.txt will contain the MeteoBridge profile_version which is updated in server.json when the profile should be rebuilt.
 
 # Release Notes
+- 3.0.6 29/10/2022
+  - bugfixes and profile updates to correct wind values in programs on ISY.
+  - make nls values more descriptive to differentiate raw values from configured units values
+  - correct an issue where rain rate always displayed in metric values regardless of configured units.
 - 3.0.5 27/03/2022
   - change discovery method
 - 3.0.4 09/03/2022
