@@ -22,7 +22,7 @@ UOM = {
         'I_STRIKES': 56,
         'I_KM': 83,
         'I_MILE': 116,
-        'I_MPS' : 40,
+        'I_MPS': 40,
         'I_BATTERY' : 25,
         'I_LAST_UPDATE': 56,
         'I_CARDINAL': 25,
