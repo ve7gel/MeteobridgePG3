@@ -63,7 +63,7 @@ class Controller(udi_interface.Node):
         self.poly.subscribe(self.poly.CUSTOMPARAMS, self.parameterHandler)
         self.poly.subscribe(self.poly.START, self.start, address)
         self.poly.subscribe(self.poly.POLL, self.poll)
-        # self.poly.subscribe(self.poly.CUSTOMNDATA, address)
+        # self.poly.subscribe(self.poly.CUSTOMDATA, address)
         self.poly.subscribe(self.poly.ADDNODEDONE, self.node_queue)
         self.poly.subscribe(self.poly.STOP, self.stop)
 
@@ -134,6 +134,7 @@ class Controller(udi_interface.Node):
             # read data
             LOGGER.debug(f'Configured: {self.configured}')
             if not self.configured:
+                LOGGER.info("Node server not configured yet")
                 return
 
             self.getstationdata(self.ip, self.username, self.password)
@@ -338,6 +339,7 @@ class Controller(udi_interface.Node):
 
             u = requests.get(url + values, auth=(username, password))
             mbrdata = u.content.decode('utf-8')
+            LOGGER.debug(f'mbrdata is: {mbrdata}')
 
         except OSError as err:
             LOGGER.error(f"Unable to connect to your Meteobridge device: {err}")
