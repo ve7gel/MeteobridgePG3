@@ -60,16 +60,16 @@
 		<range uom="71" min="0" max="20" prec="1" />
 	</editor>
 	<editor id="I_RADIATION">
-		<range uom="74" min="0" max="200000" prec="1" />
+		<range uom="74" min="0" max="200000" prec="0" />
 	</editor>
 	<editor id="I_MPH">
-		<range uom="48" min="0" max="2000" prec="1" />
+		<range uom="48" min="0" max="2000" prec="0" />
 	</editor>
 	<editor id="I_MPS">
-		<range uom="40" min="0" max="20000" prec="1" />
+		<range uom="40" min="0" max="20000" prec="0" />
 	</editor>
 	<editor id="I_KPH">
-		<range uom="32" min="0" max="20000" prec="1" />
+		<range uom="32" min="0" max="20000" prec="0" />
 	</editor>
 	<editor id="I_INHR">
 		<range uom="24" min="0" max="2000" prec="3" />
