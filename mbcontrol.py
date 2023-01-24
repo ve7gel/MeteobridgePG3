@@ -2,6 +2,7 @@
 import sys
 import udi_interface
 from nodes import meteobridge
+version = '3.0.6'
 
 if __name__ == "__main__":
     try:
@@ -10,7 +11,7 @@ if __name__ == "__main__":
         polyglot = udi_interface.Interface([])
 
         # Initialize the interface
-        polyglot.start()
+        polyglot.start(version)
 
         # Start the node server (I.E. create the controller node)
         control = meteobridge.Controller(polyglot, 'controller',  'controller', 'Meteobridge')
