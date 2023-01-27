@@ -23,14 +23,5 @@
             "source": "https://github.com/ve7gel/MeteobridgePG3",
             "license": "https://github.com/ve7gel/MeteobridgePG3/blob/master/LICENSE"
         }
-    ],
-        "store": {
-          "developer": "gordon@the-larsens.ca",
-		"purchaseOptions": [
-			{
-				"isPerpetual": true,
-				"price": 0.00
-			}
-		]
-	}
+    ]
 }
