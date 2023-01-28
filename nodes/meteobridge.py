@@ -135,7 +135,7 @@ class Controller(udi_interface.Node):
 
         if self.configured:
             self.getstationdata(self.ip, self.username, self.password)
-
+            self.set_drivers()
     def poll(self, polltype):
         if 'longPoll' in polltype:
             pass
