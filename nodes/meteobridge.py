@@ -23,7 +23,7 @@ from nodes import WindNode as wn
 from nodes import PrecipNode as rn
 from nodes import LightNode as ln
 
-from const import CARDINAL_WIND_DIR_MAP
+from const import *
 
 LOGGER = udi_interface.LOGGER
 Custom = udi_interface.Custom
@@ -339,7 +339,8 @@ class Controller(udi_interface.Node):
             streamline the basic auth method in requests.get
         """
         try:
-            values = str(CreateTemplate())
+            # values = str(CreateTemplate())
+            values = str(MBTEMPLATE)
             url = 'http://' + ipaddr + '/cgi-bin/template.cgi?template='
             LOGGER.debug("url in getstationdata: {}".format(url + values))
 
@@ -479,7 +480,7 @@ class CreateTemplate:
             "[mbsystem-lastgooddata]",  # 30 seconds since last good data received from console
         ]
 
-        for tempstr in mbtemplatelist:
+        for tempstr in MBTEMPLATELIST:
             mbtemplate = mbtemplate + tempstr + "%20"
 
         return mbtemplate.strip("%20")
