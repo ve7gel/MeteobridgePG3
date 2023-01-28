@@ -15,12 +15,15 @@ import udi_interface
 import write_profile
 import uom
 import requests
+
 from nodes import TemperatureNode as tn
 from nodes import HumidityNode as hn
 from nodes import PressNode as pn
 from nodes import WindNode as wn
 from nodes import PrecipNode as rn
 from nodes import LightNode as ln
+
+from const import CARDINAL_WIND_DIR_MAP
 
 LOGGER = udi_interface.LOGGER
 Custom = udi_interface.Custom
@@ -388,7 +391,8 @@ class Controller(udi_interface.Node):
             self.wind_dir = mbrarray[16]
             try:  # Meteobridge seems to sometimes return a nul string for wind0dir-act=endir
                 # so we substitute the last good reading
-                self.wind_dir_cardinal = self.wind_card_dict[mbrarray[17]]
+                # self.wind_dir_cardinal = self.wind_card_dict[mbrarray[17]]
+                self.wind_dir_cardinal = CARDINAL_WIND_DIR_MAP[mbrarray[17]]
                 self.last_wind_dir = self.wind_dir_cardinal
 
             except:
