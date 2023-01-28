@@ -339,8 +339,14 @@ class Controller(udi_interface.Node):
             streamline the basic auth method in requests.get
         """
         try:
+            mbtemplate = ""
             # values = str(CreateTemplate())
-            values = str(MBTEMPLATE)
+            for tempstr in MBTEMPLATELIST:
+                mbtemplate = mbtemplate + tempstr + "%20"
+
+            mbtemplate.strip("%20")
+
+            values = str(mbtemplate)
             url = 'http://' + ipaddr + '/cgi-bin/template.cgi?template='
             LOGGER.debug("url in getstationdata: {}".format(url + values))
 
