@@ -17,7 +17,7 @@ CARDINAL_WIND_DIR_MAP = {
     'NNW': 15
 }
 
-MBTEMPLATE = {
+MBTEMPLATE = """
     "[th0temp-act] ",  # 0, current outdoor temperature
     "[th0temp-dmax] ",  # 1, max outdoor temp today
     "[th0temp-dmin] ",  # 2, min outdoor temp today
@@ -57,4 +57,4 @@ MBTEMPLATE = {
     "[hh][mm][ss] ",
     "[epoch] ",  # 29 current unix time
     "[mbsystem-lastgooddata]",  # 30 seconds since last good data received from console
-}
+"""

@@ -23,7 +23,7 @@ from nodes import WindNode as wn
 from nodes import PrecipNode as rn
 from nodes import LightNode as ln
 
-from const import *
+from constants import *
 
 LOGGER = udi_interface.LOGGER
 Custom = udi_interface.Custom
