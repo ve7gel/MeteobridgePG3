@@ -83,6 +83,7 @@ class Controller(udi_interface.Node):
         self.n_queue = []
         self.driver_list = []
 
+        """ Moved to const.py file
         self.wind_card_dict = {
             'N': 0,
             'NNE': 1,
@@ -101,6 +102,8 @@ class Controller(udi_interface.Node):
             'NW': 14,
             'NNW': 15
         }
+        """
+
         self.last_wind_dir = ''
         self.vp2plus = False
         self.uvpresent = False
