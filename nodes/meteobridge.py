@@ -83,7 +83,7 @@ class Controller(udi_interface.Node):
         self.n_queue = []
         self.driver_list = []
 
-        """ Moved to const.py file
+        """ V 3.1.0 - Moved to const.py file
         self.wind_card_dict = {
             'N': 0,
             'NNE': 1,
@@ -123,19 +123,15 @@ class Controller(udi_interface.Node):
     def start(self):
         LOGGER.info('Started Meteobridge NodeServer')
         self.poly.setCustomParamsDoc()
-
-        LOGGER.debug(f'Discovery done: {self.discovery_done}')
-        if self.discovery_done:
-
-            LOGGER.debug(f'Connecting to Meteobridge at: {self.ip}')
-            self.getstationdata(self.ip, self.username, self.password)
-            self.set_drivers()
-        else:
-            self.discover()
-
         if self.configured:
-            self.getstationdata(self.ip, self.username, self.password)
-            self.set_drivers()
+            self.discover()
+            LOGGER.debug(f'Discovery done: {self.discovery_done}')
+
+            if self.discovery_done:
+                LOGGER.debug(f'Connecting to Meteobridge at: {self.ip}')
+                self.stationdata(self.ip, self.username, self.password)
+                self.set_drivers()
+
     def poll(self, polltype):
         if 'longPoll' in polltype:
             pass
@@ -146,7 +142,7 @@ class Controller(udi_interface.Node):
                 LOGGER.info("Node server not configured yet")
                 return
 
-            self.getstationdata(self.ip, self.username, self.password)
+            self.stationdata(self.ip, self.username, self.password)
             self.set_drivers()
             LOGGER.info("Updated data from Meteobridge")
 
@@ -335,7 +331,7 @@ class Controller(udi_interface.Node):
 
     # Hub status information here: battery and data health values.
 
-    def getstationdata(self, ipaddr, username, password):
+    def stationdata(self, ipaddr, username, password):
         """
             Here we assemble the url and template for the call to the Meteobridge
             and then unpack the returned data into variables. Simplified in Version 1.2.5 to
@@ -348,6 +344,7 @@ class Controller(udi_interface.Node):
                 mbtemplate = mbtemplate + tempstr + "%20"
 
             mbtemplate.strip("%20")
+            # Insert spaces between elements of the template to allow splitting the returned data, but no trailing space
 
             values = str(mbtemplate)
             url = 'http://' + ipaddr + '/cgi-bin/template.cgi?template='
@@ -442,7 +439,9 @@ class Controller(udi_interface.Node):
             LOGGER.error("Invalid value")
             LOGGER.error(mbrarray)
 
+        return mbrarray
 
+"""  V 3.1.0 - Constants moved to constants.py
 class CreateTemplate:
 
     def __str__(self):
@@ -493,3 +492,4 @@ class CreateTemplate:
             mbtemplate = mbtemplate + tempstr + "%20"
 
         return mbtemplate.strip("%20")
+"""
