@@ -338,13 +338,6 @@ class Controller(udi_interface.Node):
             streamline the basic auth method in requests.get
         """
         try:
-            mbtemplate = ""
-            # values = str(CreateTemplate())
-            for tempstr in MBTEMPLATELIST:
-                mbtemplate = mbtemplate + tempstr + "%20"
-
-            mbtemplate.strip("%20")
-            # Insert spaces between elements of the template to allow splitting the returned data, but no trailing space
 
             values = str(mbtemplate)
             url = 'http://' + ipaddr + '/cgi-bin/template.cgi?template='
