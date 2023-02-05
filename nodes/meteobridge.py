@@ -127,10 +127,10 @@ class Controller(udi_interface.Node):
             self.discover()
             LOGGER.debug(f'Discovery done: {self.discovery_done}')
 
-            if self.discovery_done:
-                LOGGER.debug(f'Connecting to Meteobridge at: {self.ip}')
-                self.stationdata(self.ip, self.username, self.password)
-                self.set_drivers()
+        if self.discovery_done:
+            LOGGER.debug(f'Connecting to Meteobridge at: {self.ip}')
+            self.stationdata(self.ip, self.username, self.password)
+            self.set_drivers()
 
     def poll(self, polltype):
         if 'longPoll' in polltype:
@@ -244,6 +244,7 @@ class Controller(udi_interface.Node):
 
         self.wait_for_node_done()
         self.discovery_done = True
+        LOGGER.debug("Finished discovery, node setup complete")
 
     def delete(self):
         self.stopping = True
