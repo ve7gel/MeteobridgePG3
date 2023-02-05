@@ -109,8 +109,8 @@ class Controller(udi_interface.Node):
         self.uvpresent = False
         self.lastgooddata = None
 
-        polyglot.ready()
-        polyglot.addNode(self)
+        self.poly.ready()
+        self.poly.addNode(self)
 
     def node_queue(self, data):
         self.n_queue.append(data['address'])
@@ -243,6 +243,7 @@ class Controller(udi_interface.Node):
         self.poly.addNode(node)
 
         self.wait_for_node_done()
+
         self.discovery_done = True
         LOGGER.debug("Finished discovery, node setup complete")
 
@@ -346,7 +347,8 @@ class Controller(udi_interface.Node):
 
             u = requests.get(url + values, auth=(username, password))
             mbrdata = u.content.decode('utf-8')
-            LOGGER.debug(f'mbrdata is: {mbrdata}')
+            auth_code = u.status_code
+            LOGGER.debug(f'mbrdata is: {mbrdata}, status: {auth_code}')
 
         except OSError as err:
             LOGGER.error(f"Unable to connect to your Meteobridge device: {err}")
