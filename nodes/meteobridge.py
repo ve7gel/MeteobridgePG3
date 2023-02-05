@@ -349,6 +349,9 @@ class Controller(udi_interface.Node):
             mbrdata = u.content.decode('utf-8')
             auth_code = u.status_code
             LOGGER.debug(f'mbrdata is: {mbrdata}, status: {auth_code}')
+            if auth_code != 200:
+                LOGGER.error(f'Unable to connect to your Meteobridge device: {auth_code}')
+                return
 
         except OSError as err:
             LOGGER.error(f"Unable to connect to your Meteobridge device: {err}")
