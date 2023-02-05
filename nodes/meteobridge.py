@@ -395,7 +395,7 @@ class Controller(udi_interface.Node):
             try:  # Meteobridge seems to sometimes return a nul string for wind0dir-act=endir
                 # so we substitute the last good reading
                 # self.wind_dir_cardinal = self.wind_card_dict[mbrarray[17]]
-                self.wind_dir_cardinal = CARDINAL_WIND_DIR_MAP[mbrarray[17]]
+                self.wind_dir_cardinal = cardinal_wind_dir_map([mbrarray[17]])
                 self.last_wind_dir = self.wind_dir_cardinal
 
             except:

@@ -1,23 +1,29 @@
-CARDINAL_WIND_DIR_MAP = {
-    'N': 0,
-    'NNE': 1,
-    'NE': 2,
-    'ENE': 3,
-    'E': 4,
-    'ESE': 5,
-    'SE': 6,
-    'SSE': 7,
-    'S': 8,
-    'SSW': 9,
-    'SW': 10,
-    'WSW': 11,
-    'W': 12,
-    'WNW': 13,
-    'NW': 14,
-    'NNW': 15
-}
-def mbtemplate():
 
+def cardinal_wind_dir_map(code):
+    CARDINAL_WIND_DIR_MAP = {
+        'N': 0,
+        'NNE': 1,
+        'NE': 2,
+        'ENE': 3,
+        'E': 4,
+        'ESE': 5,
+        'SE': 6,
+        'SSE': 7,
+        'S': 8,
+        'SSW': 9,
+        'SW': 10,
+        'WSW': 11,
+        'W': 12,
+        'WNW': 13,
+        'NW': 14,
+        'NNW': 15
+    }
+    if code in CARDINAL_WIND_DIR_MAP:
+        return CARDINAL_WIND_DIR_MAP[code]
+
+    return 0
+
+def mbtemplate():
     MBTEMPLATELIST = [
         "[th0temp-act]",  # 0, current outdoor temperature
         "[th0temp-dmax]",  # 1, max outdoor temp today
