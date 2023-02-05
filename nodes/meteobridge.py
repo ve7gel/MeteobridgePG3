@@ -339,7 +339,7 @@ class Controller(udi_interface.Node):
         """
         try:
 
-            values = str(mbtemplate)
+            values = str(mbtemplate())
             url = 'http://' + ipaddr + '/cgi-bin/template.cgi?template='
             LOGGER.debug("url in getstationdata: {}".format(url + values))
 
