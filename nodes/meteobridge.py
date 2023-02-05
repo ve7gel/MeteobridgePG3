@@ -142,7 +142,9 @@ class Controller(udi_interface.Node):
                 LOGGER.info("Node server not configured yet")
                 return
 
-            self.stationdata(self.ip, self.username, self.password)
+            if self.stationdata(self.ip, self.username, self.password) != 201:
+                return
+
             self.set_drivers()
             LOGGER.info("Updated data from Meteobridge")
 
@@ -351,7 +353,7 @@ class Controller(udi_interface.Node):
             LOGGER.debug(f'mbrdata is: {mbrdata}, status: {auth_code}')
             if auth_code != 200:
                 LOGGER.error(f'Unable to connect to your Meteobridge device: {auth_code}')
-                return
+                return auth_code
 
         except OSError as err:
             LOGGER.error(f"Unable to connect to your Meteobridge device: {err}")
