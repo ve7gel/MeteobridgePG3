@@ -142,7 +142,7 @@ class Controller(udi_interface.Node):
                 LOGGER.info("Node server not configured yet")
                 return
 
-            if self.stationdata(self.ip, self.username, self.password) != 201:
+            if self.stationdata(self.ip, self.username, self.password) != 200:
                 return
 
             self.set_drivers()
