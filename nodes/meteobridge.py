@@ -123,6 +123,7 @@ class Controller(udi_interface.Node):
     def start(self):
         LOGGER.info('Started Meteobridge NodeServer')
         self.poly.setCustomParamsDoc()
+        LOGGER.debug(f'self.configured: {self.configured}, self.discovery.done {self.discovery_done}')
         if self.configured:
             self.discover()
             LOGGER.debug(f'Discovery done: {self.discovery_done}')
