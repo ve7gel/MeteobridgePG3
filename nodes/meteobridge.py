@@ -286,7 +286,7 @@ class Controller(udi_interface.Node):
         if ip_exists and password_exists:
             self.Notices.clear()
             self.setup_nodedefs(self.units)
-
+            LOGGER.info(f'Configuration complete!')
             self.configured = True
 
     def setup_nodedefs(self, units):
