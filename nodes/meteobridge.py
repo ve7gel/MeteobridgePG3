@@ -144,6 +144,9 @@ class Controller(udi_interface.Node):
 
             temp = self.stationdata(self.ip, self.username, self.password)
             LOGGER.debug(f'return from getstationdata {temp}')
+            if temp == "401":
+                # return if configuration is incomplete or incorrect
+                return
 
             self.set_drivers()
             LOGGER.info("Updated data from Meteobridge")
