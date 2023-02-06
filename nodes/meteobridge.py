@@ -142,8 +142,8 @@ class Controller(udi_interface.Node):
                 LOGGER.info("Node server not configured yet")
                 return
 
-            if self.stationdata(self.ip, self.username, self.password) != 200:
-                return
+            temp = self.stationdata(self.ip, self.username, self.password)
+            LOGGER.debug(f'return from getstationdata {temp}')
 
             self.set_drivers()
             LOGGER.info("Updated data from Meteobridge")
