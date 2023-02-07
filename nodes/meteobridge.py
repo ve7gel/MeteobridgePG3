@@ -138,7 +138,7 @@ class Controller(udi_interface.Node):
             LOGGER.info("Node server not configured yet")
             return
 
-        self.set_drivers()
+        self.set_drivers(data)
 
     def poll(self, polltype):
         if 'longPoll' in polltype:
