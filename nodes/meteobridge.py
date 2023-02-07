@@ -451,7 +451,7 @@ class Controller(udi_interface.Node):
             LOGGER.error("Invalid value")
             LOGGER.error(mbrarray)
 
-        return mbrarray
+        return mbrarray, result_code
 
 """  V 3.1.0 - Constants moved to constants.py
 class CreateTemplate:
