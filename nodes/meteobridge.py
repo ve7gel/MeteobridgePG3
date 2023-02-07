@@ -47,7 +47,7 @@ class Controller(udi_interface.Node):
 
     def __init__(self, polyglot, parent, address, name):
         super(Controller, self).__init__(polyglot, parent, address, name)
-        self.discovery_done = None
+        self.discovery_done = False
         self.stopping = None
         self.hb = 0
         self.poly = polyglot
@@ -121,17 +121,19 @@ class Controller(udi_interface.Node):
         self.n_queue.pop()
 
     def start(self):
-        LOGGER.info('Started Meteobridge NodeServer')
+        LOGGER.info('Starting Meteobridge Node Server')
         self.poly.setCustomParamsDoc()
         LOGGER.debug(f'self.configured: {self.configured}, self.discovery.done {self.discovery_done}')
-        if self.configured:
-            self.discover()
-            LOGGER.debug(f'Discovery done: {self.discovery_done}')
+        while not self.configured:
+            time.sleep(10)
 
-        if self.discovery_done:
-            LOGGER.debug(f'Connecting to Meteobridge at: {self.ip}')
-            self.stationdata(self.ip, self.username, self.password)
-            self.set_drivers()
+        LOGGER.debug('Calling discovery from the start method')
+        self.discover()
+        LOGGER.debug(f'Discovery done: {self.discovery_done}')
+
+        LOGGER.debug(f'Connecting to Meteobridge at: {self.ip}')
+        self.stationdata(self.ip, self.username, self.password)
+        self.set_drivers()
 
     def poll(self, polltype):
         if 'longPoll' in polltype:
