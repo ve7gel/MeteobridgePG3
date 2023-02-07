@@ -151,7 +151,7 @@ class Controller(udi_interface.Node):
                 return
 
             data, result = self.stationdata(self.ip, self.username, self.password)
-            LOGGER.debug(f'return from getstationdata {temp}')
+            LOGGER.debug(f'return from getstationdata {data} result code {result}')
             while result != 200:
                 # return if configuration is incomplete or incorrect
                 return
@@ -362,7 +362,7 @@ class Controller(udi_interface.Node):
             mbrdata = u.content.decode('utf-8')
             result_code = u.status_code
             LOGGER.debug(f'mbrdata is: {mbrdata}, status: {result_code}')
-            if result_code != '200':
+            if result_code != 200:
                 LOGGER.error(f'Unable to connect to your Meteobridge device: {result_code}')
                 return '', result_code
 
