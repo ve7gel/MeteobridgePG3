@@ -134,7 +134,7 @@ class Controller(udi_interface.Node):
         LOGGER.debug(f'Connecting to Meteobridge at: {self.ip}')
         data, result = self.stationdata(self.ip, self.username, self.password)
 
-        while result != '200':
+        while result != 200:
             LOGGER.info("Node server not configured yet")
             return
 
@@ -152,7 +152,7 @@ class Controller(udi_interface.Node):
 
             data, result = self.stationdata(self.ip, self.username, self.password)
             LOGGER.debug(f'return from getstationdata {temp}')
-            while result != '200':
+            while result != 200:
                 # return if configuration is incomplete or incorrect
                 return
 
