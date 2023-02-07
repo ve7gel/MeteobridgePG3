@@ -132,7 +132,12 @@ class Controller(udi_interface.Node):
         LOGGER.debug(f'Discovery done: {self.discovery_done}')
 
         LOGGER.debug(f'Connecting to Meteobridge at: {self.ip}')
-        self.stationdata(self.ip, self.username, self.password)
+        data, result = self.stationdata(self.ip, self.username, self.password)
+
+        while result != '200':
+            LOGGER.info("Node server not configured yet")
+            return
+
         self.set_drivers()
 
     def poll(self, polltype):
@@ -141,23 +146,24 @@ class Controller(udi_interface.Node):
         else:
             # read data
             LOGGER.debug(f'Configured: {self.configured}')
-            if not self.configured:
+            while not self.configured:
                 LOGGER.info("Node server not configured yet")
                 return
 
-            temp = self.stationdata(self.ip, self.username, self.password)
+            data, result = self.stationdata(self.ip, self.username, self.password)
             LOGGER.debug(f'return from getstationdata {temp}')
-            if temp == "401":
+            while result != '200':
                 # return if configuration is incomplete or incorrect
                 return
 
-            self.set_drivers()
+            self.set_drivers(data)
             LOGGER.info("Updated data from Meteobridge")
 
-    def set_drivers(self):
+    def set_drivers(self, data):
         try:
             node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.units)
-            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], self.temperature, )
+            # tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], self.temperature, )
+            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], float(data[0]), )
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['dewpoint'], self.dewpoint, )
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['windchill'], self.windchill, )
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmax'], self.maxtemp, )
@@ -175,7 +181,6 @@ class Controller(udi_interface.Node):
             hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['main'], self.rh, )
 
             node = wn.WindNode(self.poly, self.address, 'winds', 'Wind', self.units)
-            LOGGER.debug("Wind variable type: {}".format(type(self.wind)))
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed'], self.wind, )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddir'], self.wind_dir, )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed'], self.wind_gust, )
@@ -355,11 +360,11 @@ class Controller(udi_interface.Node):
 
             u = requests.get(url + values, auth=(username, password))
             mbrdata = u.content.decode('utf-8')
-            auth_code = u.status_code
-            LOGGER.debug(f'mbrdata is: {mbrdata}, status: {auth_code}')
-            if auth_code != 200:
-                LOGGER.error(f'Unable to connect to your Meteobridge device: {auth_code}')
-                return auth_code
+            result_code = u.status_code
+            LOGGER.debug(f'mbrdata is: {mbrdata}, status: {result_code}')
+            if result_code != '200':
+                LOGGER.error(f'Unable to connect to your Meteobridge device: {result_code}')
+                return '', result_code
 
         except OSError as err:
             LOGGER.error(f"Unable to connect to your Meteobridge device: {err}")
