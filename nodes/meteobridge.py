@@ -162,12 +162,11 @@ class Controller(udi_interface.Node):
     def set_drivers(self, data):
         try:
             node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.units)
-            # tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], self.temperature, )
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], float(data[0]), )
-            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['dewpoint'], float(data[1]), )
-            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['windchill'], float(data[2]), )
-            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmax'], float(data[3]), )
-            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmin'], float(data[4]), )
+            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmax'], float(data[1]), )
+            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmin'], float(data[2]), )
+            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['dewpoint'], float(data[3]), )
+            tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['windchill'], float(data[4]), )
 
             node = rn.PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.units)
             rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['rate'], self.rain_rate, )
@@ -452,6 +451,7 @@ class Controller(udi_interface.Node):
             LOGGER.error(mbrarray)
 
         return mbrarray, result_code
+
 
 """  V 3.1.0 - Constants moved to constants.py
 class CreateTemplate:
