@@ -105,8 +105,7 @@ class Controller(udi_interface.Node):
         """
 
         self.last_wind_dir = ''
-        self.vp2plus = False
-        self.uvpresent = False
+        self.last_wind_dir = 0
         self.lastgooddata = None
 
         self.poly.ready()
@@ -161,6 +160,7 @@ class Controller(udi_interface.Node):
 
     def set_drivers(self, data):
         try:
+            # Temperature values
             node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.units)
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], float(data[0]), )
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmax'], float(data[1]), )
@@ -168,55 +168,109 @@ class Controller(udi_interface.Node):
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['dewpoint'], float(data[3]), )
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['windchill'], float(data[4]), )
 
+            # Precipitation values
             node = rn.PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.units)
-            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['rate'], self.rain_rate, )
-            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['daily'], self.rain_today, )
-            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['24hour'], self.rain_24hour, )
-            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['yesterday'], self.rain_yesterday, )
-            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['monthly'], self.rain_month, )
-            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['yearly'], self.rain_year, )
+            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['rate'], float(data[18]), )
+            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['daily'], float(data[19]), )
+            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['24hour'], float(data[20]), )
+            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['yesterday'], float(data[21]), )
+            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['monthly'], float(data[22]), )
+            rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['yearly'], float(data[23]), )
 
+            # Humidity values
             node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.driver_list)
-            hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['main'], self.rh, )
+            hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['main'], float(data[5]), )
+            maxrh = float(data[6])
+            minrh = float(data[7])
 
+            # Wind values
             node = wn.WindNode(self.poly, self.address, 'winds', 'Wind', self.units)
-            wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed'], self.wind, )
-            wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddir'], self.wind_dir, )
-            wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed'], self.wind_gust, )
-            wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed1'], self.wind, )
-            wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed1'], self.wind_gust, )
-            wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddircard'], self.wind_dir_cardinal, )
 
+            try:  # Meteobridge seems to sometimes return a nul string for wind0dir-act=endir
+                # so we substitute the last good reading
+                # self.wind_dir_cardinal = self.wind_card_dict[data[17]]
+                wind_dir_cardinal = cardinal_wind_dir_map([data[17]])
+                self.last_wind_dir = wind_dir_cardinal
+
+            except:
+                wind_dir_cardinal = self.last_wind_dir
+                LOGGER.info("Cardinal wind direction substituted for last good reading: {}".format(self.last_wind_dir))
+
+            LOGGER.debug(
+                "mbr wind: {}, gust: {}, dir: {}, wdc: {}, wind_dir_cardinal: {}, last_wind_dir: {}".format(
+                    float(data[14]),
+                    (float(data[15])),
+                    data[16],
+                    data[17],
+                    wind_dir_cardinal,
+                    self.last_wind_dir))
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed'], float(data[14]), )
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddir'], data[16], )
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed'], float(data[15]), )
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed1'], float(data[14]), )
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed1'], float(data[15]), )
+            wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddircard'], wind_dir_cardinal, )
+
+            # Light values
             node = ln.LightNode(self.poly, self.address, 'solar', 'Illumination', self.units)
-            ln.LightNode.set_Driver(node, uom.LITE_DRVS['solar_radiation'], self.solarradiation, )
-            if self.uvpresent:
-                ln.LightNode.set_Driver(node, uom.LITE_DRVS['uv'], self.uv, )
+            try:
+                uv = float(data[12])
+                uvpresent = True
+
+            except:  # no uv sensor
+                uv = 0
+                uvpresent = False
+
+            try:
+                solarradiation = float(data[11])
+                et0 = float(data[13])
+                vp2plus = True
+
+            except:  # catch case where solar data is not available
+                vp2plus = False
+                solarradiation = 0
+                et0 = 0
+
+            ln.LightNode.set_Driver(node, uom.LITE_DRVS['solar_radiation'], solarradiation, )
+            if uvpresent:
+                ln.LightNode.set_Driver(node, uom.LITE_DRVS['uv'], uv, )
             else:
                 ln.LightNode.set_Driver(node, uom.LITE_DRVS['uv'], 0, )
-            if self.vp2plus:
-                et0_conv = self.et0
+            if vp2plus:
+                et0_conv = et0
                 if self.units == 'us':
-                    et0_conv = round(et0_conv / 25.4, 3)
+                    et0_conv = round(et0 / 25.4, 3)
 
                 ln.LightNode.set_Driver(node, uom.LITE_DRVS['evapotranspiration'], et0_conv, )
             else:
                 ln.LightNode.set_Driver(node, uom.LITE_DRVS['evapotranspiration'], 0, )
                 LOGGER.info("Evapotranspiration not available (Davis Vantage stations with Solar Sensor only)")
 
+            # Barometric pressure values
             node = pn.PressureNode(self.poly, self.address, 'press', 'Barometric Pressure', self.units)
-
-            pn.PressureNode.set_Driver(node, uom.PRES_DRVS['station'], self.stn_pressure, )
-            pn.PressureNode.set_Driver(node, uom.PRES_DRVS['sealevel'], self.sl_pressure, )
-            pn.PressureNode.set_Driver(node, uom.PRES_DRVS['trend'], self.pressure_trend, )
+            pn.PressureNode.set_Driver(node, uom.PRES_DRVS['station'], float(data[8]), )
+            pn.PressureNode.set_Driver(node, uom.PRES_DRVS['sealevel'], float(data[9]), )
+            pn.PressureNode.set_Driver(node, uom.PRES_DRVS['trend'], float(
+                data[10]) + 1, )  # Meteobridge reports -1, 0, +1 for trends,converted for ISY
 
             # Update controller drivers now
-            self.setDriver('GV3', self.lastgooddata)
-            self.setDriver('GV0', self.battery)
-            self.setDriver('GV1', self.issbattery)
-            # value 0 = Ok, 1 = Replace
-            self.setDriver('GV2', self.timestamp)
+            """            
+            self.mbstation = mbrarray[24]
+            self.mbstationnum = float(mbrarray[25])
 
-            LOGGER.debug("Last good data: {} second(s) ago".format(self.lastgooddata))
+            self.battery = int(float(mbrarray[26]))
+            self.issbattery = int(float(mbrarray[27]))
+            self.timestamp = int(mbrarray[28])
+            self.lastgooddata = mbrarray[30]
+            LOGGER.debug("Timestamp: {}, good data: {}".format(self.timestamp, self.lastgooddata))"""
+
+            self.setDriver('GV3', data[30])  # Last good data
+            self.setDriver('GV0', int(float(data[26])))  # Console battery
+            self.setDriver('GV1', int(float(data[27])))  # ISS battery
+            # value 0 = Ok, 1 = Replace
+            self.setDriver('GV2', data[28])
+
+            LOGGER.debug(f"Timestamp: {int(float(data[28]))}, Last good data: {data[30]} second(s) ago")
 
         except ValueError as e:
             LOGGER.error("Error in assigning driver values from template: {}".format(e))
@@ -373,7 +427,8 @@ class Controller(udi_interface.Node):
         LOGGER.debug("mbrarray: {}".format(mbrarray))
 
         try:
-            self.temperature = float(mbrarray[0])
+            temperature = float(mbrarray[0])
+            """
             self.maxtemp = float(mbrarray[1])
             self.mintemp = float(mbrarray[2])
             self.dewpoint = float(mbrarray[3])
@@ -444,7 +499,7 @@ class Controller(udi_interface.Node):
             self.timestamp = int(mbrarray[28])
             self.lastgooddata = mbrarray[30]
             LOGGER.debug("Timestamp: {}, good data: {}".format(self.timestamp, self.lastgooddata))
-
+        """
         except ValueError or AttributeError as e:
             LOGGER.error(f"Error in getstationdata: {e}")
             LOGGER.error("Invalid value")
