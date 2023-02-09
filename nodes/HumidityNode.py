@@ -26,8 +26,8 @@ class HumidityNode(udi_interface.Node):
 
         LOGGER.debug(f'HumidityNode drivers: {driver_list}')
         self.Parameters = Custom(polyglot, 'customparams')
-        #self.define_drivers(driver_list)
-        self.drivers = driver_list
+        self.define_drivers(driver_list)
+        #self.drivers = driver_list
 
         # subscribe to the events we want
         polyglot.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
