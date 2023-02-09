@@ -53,8 +53,8 @@ TEMP_DRVS = {
 HUMD_DRVS = {
     'main': 'ST',
     'inside': 'GV0',
-    'extra1': 'GV1',
-    'extra2': 'GV2',
+    'max': 'GV1',
+    'min': 'GV2',
     'extra3': 'GV3',
     'extra4': 'GV4',
     'extra5': 'GV5',

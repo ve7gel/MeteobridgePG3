@@ -179,8 +179,9 @@ class Controller(udi_interface.Node):
             # Humidity values
             node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.driver_list)
             hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['main'], float(data[5]), )
-            maxrh = float(data[6])
-            minrh = float(data[7])
+            hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['max'], float(data[6]), )
+            hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['min'], float(data[7]), )
+
 
             # Wind values
             node = wn.WindNode(self.poly, self.address, 'winds', 'Wind', self.units)
@@ -354,6 +355,8 @@ class Controller(udi_interface.Node):
         self.temperature_list['tempmax'] = 'I_TEMP_F' if units == 'us' else 'I_TEMP_C'
         self.temperature_list['tempmin'] = 'I_TEMP_F' if units == 'us' else 'I_TEMP_C'
         self.humidity_list['main'] = 'I_HUMIDITY'
+        self.humidity_list['max'] = 'I_HUMIDITY'
+        self.humidity_list['min'] = 'I_HUMIDITY'
         self.pressure_list['station'] = 'I_INHG' if units == 'us' else 'I_MB'
         self.pressure_list['sealevel'] = 'I_INHG' if units == 'us' else 'I_MB'
         self.pressure_list['trend'] = 'I_TREND'
