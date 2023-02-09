@@ -35,7 +35,7 @@ You can use LOGGER.info, LOGGER.warning, LOGGER.debug, LOGGER.error levels as ne
 """
 
 
-class Controller(udi_interface.Node, hn):
+class Controller(udi_interface.Node):
     id = 'meteobridge'
     drivers = [
         {'driver': 'ST', 'value': 1, 'uom': 2},
