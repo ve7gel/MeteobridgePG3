@@ -188,12 +188,13 @@ class Controller(udi_interface.Node):
             try:  # Meteobridge seems to sometimes return a nul string for wind0dir-act=endir
                 # so we substitute the last good reading
                 # self.wind_dir_cardinal = self.wind_card_dict[data[17]]
-                wind_dir_cardinal = cardinal_wind_dir_map([data[17]])
+                wind_dir_cardinal = cardinal_wind_dir_map(data[17])
                 self.last_wind_dir = wind_dir_cardinal
 
             except:
                 wind_dir_cardinal = self.last_wind_dir
-                LOGGER.info(f"Cardinal wind direction substituted for last good reading: {self.last_wind_dir} ({data[17]})")
+                LOGGER.info(
+                    f"Cardinal wind direction substituted for last good reading: {self.last_wind_dir} ({data[17]})")
 
             LOGGER.debug(
                 f"mbr wind: {float(data[14])}, gust: {float(data[15])}, dir: {data[16]}, wdc: {data[17]}, "
