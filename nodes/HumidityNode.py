@@ -24,7 +24,7 @@ class HumidityNode(udi_interface.Node):
         self.count = 0
         self.humidity_list = {}
 
-        LOGGER.debug(f'HumidityNode drivers: {driver_list}')
+        # LOGGER.debug(f'HumidityNode drivers: {driver_list}')
         self.Parameters = Custom(polyglot, 'customparams')
         self.define_drivers(driver_list)
         #self.drivers = driver_list
