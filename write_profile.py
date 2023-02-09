@@ -71,7 +71,7 @@ def write_profile(logger, temperature_list, humidity_list, pressure_list,
         nodedef.write("    </sts>\n")
         nodedef.write("  </nodeDef>\n")
 
-    if (len(humidity_list) > 0):
+    if len(humidity_list) > 0:
         nodedef.write(NODEDEF_TMPL % ('humidity', 'HUM'))
         nodedef.write("    <sts>\n")
         for t in humidity_list:
@@ -79,7 +79,7 @@ def write_profile(logger, temperature_list, humidity_list, pressure_list,
         nodedef.write("    </sts>\n")
         nodedef.write("  </nodeDef>\n")
 
-    if (len(pressure_list) > 0):
+    if len(pressure_list) > 0:
         nodedef.write(NODEDEF_TMPL % ('pressure', 'PRESS'))
         nodedef.write("    <sts>\n")
         for t in pressure_list:
@@ -87,7 +87,7 @@ def write_profile(logger, temperature_list, humidity_list, pressure_list,
         nodedef.write("    </sts>\n")
         nodedef.write("  </nodeDef>\n")
 
-    if (len(wind_list) > 0):
+    if len(wind_list) > 0:
         nodedef.write(NODEDEF_TMPL % ('wind', 'WIND'))
         nodedef.write("    <editors   />\n")
         nodedef.write("    <sts>\n")
@@ -96,7 +96,7 @@ def write_profile(logger, temperature_list, humidity_list, pressure_list,
         nodedef.write("    </sts>\n")
         nodedef.write("  </nodeDef>\n")
 
-    if (len(rain_list) > 0):
+    if len(rain_list) > 0:
         nodedef.write(NODEDEF_TMPL % ('precipitation', 'RAIN'))
         nodedef.write("    <sts>\n")
         for t in rain_list:
@@ -104,7 +104,7 @@ def write_profile(logger, temperature_list, humidity_list, pressure_list,
         nodedef.write("    </sts>\n")
         nodedef.write("  </nodeDef>\n")
 
-    if (len(light_list) > 0):
+    if len(light_list) > 0:
         nodedef.write(NODEDEF_TMPL % ('light', 'LIGHT'))
         nodedef.write("    <sts>\n")
         for t in light_list:
@@ -112,7 +112,7 @@ def write_profile(logger, temperature_list, humidity_list, pressure_list,
         nodedef.write("    </sts>\n")
         nodedef.write("  </nodeDef>\n")
 
-    if (len(lightning_list) > 0):
+    if len(lightning_list) > 0:
         nodedef.write(NODEDEF_TMPL % ('lightning', '139S'))
         nodedef.write("    <sts>\n")
         for t in lightning_list:

@@ -182,7 +182,6 @@ class Controller(udi_interface.Node):
             hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['max'], float(data[6]), )
             hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['min'], float(data[7]), )
 
-
             # Wind values
             node = wn.WindNode(self.poly, self.address, 'winds', 'Wind', self.units)
 

@@ -23,6 +23,8 @@
   <nodeDef id="humidity" nls="HUM">
     <sts>
       <st id="ST" editor="I_HUMIDITY" />
+      <st id="GV1" editor="I_HUMIDITY" />
+      <st id="GV2" editor="I_HUMIDITY" />
     </sts>
   </nodeDef>
   <nodeDef id="pressure" nls="PRESS">

@@ -41,6 +41,8 @@ class HumidityNode(udi_interface.Node):
 
     def define_drivers(self, drivers):
         self.humidity_list['main'] = 'I_HUMIDITY'
+        self.humidity_list['max'] = 'I_HUMIDITY'
+        self.humidity_list['min'] = 'I_HUMIDITY'
 
         driver_list = []
 
