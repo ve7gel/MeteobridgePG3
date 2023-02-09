@@ -43,7 +43,7 @@ class HumidityNode(udi_interface.Node):
         self.humidity_list['main'] = 'I_HUMIDITY'
         self.humidity_list['max'] = 'I_HUMIDITY'
         self.humidity_list['min'] = 'I_HUMIDITY'
-
+        LOGGER.debug(f'HumidityNode drivers: {drivers}')
         driver_list = []
 
         for d in self.humidity_list:
