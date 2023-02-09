@@ -1,5 +1,4 @@
-
-def cardinal_wind_dir_map(code):
+def cardinal_wind_dir_map(cardinal_dir):
     CARDINAL_WIND_DIR_MAP = {
         'N': 0,
         'NNE': 1,
@@ -18,10 +17,11 @@ def cardinal_wind_dir_map(code):
         'NW': 14,
         'NNW': 15
     }
-    if code in CARDINAL_WIND_DIR_MAP:
-        return CARDINAL_WIND_DIR_MAP[code]
+    if cardinal_dir in CARDINAL_WIND_DIR_MAP:
+        return CARDINAL_WIND_DIR_MAP[cardinal_dir]
 
     return 0
+
 
 def mbtemplate():
     MBTEMPLATELIST = [

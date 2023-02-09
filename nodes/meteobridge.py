@@ -105,7 +105,6 @@ class Controller(udi_interface.Node):
         """
 
         self.last_wind_dir = ''
-        self.last_wind_dir = 0
         self.lastgooddata = None
 
         self.poly.ready()
@@ -194,16 +193,12 @@ class Controller(udi_interface.Node):
 
             except:
                 wind_dir_cardinal = self.last_wind_dir
-                LOGGER.info("Cardinal wind direction substituted for last good reading: {}".format(self.last_wind_dir))
+                LOGGER.info(f"Cardinal wind direction substituted for last good reading: {self.last_wind_dir} ({data[17]})")
 
             LOGGER.debug(
-                "mbr wind: {}, gust: {}, dir: {}, wdc: {}, wind_dir_cardinal: {}, last_wind_dir: {}".format(
-                    float(data[14]),
-                    (float(data[15])),
-                    data[16],
-                    data[17],
-                    wind_dir_cardinal,
-                    self.last_wind_dir))
+                f"mbr wind: {float(data[14])}, gust: {float(data[15])}, dir: {data[16]}, wdc: {data[17]}, "
+                f"wind_dir_cardinal: {wind_dir_cardinal}, last_wind_dir: {self.last_wind_dir}")
+
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['windspeed'], float(data[14]), )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['winddir'], data[16], )
             wn.WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed'], float(data[15]), )
@@ -427,7 +422,7 @@ class Controller(udi_interface.Node):
         LOGGER.debug("mbrarray: {}".format(mbrarray))
 
         try:
-            temperature = float(mbrarray[0])
+            temperature = float(mbrarray[0])  # test that there's a valid response
             """
             self.maxtemp = float(mbrarray[1])
             self.mintemp = float(mbrarray[2])
