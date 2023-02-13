@@ -30,7 +30,7 @@ class HumidityNode(udi_interface.Node):
         #self.drivers = driver_list
 
         # subscribe to the events we want
-        polyglot.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
+        # polyglot.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
 #        polyglot.subscribe(polyglot.POLL, self.poll)
 
     """
