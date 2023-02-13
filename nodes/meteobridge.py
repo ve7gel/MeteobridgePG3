@@ -83,27 +83,6 @@ class Controller(udi_interface.Node):
         self.n_queue = []
         self.driver_list = []
 
-        """ V 3.1.0 - Moved to const.py file
-        self.wind_card_dict = {
-            'N': 0,
-            'NNE': 1,
-            'NE': 2,
-            'ENE': 3,
-            'E': 4,
-            'ESE': 5,
-            'SE': 6,
-            'SSE': 7,
-            'S': 8,
-            'SSW': 9,
-            'SW': 10,
-            'WSW': 11,
-            'W': 12,
-            'WNW': 13,
-            'NW': 14,
-            'NNW': 15
-        }
-        """
-
         self.last_wind_dir = ''
         self.lastgooddata = None
 
@@ -250,15 +229,6 @@ class Controller(udi_interface.Node):
                 data[10]) + 1, )  # Meteobridge reports -1, 0, +1 for trends,converted for ISY
 
             # Update controller drivers now
-            """            
-            self.mbstation = mbrarray[24]
-            self.mbstationnum = float(mbrarray[25])
-
-            self.battery = int(float(mbrarray[26]))
-            self.issbattery = int(float(mbrarray[27]))
-            self.timestamp = int(mbrarray[28])
-            self.lastgooddata = mbrarray[30]
-            LOGGER.debug("Timestamp: {}, good data: {}".format(self.timestamp, self.lastgooddata))"""
 
             self.setDriver('GV3', data[30])  # Last good data
             self.setDriver('GV0', int(float(data[26])))  # Console battery
@@ -426,135 +396,10 @@ class Controller(udi_interface.Node):
 
         try:
             temperature = float(mbrarray[0])  # test that there's a valid response
-            """
-            self.maxtemp = float(mbrarray[1])
-            self.mintemp = float(mbrarray[2])
-            self.dewpoint = float(mbrarray[3])
-            self.windchill = float(mbrarray[4])
 
-            self.rh = float(mbrarray[5])
-            self.maxrh = float(mbrarray[6])
-            self.minrh = float(mbrarray[7])
-
-            self.stn_pressure = float(mbrarray[8])
-            self.sl_pressure = float(mbrarray[9])
-            self.pressure_trend = float(mbrarray[10])
-            self.pressure_trend = self.pressure_trend + 1  # Meteobridge reports -1, 0, +1 for trends,converted for ISY
-
-            try:
-                self.uv = float(mbrarray[12])
-                self.uvpresent = True
-
-            except:  # no uv sensor
-                self.uv = 0
-                self.uvpresent = False
-
-            try:
-                self.solarradiation = float(mbrarray[11])
-                self.et0 = float(mbrarray[13])
-                self.vp2plus = True
-
-            except:  # catch case where solar data is not available
-                self.vp2plus = False
-                self.solarradiation = 0
-                self.et0 = 0
-
-            self.wind = float(mbrarray[14])
-            # wind = wind * 3.6 # the Meteobridge reports in mps, this is conversion to kph
-            self.wind_gust = float(mbrarray[15])
-            self.wind_dir = mbrarray[16]
-            try:  # Meteobridge seems to sometimes return a nul string for wind0dir-act=endir
-                # so we substitute the last good reading
-                # self.wind_dir_cardinal = self.wind_card_dict[mbrarray[17]]
-                self.wind_dir_cardinal = cardinal_wind_dir_map([mbrarray[17]])
-                self.last_wind_dir = self.wind_dir_cardinal
-
-            except:
-                self.wind_dir_cardinal = self.last_wind_dir
-                LOGGER.info("Cardinal wind direction substituted for last good reading: {}".format(self.last_wind_dir))
-
-            LOGGER.debug(
-                "mbr wind: {}, gust: {}, dir: {}, wdc: {}, wind_dir_cardinal: {}, last_wind_dir: {}".format(self.wind,
-                                                                                                            self.wind_gust,
-                                                                                                            self.wind_dir,
-                                                                                                            mbrarray[
-                                                                                                                17],
-                                                                                                            self.wind_dir_cardinal,
-                                                                                                            self.last_wind_dir))
-
-            self.rain_rate = float(mbrarray[18])
-            self.rain_today = float(mbrarray[19])
-            self.rain_24hour = float(mbrarray[20])
-            self.rain_yesterday = float(mbrarray[21])
-            self.rain_month = float(mbrarray[22])
-            self.rain_year = float(mbrarray[23])
-
-            self.mbstation = mbrarray[24]
-            self.mbstationnum = float(mbrarray[25])
-
-            self.battery = int(float(mbrarray[26]))
-            self.issbattery = int(float(mbrarray[27]))
-            self.timestamp = int(mbrarray[28])
-            self.lastgooddata = mbrarray[30]
-            LOGGER.debug("Timestamp: {}, good data: {}".format(self.timestamp, self.lastgooddata))
-        """
         except ValueError or AttributeError as e:
             LOGGER.error(f"Error in getstationdata: {e}")
             LOGGER.error("Invalid value")
             LOGGER.error(mbrarray)
 
         return mbrarray, result_code
-
-
-"""  V 3.1.0 - Constants moved to constants.py
-class CreateTemplate:
-
-    def __str__(self):
-        mbtemplate = ""
-        mbtemplatelist = [
-            "[th0temp-act]",  # 0, current outdoor temperature
-            "[th0temp-dmax]",  # 1, max outdoor temp today
-            "[th0temp-dmin]",  # 2, min outdoor temp today
-            "[th0dew-act]",  # 3, current outdoor dewpoint
-            "[wind0chill-act]",  # 4 current windchill as calculated by MeteoBridge
-
-            "[th0hum-act]",  # 5 current outdoor relative humidity
-            "[th0hum-dmax]",  # 6 max outdoor relative humidity today
-            "[th0hum-dmin]",  # 7 min outddor relative humidity today
-
-            "[thb0press-act]",  # 8 current station pressure
-            "[thb0seapress-act]",  # 9 current sealevel barometric pressure
-            "[thb0press-delta3h=barotrend]",  # 10 pressure trend
-
-            "[sol0rad-act]",  # 11 current solar radiation
-            "[uv0index-act]",  # 12 current UV index
-            "[sol0evo-daysum]",  # 13 today's cumulative evapotranspiration - Davis Vantage only
-
-            "[wind0avgwind-act]",  # 14 average wind (depends on particular station)
-            "[wind0wind-max10]",  # 15 10 minute wind gust
-            "[wind0dir-act]",  # 16 current wind direction
-            "[wind0dir-act=endir]",  # 17 current cardinal wind direction
-
-            "[rain0rate-act]",  # 18 current rate of rainfall
-            "[rain0total-daysum]",  # 19 rain accumulation for today
-            "[rain0total-sum24h]",  # 20 rain over the last 24 hours
-            "[rain0total-ydmax]",  # 21 total rainfall yesterday
-            "[rain0total-monthsum]",  # 22 rain accumulation for this month
-            "[rain0total-yearsum]",  # 23 rain accumulation year-to-date
-
-            "[mbsystem-station]",  # 24 station id
-            "[mbsystem-stationnum]",  # 25 meteobridge station number
-            "[thb0lowbat-act]",  # 26 Station battery status (0=Ok, 1=Replace)
-            "[th0lowbat-act]",  # 27 Station battery status (0=Ok, 1=Replace)
-
-            #  "[UYYYY][UMM][UDD][Uhh][Umm][Uss]",  # 28 current observation time
-            "[hh][mm][ss]",
-            "[epoch]",  # 29 current unix time
-            "[mbsystem-lastgooddata]",  # 30 seconds since last good data received from console
-        ]
-
-        for tempstr in MBTEMPLATELIST:
-            mbtemplate = mbtemplate + tempstr + "%20"
-
-        return mbtemplate.strip("%20")
-"""

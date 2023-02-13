@@ -33,10 +33,11 @@ class HumidityNode(udi_interface.Node):
         polyglot.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
 #        polyglot.subscribe(polyglot.POLL, self.poll)
 
+    """
     def parameterHandler(self, params):
         self.Parameters.load(params)
         self.units = self.Parameters['Units']
-
+    """
     def set_Driver(self, driver, value, **kwargs):
 
         super(HumidityNode, self).setDriver(driver, round(value, 1))

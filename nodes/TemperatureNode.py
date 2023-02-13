@@ -36,6 +36,7 @@ class TemperatureNode(udi_interface.Node):
     def parameterHandler(self, params):
         self.Parameters.load(params)
         self.units = self.Parameters['Units']
+        LOGGER.debug(f'Temperature units set to {self.units}')
 
     def start(self):
         # self.discover()
