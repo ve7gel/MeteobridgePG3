@@ -248,9 +248,7 @@ class Controller(udi_interface.Node):
         self.poly.addNode(node)
         self.wait_for_node_done()
 
-        # Humidity Node
-        # driver_list = []   Pending development
-
+        # Humiditys Node
         node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.humidity_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
