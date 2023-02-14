@@ -51,8 +51,8 @@ class HumidityNode(udi_interface.Node):
 
         driver_list = []
 
-        for d in self.humidity_list:
-        # for d in drivers:
+        # for d in self.humidity_list:
+        for d in drivers:
             driver_list.append(
                 {
                     'driver': uom.HUMD_DRVS[d],
