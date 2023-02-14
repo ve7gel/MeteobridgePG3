@@ -54,7 +54,7 @@ class HumidityNode(udi_interface.Node):
                     'driver': uom.HUMD_DRVS[d],
                     'value': 0,
                     # 'uom': uom.UOM[self.humidity_list[d]]
-                    'uom': uom.UOM[self.drivers[d]]
+                    'uom': uom.UOM[drivers[d]]
                 })
         self.drivers = driver_list
         LOGGER.debug('Defining Humidity drivers = {}'.format(self.drivers))
