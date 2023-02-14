@@ -249,6 +249,7 @@ class Controller(udi_interface.Node):
         self.wait_for_node_done()
 
         # Humiditys Node
+        LOGGER.debug(f'Humidity Node list: {self.humidity_list}')
         node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.humidity_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
