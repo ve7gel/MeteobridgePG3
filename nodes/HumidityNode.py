@@ -27,7 +27,6 @@ class HumidityNode(udi_interface.Node):
         LOGGER.debug(f'HumidityNode drivers: {driver_list}')
         # self.Parameters = Custom(polyglot, 'customparams')
         self.define_drivers(driver_list)
-        self.drivers = driver_list
 
         # subscribe to the events we want
         # polyglot.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
@@ -43,11 +42,8 @@ class HumidityNode(udi_interface.Node):
         super(HumidityNode, self).setDriver(driver, round(value, 1))
 
     def define_drivers(self, drivers):
-        self.humidity_list['main'] = 'I_HUMIDITY'
-        self.humidity_list['max'] = 'I_HUMIDITY'
-        self.humidity_list['min'] = 'I_HUMIDITY'
 
-        LOGGER.debug(f'HumidityNode humidity list: {self.humidity_list}, drivers: {drivers}')
+        LOGGER.debug(f'HumidityNode drivers: {drivers}')
 
         driver_list = []
 
@@ -57,8 +53,8 @@ class HumidityNode(udi_interface.Node):
                 {
                     'driver': uom.HUMD_DRVS[d],
                     'value': 0,
-                    'uom': uom.UOM[self.humidity_list[d]]
-                    # 'uom': uom.UOM[self.drivers[d]]
+                    # 'uom': uom.UOM[self.humidity_list[d]]
+                    'uom': uom.UOM[self.drivers[d]]
                 })
         self.drivers = driver_list
         LOGGER.debug('Defining Humidity drivers = {}'.format(self.drivers))
