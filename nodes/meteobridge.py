@@ -159,7 +159,7 @@ class Controller(udi_interface.Node):
 
             # Humidity values
             node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.driver_list)
-            LOGGER.debug('Updating Humidity Drivers')
+            LOGGER.debug(f'Updating Humidity Drivers {self.driver_list}')
             hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['main'], float(data[5]), )
             hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['max'], float(data[6]), )
             hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['min'], float(data[7]), )
