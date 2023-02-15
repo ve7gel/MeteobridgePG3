@@ -140,6 +140,7 @@ class Controller(udi_interface.Node):
         try:
             # Temperature values
             node = tn.TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.units)
+            LOGGER.debug('Updating Temps Drivers')
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], float(data[0]), )
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmax'], float(data[1]), )
             tn.TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmin'], float(data[2]), )
@@ -148,6 +149,7 @@ class Controller(udi_interface.Node):
 
             # Precipitation values
             node = rn.PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.units)
+            LOGGER.debug('Updating Precip Drivers')
             rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['rate'], float(data[18]), )
             rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['daily'], float(data[19]), )
             rn.PrecipNode.set_Driver(node, uom.RAIN_DRVS['24hour'], float(data[20]), )
@@ -157,13 +159,14 @@ class Controller(udi_interface.Node):
 
             # Humidity values
             node = hn.HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.driver_list)
+            LOGGER.debug('Updating Humidity Drivers')
             hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['main'], float(data[5]), )
             hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['max'], float(data[6]), )
             hn.HumidityNode.set_Driver(node, uom.HUMD_DRVS['min'], float(data[7]), )
 
             # Wind values
             node = wn.WindNode(self.poly, self.address, 'winds', 'Wind', self.units)
-
+            LOGGER.debug('Updating Wind Drivers')
             try:  # Meteobridge seems to sometimes return a nul string for wind0dir-act=endir
                 # so we substitute the last good reading
                 # self.wind_dir_cardinal = self.wind_card_dict[data[17]]
@@ -188,6 +191,7 @@ class Controller(udi_interface.Node):
 
             # Light values
             node = ln.LightNode(self.poly, self.address, 'solar', 'Illumination', self.units)
+            LOGGER.debug('Updating Light Drivers')
             try:
                 uv = float(data[12])
                 uvpresent = True
@@ -223,6 +227,7 @@ class Controller(udi_interface.Node):
 
             # Barometric pressure values
             node = pn.PressureNode(self.poly, self.address, 'press', 'Barometric Pressure', self.units)
+            LOGGER.debug('Updating Bar Press Drivers')
             pn.PressureNode.set_Driver(node, uom.PRES_DRVS['station'], float(data[8]), )
             pn.PressureNode.set_Driver(node, uom.PRES_DRVS['sealevel'], float(data[9]), )
             pn.PressureNode.set_Driver(node, uom.PRES_DRVS['trend'], float(
