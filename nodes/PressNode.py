@@ -5,12 +5,13 @@ Copyright (C) 2021 Gordon Larsen
 """
 import udi_interface
 import uom
+from nodes import Controller
 
 LOGGER = udi_interface.LOGGER
 Custom = udi_interface.Custom
 
 
-class PressureNode(udi_interface.Node):
+class PressureNode(Controller):
     id = 'pressure'
     units = 'metric'
     drivers = []
