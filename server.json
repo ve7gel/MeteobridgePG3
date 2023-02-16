@@ -2,7 +2,7 @@
     "name": "MeteoBridge",
     "docs": "https://github.com/VE7GEL/MeteobridgePG3/blob/main/README.md",
     "type": "python3",
-    "executable": "mbcontrol.py",
+    "executable": "mb-poly.py",
     "install": "install.sh",
     "description": "PG3 Node Server using Meteobridge Templates",
     "notice": "",

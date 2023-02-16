@@ -4,4 +4,4 @@ from .TemperatureNode import TemperatureNode
 from .LightNode import LightNode
 from .PrecipNode import PrecipNode
 from .PressNode import PressureNode
-from .meteobridge import Controller
+from .Controller import Controller

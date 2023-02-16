@@ -1,7 +1,7 @@
 # !/usr/bin/env python3
 """
 NodeServer to extract weather data from a Meteobridge Weather device.  Designed around a DAVIS VP2+ weather station. May work
-others, not tested.  At the moment, only DAVIS stations provide ET0 readings.
+for others, not tested.  At the moment, only DAVIS stations provide ET0 readings.
 
 Based on MeteoBridge nodeserver (meteobridgepoly) authored by Bob Paauwe
 Customized to use template queries from MeteoBridge by Gordon Larsen
