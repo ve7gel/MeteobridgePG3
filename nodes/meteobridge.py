@@ -126,6 +126,12 @@ class Controller(udi_interface.Node):
             while not self.configured:
                 LOGGER.info("Node server not configured yet")
                 return
+            # Code for testing new polling structure
+            for node_address in self.poly.getNodes():
+                node = self.poly.getNode(node_address)
+                if node.address != 'controller':
+                    LOGGER.debug(f'Polling, node={node}, node.address={node.address} node.name={node.name}')
+            ###
 
             data, result = self.stationdata(self.ip, self.username, self.password)
             LOGGER.debug(f'return from getstationdata {data} result code {result}')
