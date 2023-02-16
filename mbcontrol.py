@@ -1,20 +1,20 @@
 # !/usr/bin/env python3
 import sys
-import udi_interface
-from nodes import meteobridge
+from udi_interface import Interface
+from nodes import Controller
 version = '3.0.6'
 
 if __name__ == "__main__":
     try:
         # Create an instance of the Polyglot interface. We need to
         # pass in array of node classes (or an empty array).
-        polyglot = udi_interface.Interface([])
+        polyglot = Interface([Controller])
 
         # Initialize the interface
         polyglot.start(version)
 
         # Start the node server (I.E. create the controller node)
-        control = meteobridge.Controller(polyglot, 'controller',  'controller', 'Meteobridge')
+        control = Controller(polyglot, 'controller',  'controller', 'Meteobridge')
 
         # Enter main event loop waiting for messages from Polyglot
         polyglot.runForever()
