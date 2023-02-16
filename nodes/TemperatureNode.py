@@ -6,12 +6,14 @@ Copyright (C) 2021 Gordon Larsen
 import udi_interface
 import sys
 import uom
+from meteobridge import Controller
 
 LOGGER = udi_interface.LOGGER
 Custom = udi_interface.Custom
 
 
-class TemperatureNode(udi_interface.Node):
+# class TemperatureNode(udi_interface.Node):
+class TemperatureNode(Controller):
     id = 'temperature'
     units = 'metric'
     drivers = []
