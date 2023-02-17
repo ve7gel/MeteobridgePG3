@@ -145,7 +145,7 @@ class Controller(udi_interface.Node):
     def set_drivers(self, data):
         try:
             # Temperature values
-            node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.units)
+            node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
             LOGGER.debug('Updating Temps Drivers')
             TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], float(data[0]), )
             TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmax'], float(data[1]), )
