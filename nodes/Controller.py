@@ -17,11 +17,11 @@ import uom
 import requests
 
 from nodes import TemperatureNode
-from nodes import HumidityNode
-from nodes import PressureNode
-from nodes import WindNode
-from nodes import PrecipNode
-from nodes import LightNode
+# from nodes import HumidityNode
+# from nodes import PressureNode
+# from nodes import WindNode
+# from nodes import PrecipNode
+# from nodes import LightNode
 
 from constants import *
 
@@ -152,7 +152,7 @@ class Controller(udi_interface.Node):
             TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmin'], float(data[2]), )
             TemperatureNode.set_Driver(node, uom.TEMP_DRVS['dewpoint'], float(data[3]), )
             TemperatureNode.set_Driver(node, uom.TEMP_DRVS['windchill'], float(data[4]), )
-
+            """
             # Precipitation values
             node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.units)
             LOGGER.debug('Updating Precip Drivers')
@@ -238,7 +238,7 @@ class Controller(udi_interface.Node):
             PressureNode.set_Driver(node, uom.PRES_DRVS['sealevel'], float(data[9]), )
             PressureNode.set_Driver(node, uom.PRES_DRVS['trend'], float(
                 data[10]) + 1, )  # Meteobridge reports -1, 0, +1 for trends,converted for ISY
-
+            """
             # Update controller drivers now
 
             self.setDriver('GV3', data[30])  # Last good data
@@ -258,7 +258,7 @@ class Controller(udi_interface.Node):
         node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.units)
         self.poly.addNode(node)
         self.wait_for_node_done()
-
+        """
         # Humiditys Node
         LOGGER.debug(f'Humidity Node list: {self.humidity_list}')
         node = HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.humidity_list)
@@ -285,7 +285,7 @@ class Controller(udi_interface.Node):
         self.poly.addNode(node)
 
         self.wait_for_node_done()
-
+        """
         self.discovery_done = True
         LOGGER.debug("Finished discovery, node setup complete")
 
