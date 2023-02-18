@@ -10,7 +10,7 @@ Copyright 2021 Robert Paauwe and Gordon Larsen, MIT License
 """
 import time
 
-import udi_interface
+from udi_interface import Node, Custom, LOGGER
 
 import write_profile
 import uom
@@ -25,8 +25,6 @@ from nodes import TemperatureNode
 
 from constants import *
 
-LOGGER = udi_interface.LOGGER
-Custom = udi_interface.Custom
 
 """
 polyinterface has a LOGGER that is created by default and logs to:
@@ -35,7 +33,7 @@ You can use LOGGER.info, LOGGER.warning, LOGGER.debug, LOGGER.error levels as ne
 """
 
 
-class Controller(udi_interface.Node):
+class Controller(Node):
     id = 'meteobridge'
     drivers = [
         {'driver': 'ST', 'value': 1, 'uom': 2},

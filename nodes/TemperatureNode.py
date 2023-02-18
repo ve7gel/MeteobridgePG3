@@ -3,17 +3,13 @@
 Polyglot v3 node server for Meteobridge
 Copyright (C) 2021 Gordon Larsen
 """
-import udi_interface
+from udi_interface import LOGGER, Node, Custom
 import sys
 import uom
-from nodes import Controller
-
-LOGGER = udi_interface.LOGGER
-Custom = udi_interface.Custom
 
 
 # class TemperatureNode(udi_interface.Node):
-class TemperatureNode(Controller):
+class TemperatureNode(Node):
     id = 'temperature'
     units = 'metric'
     drivers = []
