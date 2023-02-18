@@ -19,7 +19,7 @@ class HumidityNode(Node):
         self.poly = polyglot
         self.count = 0
         self.humidity_list = {}
-        self.define_drivers(driver_list)
+        # self.define_drivers(driver_list)
 
     def set_Driver(self, driver, value, **kwargs):
         self.setDriver(driver, round(value, 1))
