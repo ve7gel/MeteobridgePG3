@@ -21,7 +21,7 @@ class TemperatureNode(Controller):
     hint = [1, 0x0b, 1, 0]
 
     def __init__(self, polyglot, parent, address, name):
-        super(TemperatureNode, self).__init__(polyglot, parent, address, name)
+        super().__init__(polyglot, parent, address, name)
 
         self.poly = polyglot
         self.count = 0
