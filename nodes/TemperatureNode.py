@@ -28,8 +28,8 @@ class TemperatureNode(Node):
         self.define_drivers()
 
         # subscribe to the events we want
-        self.poly.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
-        self.poly.subscribe(self.poly.START, self.start, address)
+        # self.poly.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
+        # self.poly.subscribe(self.poly.START, self.start, address)
 
     def parameterHandler(self, params):
         self.Parameters.load(params)
