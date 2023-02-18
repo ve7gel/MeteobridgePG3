@@ -15,12 +15,12 @@ class TemperatureNode(Node):
 
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name, units=None):
+    def __init__(self, polyglot, parent, address, name, temp_list=None, units=None):
         super().__init__(polyglot, parent, address, name)
 
         self.poly = polyglot
         self.count = 0
-        self.temperature_list = {}
+        self.temperature_list = temp_list
         self.units = units
         self.define_drivers()
 

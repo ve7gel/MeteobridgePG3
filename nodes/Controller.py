@@ -17,7 +17,7 @@ import uom
 import requests
 
 from nodes import TemperatureNode
-# from nodes import HumidityNode
+from nodes import HumidityNode
 # from nodes import PressureNode
 # from nodes import WindNode
 # from nodes import PrecipNode
@@ -143,7 +143,7 @@ class Controller(Node):
     def set_drivers(self, data):
         try:
             # Temperature values
-            node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
+            node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.temperature_list, self.units)
             LOGGER.debug('Updating Temps Drivers')
             TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], float(data[0]))
             TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmax'], float(data[1]), )
@@ -160,14 +160,14 @@ class Controller(Node):
             PrecipNode.set_Driver(node, uom.RAIN_DRVS['yesterday'], float(data[21]), )
             PrecipNode.set_Driver(node, uom.RAIN_DRVS['monthly'], float(data[22]), )
             PrecipNode.set_Driver(node, uom.RAIN_DRVS['yearly'], float(data[23]), )
-
+            """
             # Humidity values
             node = HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.humidity_list)
             LOGGER.debug(f'Updating Humidity Drivers {self.humidity_list}')
             HumidityNode.set_Driver(node, uom.HUMD_DRVS['main'], float(data[5]), )
             HumidityNode.set_Driver(node, uom.HUMD_DRVS['max'], float(data[6]), )
             HumidityNode.set_Driver(node, uom.HUMD_DRVS['min'], float(data[7]), )
-
+            """
             # Wind values
             node = WindNode(self.poly, self.address, 'winds', 'Wind', self.units)
             LOGGER.debug('Updating Wind Drivers')
@@ -253,16 +253,16 @@ class Controller(Node):
     def discover(self, *args, **kwargs):
         LOGGER.info("Creating nodes.")
         # Temperatures Node
-        node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.units)
+        node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.temperature_list, self.units)
         self.poly.addNode(node)
         self.wait_for_node_done()
-        """
+
         # Humiditys Node
         LOGGER.debug(f'Humidity Node list: {self.humidity_list}')
         node = HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.humidity_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
-
+        """
         # Barometric Pressures Node
         node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure', self.units)
         self.poly.addNode(node)
