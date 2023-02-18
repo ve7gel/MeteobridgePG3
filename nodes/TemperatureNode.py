@@ -15,14 +15,14 @@ class TemperatureNode(Node):
 
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name, temp_list=None, units=None):
+    def __init__(self, polyglot, parent, address, name, drivers, units=None):
         super().__init__(polyglot, parent, address, name)
 
         self.poly = polyglot
         self.count = 0
-        self.temperature_list = temp_list
+
         self.units = units
-        self.define_drivers()
+        self.define_drivers(drivers)
 
     def set_Driver(self, driver, value, units=None):
         if self.units == "us":
@@ -30,21 +30,16 @@ class TemperatureNode(Node):
 
         self.setDriver(driver, round(value, 1))
 
-    def define_drivers(self):
-        self.temperature_list['main'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
-        self.temperature_list['dewpoint'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
-        self.temperature_list['windchill'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
-        self.temperature_list['tempmax'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
-        self.temperature_list['tempmin'] = 'I_TEMP_F' if self.units == 'us' else 'I_TEMP_C'
+    def define_drivers(self, drivers):
 
         driver_list = []
 
-        for d in self.temperature_list:
+        for d in drivers:
             driver_list.append(
                 {
                     'driver': uom.TEMP_DRVS[d],
                     'value': 0,
-                    'uom': uom.UOM[self.temperature_list[d]]
+                    'uom': uom.UOM[drivers[d]]
                 })
         self.drivers = driver_list
         LOGGER.debug('Defining temperature drivers = {}'.format(self.drivers))
