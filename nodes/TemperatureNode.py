@@ -24,7 +24,7 @@ class TemperatureNode(Node):
         self.temperature_list = {}
         #self.units = units
 
-        self.Parameters = Custom(polyglot, 'customparams')
+        # self.Parameters = Custom(polyglot, 'customparams')
         self.define_drivers()
 
         # subscribe to the events we want
@@ -41,8 +41,8 @@ class TemperatureNode(Node):
         # self.drivers = self.node_drivers.load(driverdata)
         LOGGER.debug("Drivers are: {}".format(self.drivers))
 
-    def set_Driver(self, driver, value, **kwargs):
-        if self.units == "us":
+    def set_Driver(self, driver, value, units="metric"):
+        if units == "us":
             value = (value * 1.8) + 32  # convert to F
 
         # super(TemperatureNode, self).setDriver(driver, round(value, 1))
