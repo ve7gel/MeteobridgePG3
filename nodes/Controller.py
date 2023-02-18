@@ -164,9 +164,9 @@ class Controller(Node):
             # Humidity values
             node = HumidityNode(self.poly, self.address, 'humid', 'Humidity')
             LOGGER.debug(f'Updating Humidity Drivers {self.humidity_list}')
-            HumidityNode.set_Driver(node, uom.HUMD_DRVS['main'], float(data[5]), )
-            HumidityNode.set_Driver(node, uom.HUMD_DRVS['max'], float(data[6]), )
-            HumidityNode.set_Driver(node, uom.HUMD_DRVS['min'], float(data[7]), )
+            node.set_Driver(uom.HUMD_DRVS['main'], float(data[5]), )
+            node.set_Driver(uom.HUMD_DRVS['max'], float(data[6]), )
+            node.set_Driver(uom.HUMD_DRVS['min'], float(data[7]), )
             """
             # Wind values
             node = WindNode(self.poly, self.address, 'winds', 'Wind', self.units)
