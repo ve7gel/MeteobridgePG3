@@ -260,7 +260,7 @@ class Controller(Node):
         # Humiditys Node
         LOGGER.debug(f'Humidity Node list: {self.humidity_list}')
         node = HumidityNode(self.poly, self.address, 'humid', 'Humidity')
-        node.define_drivers(self.humidity_list)
+        # node.define_drivers(self.humidity_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
         """

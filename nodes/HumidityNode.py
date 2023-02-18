@@ -31,7 +31,6 @@ class HumidityNode(Node):
                 {
                     'driver': uom.HUMD_DRVS[d],
                     'value': 0,
-                    # 'uom': uom.UOM[self.humidity_list[d]]
                     'uom': uom.UOM[drivers[d]]
                 })
         self.drivers = driver_list
