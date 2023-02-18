@@ -11,41 +11,23 @@ import uom
 # class TemperatureNode(udi_interface.Node):
 class TemperatureNode(Node):
     id = 'temperature'
-    units = 'metric'
     drivers = []
 
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name):
+    def __init__(self, polyglot, parent, address, name, units=None):
         super().__init__(polyglot, parent, address, name)
 
         self.poly = polyglot
         self.count = 0
         self.temperature_list = {}
-        #self.units = units
-
-        # self.Parameters = Custom(polyglot, 'customparams')
+        self.units = units
         self.define_drivers()
 
-        # subscribe to the events we want
-        # self.poly.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
-        # self.poly.subscribe(self.poly.START, self.start, address)
-
-    def parameterHandler(self, params):
-        self.Parameters.load(params)
-        self.units = self.Parameters['Units']
-        LOGGER.debug(f'Temperature units set to {self.units}')
-
-    def start(self):
-        # self.discover()
-        # self.drivers = self.node_drivers.load(driverdata)
-        LOGGER.debug("Drivers are: {}".format(self.drivers))
-
-    def set_Driver(self, driver, value, units="metric"):
-        if units == "us":
+    def set_Driver(self, driver, value, units=None):
+        if self.units == "us":
             value = (value * 1.8) + 32  # convert to F
 
-        # super(TemperatureNode, self).setDriver(driver, round(value, 1))
         self.setDriver(driver, round(value, 1))
 
     def define_drivers(self):

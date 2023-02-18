@@ -145,7 +145,7 @@ class Controller(Node):
             # Temperature values
             node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
             LOGGER.debug('Updating Temps Drivers')
-            TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], float(data[0]), self.units)
+            TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], float(data[0]))
             TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmax'], float(data[1]), )
             TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmin'], float(data[2]), )
             TemperatureNode.set_Driver(node, uom.TEMP_DRVS['dewpoint'], float(data[3]), )
@@ -253,7 +253,7 @@ class Controller(Node):
     def discover(self, *args, **kwargs):
         LOGGER.info("Creating nodes.")
         # Temperatures Node
-        node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
+        node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.units)
         self.poly.addNode(node)
         self.wait_for_node_done()
         """
