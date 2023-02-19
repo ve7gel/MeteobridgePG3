@@ -162,7 +162,7 @@ class Controller(Node):
             PrecipNode.set_Driver(node, uom.RAIN_DRVS['yearly'], float(data[23]), )
             """
             # Humidity values
-            node = HumidityNode(self.poly, self.address, 'humid', 'Humidity')
+            node = HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.humidity_list)
             LOGGER.debug(f'Checking Humidity Node Drivers: {node.drivers}')
             LOGGER.debug(f'Updating Humidity Drivers {self.humidity_list}')
             node.set_Driver(uom.HUMD_DRVS['main'], float(data[5]), )
