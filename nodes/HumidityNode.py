@@ -13,10 +13,10 @@ class HumidityNode(Node):
     drivers = []
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name):
+    def __init__(self, polyglot, parent, address, name, humidity_list=None):
         super().__init__(polyglot, parent, address, name)
 
-        self.poly = polyglot
+        self.define_drivers(humidity_list)
 
     def set_Driver(self, driver, value, **kwargs):
         self.setDriver(driver, round(value, 1))
