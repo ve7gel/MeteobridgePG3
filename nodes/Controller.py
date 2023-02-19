@@ -163,7 +163,7 @@ class Controller(Node):
             """
             # Humidity values
             node = HumidityNode(self.poly, self.address, 'humid', 'Humidity')
-            LOGGER.debug(f'Checking Humidity Node Drivers: {node.drivers()}')
+            LOGGER.debug(f'Checking Humidity Node Drivers: {node.drivers}')
             LOGGER.debug(f'Updating Humidity Drivers {self.humidity_list}')
             node.set_Driver(uom.HUMD_DRVS['main'], float(data[5]), )
             node.set_Driver(uom.HUMD_DRVS['max'], float(data[6]), )
