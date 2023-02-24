@@ -259,7 +259,7 @@ class Controller(Node):
         self.wait_for_node_done()
 
         # Precipitation node
-        node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.units)
+        node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.rain_list, self.units)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
