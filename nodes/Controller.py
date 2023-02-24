@@ -265,12 +265,12 @@ class Controller(Node):
         self.wait_for_node_done()
 
         # Humiditys Node
-        LOGGER.debug(f'Humidity Node list: {self.humidity_list}')
         node = HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.humidity_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
         # Winds Node
+        LOGGER.debug(f'Wind Node list: {self.wind_list}')
         node = WindNode(self.poly, self.address, 'winds', 'Wind', self.wind_list)
         self.poly.addNode(node)
         self.wait_for_node_done()

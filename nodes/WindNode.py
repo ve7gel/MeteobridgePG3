@@ -38,7 +38,7 @@ class WindNode(Node):
         self.setDriver(driver, value)
 
     def define_drivers(self, drivers):
-
+        LOGGER.debug(f'WindNode drivers: {drivers}')
         driver_list = []
 
         for d in drivers:
