@@ -20,7 +20,7 @@ from nodes import TemperatureNode
 from nodes import HumidityNode
 # from nodes import PressureNode
 # from nodes import WindNode
-# from nodes import PrecipNode
+from nodes import PrecipNode
 # from nodes import LightNode
 
 from constants import *
@@ -145,22 +145,21 @@ class Controller(Node):
             # Temperature values
             node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.temperature_list, self.units)
             LOGGER.debug('Updating Temps Drivers')
-            TemperatureNode.set_Driver(node, uom.TEMP_DRVS['main'], float(data[0]))
-            TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmax'], float(data[1]), )
-            TemperatureNode.set_Driver(node, uom.TEMP_DRVS['tempmin'], float(data[2]), )
-            TemperatureNode.set_Driver(node, uom.TEMP_DRVS['dewpoint'], float(data[3]), )
-            TemperatureNode.set_Driver(node, uom.TEMP_DRVS['windchill'], float(data[4]), )
-            """
+            d = node.drivers
+            x = 0
+            for n in range(len(d)):
+                node.set_Driver(d[n]['driver'], float(data[x]), )
+                x += 1
+
             # Precipitation values
-            node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.units)
+            node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.rain_list, self.units)
             LOGGER.debug('Updating Precip Drivers')
-            PrecipNode.set_Driver(node, uom.RAIN_DRVS['rate'], float(data[18]), )
-            PrecipNode.set_Driver(node, uom.RAIN_DRVS['daily'], float(data[19]), )
-            PrecipNode.set_Driver(node, uom.RAIN_DRVS['24hour'], float(data[20]), )
-            PrecipNode.set_Driver(node, uom.RAIN_DRVS['yesterday'], float(data[21]), )
-            PrecipNode.set_Driver(node, uom.RAIN_DRVS['monthly'], float(data[22]), )
-            PrecipNode.set_Driver(node, uom.RAIN_DRVS['yearly'], float(data[23]), )
-            """
+            d = node.drivers
+            x = 0
+            for n in range(len(d)):
+                node.set_Driver(d[n]['driver'], float(data[18 + x]), )
+                x += 1
+
             # Humidity values
             node = HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.humidity_list)
             LOGGER.debug(f'Updating Humidity Drivers {node.drivers}')
@@ -168,8 +167,6 @@ class Controller(Node):
             x = 0
             for n in range(len(d)):
                 node.set_Driver(d[n]['driver'], float(data[5 + x]), )
-                # node.set_Driver(d[n]['driver'], float(data[6]), )
-                # node.set_Driver(d[n]['driver'], float(data[7]), )
                 x += 1
             """
             # Wind values
@@ -261,11 +258,17 @@ class Controller(Node):
         self.poly.addNode(node)
         self.wait_for_node_done()
 
+        # Precipitation node
+        node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.units)
+        self.poly.addNode(node)
+        self.wait_for_node_done()
+
         # Humiditys Node
         LOGGER.debug(f'Humidity Node list: {self.humidity_list}')
         node = HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.humidity_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
+
         """
         # Barometric Pressures Node
         node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure', self.units)
@@ -276,12 +279,9 @@ class Controller(Node):
         node = WindNode(self.poly, self.address, 'winds', 'Wind', self.units)
         self.poly.addNode(node)
         self.wait_for_node_done()
+        """
 
-        # Precipitation node
-        node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.units)
-        self.poly.addNode(node)
-        self.wait_for_node_done()
-
+        """
         # Illumination node
         node = LightNode(self.poly, self.address, 'solar', 'Illumination', self.units)
         self.poly.addNode(node)

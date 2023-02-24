@@ -3,27 +3,22 @@
 Polyglot v3 node server for Meteobridge
 Copyright (C) 2021 Gordon Larsen
 """
-import udi_interface
+from udi_interface import LOGGER, Node
 import uom
 
-LOGGER = udi_interface.LOGGER
-Custom = udi_interface.Custom
 
-
-class PrecipNode(udi_interface.Node):
+class PrecipNode(Node):
     id = 'precipitation'
     drivers = []
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name, units):
-        super(PrecipNode, self).__init__(polyglot, parent, address, name)
+    def __init__(self, polyglot, parent, address, name, rain_list, units):
+        super().__init__(polyglot, parent, address, name)
 
         self.poly = polyglot
-        self.count = 0
-        self.rain_list = {}
         self.units = units
         # self.Parameters = Custom(polyglot, 'customparams')
-        self.define_drivers()
+        self.define_drivers(rain_list)
 
         # subscribe to the events we want
         # polyglot.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
@@ -46,24 +41,18 @@ class PrecipNode(udi_interface.Node):
 
         LOGGER.debug(f'Units is set to {self.units}, value {value}')
 
-        super(PrecipNode, self).setDriver(driver, value)
+        self.setDriver(driver, value)
 
-    def define_drivers(self):
-        self.rain_list['rate'] = 'I_MMHR' if self.units == 'metric' else 'I_INHR'
-        self.rain_list['daily'] = 'I_MM' if self.units == 'metric' else 'I_INCHES'
-        self.rain_list['24hour'] = 'I_MM' if self.units == 'metric' else 'I_INCHES'
-        self.rain_list['yesterday'] = 'I_MM' if self.units == 'metric' else 'I_INCHES'
-        self.rain_list['monthly'] = 'I_MM' if self.units == 'metric' else 'I_INCHES'
-        self.rain_list['yearly'] = 'I_MM' if self.units == 'metric' else 'I_INCHES'
+    def define_drivers(self, drivers):
 
         driver_list = []
 
-        for d in self.rain_list:
+        for d in drivers:
             driver_list.append(
                 {
                     'driver': uom.RAIN_DRVS[d],
                     'value': 0,
-                    'uom': uom.UOM[self.rain_list[d]]
+                    'uom': uom.UOM[drivers[d]]
                 })
         self.drivers = driver_list
         LOGGER.debug('Defining rain drivers = {}'.format(self.drivers))
