@@ -19,7 +19,7 @@ import requests
 from nodes import TemperatureNode
 from nodes import HumidityNode
 # from nodes import PressureNode
-# from nodes import WindNode
+from nodes import WindNode
 from nodes import PrecipNode
 # from nodes import LightNode
 
@@ -168,7 +168,7 @@ class Controller(Node):
             for n in range(len(d)):
                 node.set_Driver(d[n]['driver'], float(data[5 + x]), )
                 x += 1
-            """
+
             # Wind values
             node = WindNode(self.poly, self.address, 'winds', 'Wind', self.units)
             LOGGER.debug('Updating Wind Drivers')
@@ -194,6 +194,7 @@ class Controller(Node):
             WindNode.set_Driver(node, uom.WIND_DRVS['gustspeed1'], float(data[15]), )
             WindNode.set_Driver(node, uom.WIND_DRVS['winddircard'], wind_dir_cardinal, )
 
+            """
             # Light values
             node = LightNode(self.poly, self.address, 'solar', 'Illumination', self.units)
             LOGGER.debug('Updating Light Drivers')
@@ -254,12 +255,12 @@ class Controller(Node):
     def discover(self, *args, **kwargs):
         LOGGER.info("Creating nodes.")
         # Temperatures Node
-        node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.temperature_list, self.units)
+        node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.temperature_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
         # Precipitation node
-        node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.rain_list, self.units)
+        node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.rain_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
@@ -269,19 +270,18 @@ class Controller(Node):
         self.poly.addNode(node)
         self.wait_for_node_done()
 
+        # Winds Node
+        node = WindNode(self.poly, self.address, 'winds', 'Wind', self.wind_list)
+        self.poly.addNode(node)
+        self.wait_for_node_done()
+
         """
         # Barometric Pressures Node
         node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure', self.units)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
-        # Winds Node
-        node = WindNode(self.poly, self.address, 'winds', 'Wind', self.units)
-        self.poly.addNode(node)
-        self.wait_for_node_done()
-        """
 
-        """
         # Illumination node
         node = LightNode(self.poly, self.address, 'solar', 'Illumination', self.units)
         self.poly.addNode(node)

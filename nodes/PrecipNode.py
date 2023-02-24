@@ -12,27 +12,14 @@ class PrecipNode(Node):
     drivers = []
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name, rain_list, units):
+    def __init__(self, polyglot, parent, address, name, rain_list, units=None):
         super().__init__(polyglot, parent, address, name)
 
         self.poly = polyglot
         self.units = units
-        # self.Parameters = Custom(polyglot, 'customparams')
         self.define_drivers(rain_list)
 
-        # subscribe to the events we want
-        # polyglot.subscribe(polyglot.CUSTOMPARAMS, self.parameterHandler)
-
-    #        polyglot.subscribe(polyglot.POLL, self.poll)
-
-    '''
-    def parameterHandler(self, params):
-        self.Parameters.load(params)
-        self.units = self.Parameters['Units']
-        LOGGER.debug(f'self.units in PrecipNode = {self.units}')
-    '''
-
-    def set_Driver(self, driver, value, **kwargs):
+    def set_Driver(self, driver, value, units=None):
 
         if self.units == 'us':
             value = round(value * 0.03937, 2)
