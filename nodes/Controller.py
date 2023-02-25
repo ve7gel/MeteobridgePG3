@@ -25,7 +25,6 @@ from nodes import PrecipNode
 
 from constants import *
 
-
 """
 polyinterface has a LOGGER that is created by default and logs to:
 logs/debug.log
@@ -148,7 +147,7 @@ class Controller(Node):
             d = node.drivers
             x = 0
             for n in range(len(d)):
-                node.set_Driver(d[n]['driver'], float(data[x]), )
+                node.set_Driver(d[n]['driver'], float(data[x]), self.units)
                 x += 1
 
             # Precipitation values
