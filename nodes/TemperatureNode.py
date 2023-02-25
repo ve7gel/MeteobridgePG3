@@ -18,13 +18,14 @@ class TemperatureNode(Node):
     def __init__(self, polyglot, parent, address, name):
         super().__init__(polyglot, parent, address, name)
 
+        self.units = None
         self.poly = polyglot
         self.count = 0
 
-        self.units = units
         # self.define_drivers(temp_list)
 
     def set_Driver(self, driver, value, units=None):
+        self.units = units
         if self.units == "us":
             value = (value * 1.8) + 32  # convert to F
 
