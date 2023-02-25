@@ -42,5 +42,3 @@ class PrecipNode(Node):
                     'uom': uom.UOM[drivers[d]]
                 })
         self.drivers = driver_list
-        LOGGER.debug('Defining rain drivers = {}'.format(self.drivers))
-        # self.wait_for_node_done()

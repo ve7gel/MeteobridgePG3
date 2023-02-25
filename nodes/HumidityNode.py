@@ -22,7 +22,6 @@ class HumidityNode(Node):
         self.setDriver(driver, round(value, 1))
 
     def define_drivers(self, drivers):
-        LOGGER.debug(f'HumidityNode drivers: {drivers}')
 
         driver_list = []
 
@@ -34,4 +33,3 @@ class HumidityNode(Node):
                     'uom': uom.UOM[drivers[d]]
                 })
         self.drivers = driver_list
-        LOGGER.debug('Defining Humidity drivers = {}'.format(self.drivers))

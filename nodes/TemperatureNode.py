@@ -15,14 +15,14 @@ class TemperatureNode(Node):
 
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name, drivers, units=None):
+    def __init__(self, polyglot, parent, address, name, temp_list, units=None):
         super().__init__(polyglot, parent, address, name)
 
         self.poly = polyglot
         self.count = 0
 
         self.units = units
-        self.define_drivers(drivers)
+        self.define_drivers(temp_list)
 
     def set_Driver(self, driver, value, units=None):
         if self.units == "us":
@@ -42,5 +42,3 @@ class TemperatureNode(Node):
                     'uom': uom.UOM[drivers[d]]
                 })
         self.drivers = driver_list
-        LOGGER.debug('Defining temperature drivers = {}'.format(self.drivers))
-        # self.wait_for_node_done()
