@@ -257,7 +257,8 @@ class Controller(Node):
     def discover(self, *args, **kwargs):
         LOGGER.info("Creating nodes.")
         # Temperatures Node
-        node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', temp_list=self.temperature_list)
+        node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', temp_list=self.temperature_list, units=self.units)
+        node.define_drivers(self, self.temperature_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
 

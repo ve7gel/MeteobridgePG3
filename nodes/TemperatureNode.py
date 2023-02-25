@@ -22,7 +22,7 @@ class TemperatureNode(Node):
         self.count = 0
 
         self.units = units
-        self.define_drivers(temp_list)
+        # self.define_drivers(temp_list)
 
     def set_Driver(self, driver, value, units=None):
         if self.units == "us":
