@@ -143,7 +143,7 @@ class Controller(Node):
     def set_drivers(self, data):
         try:
             # Temperature values
-            node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.temperature_list, self.units)
+            node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', units=self.units)
             LOGGER.debug('Updating Temps Drivers')
             d = node.drivers
             x = 0
@@ -194,7 +194,7 @@ class Controller(Node):
             node.set_Driver(d[2]['driver'], float(data[15]), self.units)
             node.set_Driver(d[3]['driver'], float(data[14]), self.units)
             node.set_Driver(d[4]['driver'], float(data[15]), self.units)
-            node.set_Driver(d[5]['driver'], wind_dir_cardinal, )
+            node.set_Driver(d[3]['driver'], wind_dir_cardinal, )
 
             """
             # Light values
@@ -257,7 +257,7 @@ class Controller(Node):
     def discover(self, *args, **kwargs):
         LOGGER.info("Creating nodes.")
         # Temperatures Node
-        node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', self.temperature_list)
+        node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', temp_list=self.temperature_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
@@ -273,7 +273,7 @@ class Controller(Node):
 
         # Winds Node
         LOGGER.debug(f'Wind Node list: {self.wind_list}')
-        node = WindNode(self.poly, self.address, 'winds', 'Wind', self.wind_list)
+        node = WindNode(self.poly, self.address, 'winds', 'Wind', wind_list=self.wind_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
 

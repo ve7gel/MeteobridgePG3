@@ -13,7 +13,7 @@ class WindNode(Node):
     drivers = []
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name, wind_list, units=None):
+    def __init__(self, polyglot, parent, address, name, wind_list=None, units=None):
         super(WindNode, self).__init__(polyglot, parent, address, name)
 
         self.poly = polyglot
