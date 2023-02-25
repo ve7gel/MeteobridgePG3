@@ -143,8 +143,9 @@ class Controller(Node):
         try:
             # Temperature values
             node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
-            LOGGER.debug('Updating Temps Drivers')
             d = node.drivers
+            LOGGER.debug(f'Updating Temps Drivers {d}')
+
             x = 0
             for n in range(len(d)):
                 node.set_Driver(d[n]['driver'], float(data[x]), self.units)
