@@ -189,11 +189,11 @@ class Controller(Node):
 
             d = node.drivers
 
-            node.set_Driver(d[0]['driver'], float(data[14]), )
-            node.set_Driver(d[1]['driver'], data[16],)
-            node.set_Driver(d[2]['driver'], float(data[15]), )
-            node.set_Driver(d[3]['driver'], float(data[14]), )
-            node.set_Driver(d[4]['driver'], float(data[15]), )
+            node.set_Driver(d[0]['driver'], float(data[14]), self.units)
+            node.set_Driver(d[1]['driver'], data[16], self.units)
+            node.set_Driver(d[2]['driver'], float(data[15]), self.units)
+            node.set_Driver(d[3]['driver'], float(data[14]), self.units)
+            node.set_Driver(d[4]['driver'], float(data[15]), self.units)
             node.set_Driver(d[5]['driver'], wind_dir_cardinal, )
 
             """

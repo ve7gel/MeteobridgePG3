@@ -23,17 +23,17 @@ class WindNode(Node):
         self.define_drivers(wind_list)
 
     def set_Driver(self, driver, value, units=None):
-        LOGGER.debug("WindNode.set_Driver driver {} value {}, type {}".format(driver, value, type(value)))
+        LOGGER.debug(f'WindNode.set_Driver driver {driver} value {value}, type {type(value)}')
         if driver == 'GV3' or driver == 'GV4':
             # Metric value is meters/sec (not KPH)
-            if self.units != 'metric':
+            if units != 'metric':
                 value = round(value * 2.23694, 2)
         if driver == 'ST' or driver == '0':
             # Alternate metric value is KPH)
-            if self.units == 'metric':
+            if units == 'metric':
                 value = round(value * 3.6, 1)
 
-        LOGGER.debug(f'Wind units is set to {self.units}, value {value}')
+        LOGGER.debug(f'Wind units is set to {units}, value {value}')
 
         self.setDriver(driver, value)
 
