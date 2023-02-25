@@ -25,6 +25,8 @@ class TemperatureNode(Node):
         # self.define_drivers(temp_list)
 
     def set_Driver(self, driver, value, units=None):
+        LOGGER.debug(f'TemperatureNode.set_Driver driver {driver} value {value}, type {type(value)}, units {units}')
+
         self.units = units
         if self.units == "us":
             value = (value * 1.8) + 32  # convert to F
