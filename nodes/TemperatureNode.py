@@ -46,4 +46,4 @@ class TemperatureNode(Node):
 
         LOGGER.debug(f'Temperature Node drivers {TemperatureNode.drivers}')
 
-        return self.drivers
+        return TemperatureNode.drivers
