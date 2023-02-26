@@ -45,4 +45,4 @@ class TemperatureNode(Node):
                     'uom': uom.UOM[drivers[d]]
                 })
         self.drivers = driver_list
-        LOGGER.debug(f'Temperature Node drivers {self.poly.db_getNodeDrivers}')
+        LOGGER.debug(f'Temperature Node drivers {self.poly.db_getNodeDrivers()}')
