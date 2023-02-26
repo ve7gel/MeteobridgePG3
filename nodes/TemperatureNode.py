@@ -31,7 +31,7 @@ class TemperatureNode(Node):
         if self.units == "us":
             value = (value * 1.8) + 32  # convert to F
 
-        super().setDriver(driver, round(value, 1))
+        super(TemperatureNode, self).setDriver(driver, round(value, 1))
 
     def define_drivers(self, drivers):
 
