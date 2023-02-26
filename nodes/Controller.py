@@ -287,9 +287,6 @@ class Controller(Node):
         self.poly.addNode(node)
         self.wait_for_node_done()
 
-
-
-        """
         self.discovery_done = True
         LOGGER.debug("Finished discovery, node setup complete")
 
