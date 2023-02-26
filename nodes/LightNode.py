@@ -16,7 +16,7 @@ class LightNode(udi_interface.Node):
     drivers = []
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name, units):
+    def __init__(self, polyglot, parent, address, name):
         super(LightNode, self).__init__(polyglot, parent, address, name)
 
     def set_Driver(self, driver, value, units=None):
