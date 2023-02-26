@@ -13,14 +13,8 @@ class WindNode(Node):
     drivers = []
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name, wind_list=None, units=None):
+    def __init__(self, polyglot, parent, address, name):
         super(WindNode, self).__init__(polyglot, parent, address, name)
-
-        self.poly = polyglot
-        self.count = 0
-        self.units = units
-
-        self.define_drivers(wind_list)
 
     def set_Driver(self, driver, value, units=None):
         LOGGER.debug(f'WindNode.set_Driver driver {driver} value {value}, type {type(value)}')
@@ -35,7 +29,7 @@ class WindNode(Node):
 
         LOGGER.debug(f'Wind units is set to {units}, value {value}')
 
-        self.setDriver(driver, value)
+        super(WindNode, self).setDriver(driver, value)
 
     def define_drivers(self, drivers):
         LOGGER.debug(f'WindNode drivers: {drivers}')

@@ -158,7 +158,7 @@ class Controller(Node):
 
             x = 0
             for n in range(len(d)):
-                node.set_Driver(d[n]['driver'], float(data[18 + x]), )
+                node.set_Driver(d[n]['driver'], float(data[18 + x]), self.units)
                 x += 1
 
             # Humidity values
@@ -172,7 +172,7 @@ class Controller(Node):
                 x += 1
 
             # Wind values
-            node = WindNode(self.poly, self.address, 'winds', 'Wind', self.wind_list)
+            node = WindNode(self.poly, self.address, 'winds', 'Wind')
             LOGGER.debug('Updating Wind Drivers')
             try:  # Meteobridge seems to sometimes return a nul string for wind0dir-act=endir
                 # so we substitute the last good reading
@@ -192,13 +192,23 @@ class Controller(Node):
             d = node.drivers
 
             node.set_Driver(d[0]['driver'], float(data[14]), self.units)
-            node.set_Driver(d[1]['driver'], data[16], self.units)
-            node.set_Driver(d[2]['driver'], float(data[15]), self.units)
-            node.set_Driver(d[3]['driver'], float(data[14]), self.units)
-            node.set_Driver(d[4]['driver'], float(data[15]), self.units)
+            node.set_Driver(d[1]['driver'], data[15], self.units)
+            node.set_Driver(d[2]['driver'], float(data[16]), self.units)
             node.set_Driver(d[3]['driver'], wind_dir_cardinal, )
+            node.set_Driver(d[4]['driver'], float(data[14]), self.units)
+            node.set_Driver(d[5]['driver'], float(data[15]), self.units)
+
 
             """
+            WIND_DRVS = {
+            'windspeed': 'ST',
+            'gustspeed': 'GV0',
+            'winddir': 'GV1',
+            'winddircard': 'GV2',
+            'windspeed1': 'GV3',
+            'gustspeed1': 'GV4',
+            }
+
             # Light values
             node = LightNode(self.poly, self.address, 'solar', 'Illumination', self.units)
             LOGGER.debug('Updating Light Drivers')
@@ -277,8 +287,8 @@ class Controller(Node):
         self.wait_for_node_done()
 
         # Winds Node
-        LOGGER.debug(f'Wind Node list: {self.wind_list}')
-        node = WindNode(self.poly, self.address, 'winds', 'Wind', wind_list=self.wind_list)
+        node = WindNode(self.poly, self.address, 'winds', 'Wind')
+        node.drivers = node.define_drivers(self.wind_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
