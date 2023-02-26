@@ -142,7 +142,7 @@ class Controller(Node):
     def set_drivers(self, data):
         try:
             # Temperature values
-            node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures', tem)
+            node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
             d = node.drivers
             LOGGER.debug(f'Updating Temps Drivers {d}')
 
