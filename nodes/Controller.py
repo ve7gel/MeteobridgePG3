@@ -162,9 +162,10 @@ class Controller(Node):
                 x += 1
 
             # Humidity values
-            node = HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.humidity_list)
-            LOGGER.debug(f'Updating Humidity Drivers {node.drivers}')
+            node = HumidityNode(self.poly, self.address, 'humid', 'Humidity')
+
             d = node.drivers
+            LOGGER.debug(f'Updating Humidity Drivers {d}')
             x = 0
             for n in range(len(d)):
                 node.set_Driver(d[n]['driver'], float(data[5 + x]), )
@@ -270,7 +271,8 @@ class Controller(Node):
         self.wait_for_node_done()
 
         # Humiditys Node
-        node = HumidityNode(self.poly, self.address, 'humid', 'Humidity', self.humidity_list)
+        node = HumidityNode(self.poly, self.address, 'humid', 'Humidity')
+        node.drivers = node.define_drivers(self.humidity_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
 

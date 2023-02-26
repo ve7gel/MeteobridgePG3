@@ -13,23 +13,22 @@ class HumidityNode(Node):
     drivers = []
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name, humidity_list):
+    def __init__(self, polyglot, parent, address, name):
         super().__init__(polyglot, parent, address, name)
 
-        self.define_drivers(humidity_list)
-
     def set_Driver(self, driver, value):
-        self.setDriver(driver, round(value, 1))
+        super(HumidityNode, self).setDriver(driver, round(value, 1))
 
-    def define_drivers(self, drivers):
-
-        driver_list = []
-
-        for d in drivers:
-            driver_list.append(
+    def define_drivers(self, driver_list):
+        LOGGER.debug(f'Driver_list: {driver_list}')
+        for d in driver_list:
+            HumidityNode.drivers.append(
                 {
                     'driver': uom.HUMD_DRVS[d],
                     'value': 0,
-                    'uom': uom.UOM[drivers[d]]
+                    'uom': uom.UOM[driver_list[d]]
                 })
-        self.drivers = driver_list
+
+        LOGGER.debug(f'Temperature Node drivers {HumidityNode.drivers}')
+
+        return HumidityNode.drivers
