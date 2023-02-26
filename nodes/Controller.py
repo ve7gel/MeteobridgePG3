@@ -152,9 +152,10 @@ class Controller(Node):
                 x += 1
 
             # Precipitation values
-            node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.rain_list, self.units)
-            LOGGER.debug('Updating Precip Drivers')
+            node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation')
             d = node.drivers
+            LOGGER.debug(f'Updating Precip Drivers{d}')
+
             x = 0
             for n in range(len(d)):
                 node.set_Driver(d[n]['driver'], float(data[18 + x]), )
