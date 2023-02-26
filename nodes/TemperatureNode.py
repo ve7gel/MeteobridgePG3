@@ -36,7 +36,7 @@ class TemperatureNode(Node):
     def define_drivers(self, driver_list):
 
         drivers = []
-
+        LOGGER.debug(f'Driver_list: {driver_list}')
         for d in driver_list:
             TemperatureNode.drivers.append(
                 {
