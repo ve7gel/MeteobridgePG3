@@ -33,12 +33,12 @@ class TemperatureNode(Node):
 
         super(TemperatureNode, self).setDriver(driver, round(value, 1))
 
-    def define_drivers(self, drivers):
+    def define_drivers(self, driver_list):
 
-        driver_list = []
+        drivers = []
 
-        for d in drivers:
-            driver_list.append(
+        for d in driver_list:
+            TemperatureNode.drivers.append(
                 {
                     'driver': uom.TEMP_DRVS[d],
                     'value': 0,
@@ -47,4 +47,4 @@ class TemperatureNode(Node):
 
         LOGGER.debug(f'Temperature Node drivers {self.poly.db_getNodeDrivers()}')
 
-        return driver_list
+        return
