@@ -263,7 +263,8 @@ class Controller(Node):
         self.wait_for_node_done()
 
         # Precipitation node
-        node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation', self.rain_list)
+        node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation')
+        node.drivers = node.define_drivers(self.rain_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
