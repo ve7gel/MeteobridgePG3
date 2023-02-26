@@ -173,7 +173,9 @@ class Controller(Node):
 
             # Wind values
             node = WindNode(self.poly, self.address, 'winds', 'Wind')
-            LOGGER.debug('Updating Wind Drivers')
+            d = node.drivers
+            LOGGER.debug(f'Updating Wind Drivers {d}')
+
             try:  # Meteobridge seems to sometimes return a nul string for wind0dir-act=endir
                 # so we substitute the last good reading
                 # self.wind_dir_cardinal = self.wind_card_dict[data[17]]
@@ -189,15 +191,12 @@ class Controller(Node):
                 f"mbr wind: {float(data[14])}, gust: {float(data[15])}, dir: {data[16]}, wdc: {data[17]}, "
                 f"wind_dir_cardinal: {wind_dir_cardinal}, last_wind_dir: {self.last_wind_dir}")
 
-            d = node.drivers
-
             node.set_Driver(d[0]['driver'], float(data[14]), self.units)
             node.set_Driver(d[1]['driver'], data[15], self.units)
             node.set_Driver(d[2]['driver'], float(data[16]), self.units)
             node.set_Driver(d[3]['driver'], wind_dir_cardinal, )
             node.set_Driver(d[4]['driver'], float(data[14]), self.units)
             node.set_Driver(d[5]['driver'], float(data[15]), self.units)
-
 
             """
             WIND_DRVS = {

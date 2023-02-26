@@ -31,17 +31,17 @@ class WindNode(Node):
 
         super(WindNode, self).setDriver(driver, value)
 
-    def define_drivers(self, drivers):
-        LOGGER.debug(f'WindNode drivers: {drivers}')
-        driver_list = []
+    def define_drivers(self, driver_list):
+        LOGGER.debug(f'WindNode drivers: {driver_list}')
 
-        for d in drivers:
-            driver_list.append(
+        for d in driver_list:
+            WindNode.drivers.append(
                 {
                     'driver': uom.WIND_DRVS[d],
                     'value': 0,
-                    'uom': uom.UOM[drivers[d]]
+                    'uom': uom.UOM[driver_list[d]]
                 })
-        self.drivers = driver_list
-        LOGGER.debug('Defining wind drivers = {}'.format(self.drivers))
-        # self.wait_for_node_done()
+
+        LOGGER.debug(f'Wind Node drivers = {WindNode.drivers}')
+
+        return WindNode.drivers
