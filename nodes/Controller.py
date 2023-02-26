@@ -199,7 +199,7 @@ class Controller(Node):
             node.set_Driver(d[5]['driver'], float(data[15]), self.units)
 
             # Light values
-            node = LightNode(self.poly, self.address, 'solar', 'Illumination', self.units)
+            node = LightNode(self.poly, self.address, 'solar', 'Illumination')
             LOGGER.debug('Updating Light Drivers')
             try:
                 uv = float(data[12])
