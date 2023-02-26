@@ -26,10 +26,10 @@ def cardinal_wind_dir_map(cardinal_dir):
 def mbtemplate():
     MBTEMPLATELIST = [
         "[th0temp-act]",  # 0, current outdoor temperature
-        "[th0temp-dmax]",  # 1, max outdoor temp today
-        "[th0temp-dmin]",  # 2, min outdoor temp today
-        "[th0dew-act]",  # 3, current outdoor dewpoint
-        "[wind0chill-act]",  # 4 current windchill as calculated by MeteoBridge
+        "[th0dew-act]",  # 1, current outdoor dewpoint
+        "[wind0chill-act]",  # 2 current windchill as calculated by MeteoBridge
+        "[th0temp-dmax]",  # 3, max outdoor temp today
+        "[th0temp-dmin]",  # 4, min outdoor temp today
 
         "[th0hum-act]",  # 5 current outdoor relative humidity
         "[th0hum-dmax]",  # 6 max outdoor relative humidity today
