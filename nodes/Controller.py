@@ -21,7 +21,7 @@ from nodes import HumidityNode
 # from nodes import PressureNode
 from nodes import WindNode
 from nodes import PrecipNode
-# from nodes import LightNode
+from nodes import LightNode
 
 from constants import *
 
@@ -198,16 +198,6 @@ class Controller(Node):
             node.set_Driver(d[4]['driver'], float(data[14]), self.units)
             node.set_Driver(d[5]['driver'], float(data[15]), self.units)
 
-            """
-            WIND_DRVS = {
-            'windspeed': 'ST',
-            'gustspeed': 'GV0',
-            'winddir': 'GV1',
-            'winddircard': 'GV2',
-            'windspeed1': 'GV3',
-            'gustspeed1': 'GV4',
-            }
-
             # Light values
             node = LightNode(self.poly, self.address, 'solar', 'Illumination', self.units)
             LOGGER.debug('Updating Light Drivers')
@@ -229,21 +219,18 @@ class Controller(Node):
                 solarradiation = 0
                 et0 = 0
 
-            LightNode.set_Driver(node, uom.LITE_DRVS['solar_radiation'], solarradiation, )
+            LightNode.set_Driver(node, uom.LITE_DRVS['solar_radiation'], solarradiation,)
             if uvpresent:
                 LightNode.set_Driver(node, uom.LITE_DRVS['uv'], uv, )
             else:
                 LightNode.set_Driver(node, uom.LITE_DRVS['uv'], 0, )
             if vp2plus:
-                et0_conv = et0
-                if self.units == 'us':
-                    et0_conv = round(et0 / 25.4, 3)
 
-                LightNode.set_Driver(node, uom.LITE_DRVS['evapotranspiration'], et0_conv, )
+                LightNode.set_Driver(node, uom.LITE_DRVS['evapotranspiration'], et0,  units=self.units)
             else:
                 LightNode.set_Driver(node, uom.LITE_DRVS['evapotranspiration'], 0, )
                 LOGGER.info("Evapotranspiration not available (Davis Vantage stations with Solar Sensor only)")
-
+            """
             # Barometric pressure values
             node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure', self.units)
             LOGGER.debug('Updating Bar Press Drivers')
@@ -291,6 +278,12 @@ class Controller(Node):
         self.poly.addNode(node)
         self.wait_for_node_done()
 
+        # Illumination node
+        node = LightNode(self.poly, self.address, 'solar', 'Illumination')
+        node.drivers = node.define_drivers(self.light_list)
+        self.poly.addNode(node)
+        self.wait_for_node_done()
+
         """
         # Barometric Pressures Node
         node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure', self.units)
@@ -298,11 +291,7 @@ class Controller(Node):
         self.wait_for_node_done()
 
 
-        # Illumination node
-        node = LightNode(self.poly, self.address, 'solar', 'Illumination', self.units)
-        self.poly.addNode(node)
 
-        self.wait_for_node_done()
         """
         self.discovery_done = True
         LOGGER.debug("Finished discovery, node setup complete")
