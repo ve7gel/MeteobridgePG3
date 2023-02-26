@@ -12,12 +12,8 @@ class PrecipNode(Node):
     drivers = []
     hint = [1, 0x0b, 1, 0]
 
-    def __init__(self, polyglot, parent, address, name, rain_list, units=None):
+    def __init__(self, polyglot, parent, address, name):
         super().__init__(polyglot, parent, address, name)
-
-        self.poly = polyglot
-        # self.units = units
-        # self.define_drivers(rain_list)
 
     def set_Driver(self, driver, value, units=None):
 
