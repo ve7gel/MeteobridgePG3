@@ -232,8 +232,8 @@ class Controller(Node):
             LOGGER.debug(f'Updating Humidity Drivers {d}')
 
             node.set_Driver(d[0]['driver'], float(data[8]), self.units)
-            node.set_Driver(d[0]['driver'], float(data[9]), self.units)
-            node.set_Driver(d[0]['driver'], float(data[10]) + 1, self.units)
+            node.set_Driver(d[1]['driver'], float(data[9]), self.units)
+            node.set_Driver(d[2]['driver'], float(data[10]) + 1, self.units)
             # Meteobridge reports -1, 0, +1 for trends,converted for ISY
 
             # Update controller drivers now
@@ -281,9 +281,9 @@ class Controller(Node):
         self.poly.addNode(node)
         self.wait_for_node_done()
 
-        """
-        # Barometric Pressures Node
-        node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure', self.units)
+                # Barometric Pressures Node
+        node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
+        node.drivers = node.define_drivers(self.pressure_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
