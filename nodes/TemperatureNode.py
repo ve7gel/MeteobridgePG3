@@ -37,7 +37,7 @@ class TemperatureNode(Node):
 
         LOGGER.debug(f'Driver_list: {driver_list}')
         for d in driver_list:
-            TemperatureNode.drivers.append(
+            self.drivers.append(
                 {
                     'driver': uom.TEMP_DRVS[d],
                     'value': 0,
