@@ -44,6 +44,6 @@ class TemperatureNode(Node):
                     'uom': uom.UOM[driver_list[d]]
                 })
 
-        LOGGER.debug(f'Temperature Node drivers {self.drivers}')
+        LOGGER.debug(f'Temperature Node drivers {TemperatureNode.drivers}')
 
-        return
+        return self.drivers
