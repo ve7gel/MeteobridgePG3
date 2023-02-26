@@ -3,14 +3,11 @@
 Polyglot v3 node server for Meteobridge
 Copyright (C) 2021 Gordon Larsen
 """
-import udi_interface
+from udi_interface import Node, LOGGER
 import uom
 
-LOGGER = udi_interface.LOGGER
-Custom = udi_interface.Custom
 
-
-class LightNode(udi_interface.Node):
+class LightNode(Node):
     id = 'light'
     units = 'metric'
     drivers = []

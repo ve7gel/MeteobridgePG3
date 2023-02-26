@@ -3,12 +3,10 @@
 Polyglot v3 node server for Meteobridge
 Copyright (C) 2021 Gordon Larsen
 """
-from udi_interface import LOGGER, Node, Custom
-import sys
+from udi_interface import LOGGER, Node
 import uom
 
 
-# class TemperatureNode(udi_interface.Node):
 class TemperatureNode(Node):
     id = 'temperature'
     drivers = []
@@ -18,17 +16,10 @@ class TemperatureNode(Node):
     def __init__(self, polyglot, parent, address, name):
         super().__init__(polyglot, parent, address, name)
 
-        self.units = None
-        self.poly = polyglot
-        self.count = 0
-
-        # self.define_drivers(temp_list)
-
     def set_Driver(self, driver, value, units=None):
         LOGGER.debug(f'TemperatureNode.set_Driver driver {driver} value {value}, type {type(value)}, units {units}')
 
-        self.units = units
-        if self.units == "us":
+        if units == "us":
             value = (value * 1.8) + 32  # convert to F
 
         super(TemperatureNode, self).setDriver(driver, round(value, 1))

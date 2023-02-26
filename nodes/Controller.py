@@ -18,18 +18,12 @@ import requests
 
 from nodes import TemperatureNode
 from nodes import HumidityNode
-# from nodes import PressureNode
+from nodes import PressureNode
 from nodes import WindNode
 from nodes import PrecipNode
 from nodes import LightNode
 
 from constants import *
-
-"""
-polyinterface has a LOGGER that is created by default and logs to:
-logs/debug.log
-You can use LOGGER.info, LOGGER.warning, LOGGER.debug, LOGGER.error levels as needed.
-"""
 
 
 class Controller(Node):
@@ -200,7 +194,8 @@ class Controller(Node):
 
             # Light values
             node = LightNode(self.poly, self.address, 'solar', 'Illumination')
-            LOGGER.debug('Updating Light Drivers')
+            d = node.drivers
+            LOGGER.debug(f'Updating Humidity Drivers {d}')
             try:
                 uv = float(data[12])
                 uvpresent = True
@@ -219,26 +214,28 @@ class Controller(Node):
                 solarradiation = 0
                 et0 = 0
 
-            LightNode.set_Driver(node, uom.LITE_DRVS['solar_radiation'], solarradiation,)
+            node.set_Driver(d[0]['driver'], solarradiation, )
             if uvpresent:
-                LightNode.set_Driver(node, uom.LITE_DRVS['uv'], uv, )
+                node.set_Driver(d[1]['driver'], uv, )
             else:
-                LightNode.set_Driver(node, uom.LITE_DRVS['uv'], 0, )
+                node.set_Driver(d[1]['driver']['uv'], 0, )
             if vp2plus:
 
-                LightNode.set_Driver(node, uom.LITE_DRVS['evapotranspiration'], et0,  units=self.units)
+                node.set_Driver(d[2]['driver'], et0, units=self.units)
             else:
-                LightNode.set_Driver(node, uom.LITE_DRVS['evapotranspiration'], 0, )
+                node.set_Driver(d[2]['driver'], 0, )
                 LOGGER.info("Evapotranspiration not available (Davis Vantage stations with Solar Sensor only)")
-            """
+
             # Barometric pressure values
-            node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure', self.units)
-            LOGGER.debug('Updating Bar Press Drivers')
-            PressureNode.set_Driver(node, uom.PRES_DRVS['station'], float(data[8]), )
-            PressureNode.set_Driver(node, uom.PRES_DRVS['sealevel'], float(data[9]), )
-            PressureNode.set_Driver(node, uom.PRES_DRVS['trend'], float(
-                data[10]) + 1, )  # Meteobridge reports -1, 0, +1 for trends,converted for ISY
-            """
+            node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
+            d = node.drivers
+            LOGGER.debug(f'Updating Humidity Drivers {d}')
+
+            node.set_Driver(d[0]['driver'], float(data[8]), self.units)
+            node.set_Driver(d[0]['driver'], float(data[9]), self.units)
+            node.set_Driver(d[0]['driver'], float(data[10]) + 1, self.units)
+            # Meteobridge reports -1, 0, +1 for trends,converted for ISY
+
             # Update controller drivers now
 
             self.setDriver('GV3', data[30])  # Last good data
