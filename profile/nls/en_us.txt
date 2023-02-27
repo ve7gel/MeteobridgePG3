@@ -85,9 +85,11 @@ EN_RAINTYPE-1 = Rain
 EN_RAINTYPE-2 = Hail
 EN_RAINTYPE-3 = Rain & Hail
 
-EN_TREND-0 = Falling
-EN_TREND-1 = Steady
-EN_TREND-2 = Rising
+EN_TREND-0 = Falling Rapidly
+EN_TREND-1 = Falling
+EN_TREND-2 = Steady
+EN_TREND-3 = Rising
+EN_TREND-4 = Rising Rapidly
 
 EN_BATTERY-0 = Ok
 EN_BATTERY-1 = Replace

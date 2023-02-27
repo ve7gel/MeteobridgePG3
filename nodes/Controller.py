@@ -232,8 +232,7 @@ class Controller(Node):
 
             node.set_Driver(d[0]['driver'], float(data[8]), self.units)
             node.set_Driver(d[1]['driver'], float(data[9]), self.units)
-            node.set_Driver(d[2]['driver'], float(data[10]) + 1, self.units)
-            # Meteobridge reports -1, 0, +1 for trends,converted for ISY
+            node.set_Driver(d[2]['driver'], float(data[10]), self.units)
 
             # Update controller drivers now
 
