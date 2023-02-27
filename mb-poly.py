@@ -2,7 +2,13 @@
 import sys
 from udi_interface import Interface
 from nodes import Controller
-version = '3.0.6'
+import json
+
+vf = open("version.json")
+data = json.load(vf)
+version = data['version']
+
+# version = '3.1.0'
 
 if __name__ == "__main__":
     try:
@@ -14,7 +20,7 @@ if __name__ == "__main__":
         polyglot.start(version)
 
         # Start the node server (I.E. create the controller node)
-        control = Controller(polyglot, 'controller',  'controller', 'Meteobridge')
+        control = Controller(polyglot, 'controller', 'controller', 'Meteobridge')
 
         # Enter main event loop waiting for messages from Polyglot
         polyglot.runForever()
