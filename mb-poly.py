@@ -2,18 +2,13 @@
 import sys
 from udi_interface import Interface
 from nodes import Controller
-import json
+version = '3.1.0'
 
 if __name__ == "__main__":
     try:
         # Create an instance of the Polyglot interface. We need to
         # pass in array of node classes (or an empty array).
         polyglot = Interface([Controller])
-
-        vf = open("version.json")
-        data = json.load(vf)
-        version = data['version']
-        print(f'Starting Meteobridge version {version}')
 
         # Initialize the interface
         polyglot.start(version)
