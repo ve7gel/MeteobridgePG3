@@ -4,7 +4,7 @@ Polyglot v3 node server for Meteobridge
 Copyright (C) 2021 Gordon Larsen
 """
 from udi_interface import LOGGER, Node
-import uom
+from constants import RAIN_DRVS, UOM
 
 
 class PrecipNode(Node):
@@ -32,9 +32,9 @@ class PrecipNode(Node):
         for d in driver_list:
             PrecipNode.drivers.append(
                 {
-                    'driver': uom.RAIN_DRVS[d],
+                    'driver': RAIN_DRVS[d],
                     'value': 0,
-                    'uom': uom.UOM[driver_list[d]]
+                    'uom': UOM[driver_list[d]]
                 })
 
         return PrecipNode.drivers

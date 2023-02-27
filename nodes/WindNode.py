@@ -4,7 +4,7 @@ Polyglot v3 node server for Meteobridge
 Copyright (C) 2021 Gordon Larsen
 """
 from udi_interface import LOGGER, Node
-import uom
+from constants import WIND_DRVS, UOM
 
 
 class WindNode(Node):
@@ -37,9 +37,9 @@ class WindNode(Node):
         for d in driver_list:
             WindNode.drivers.append(
                 {
-                    'driver': uom.WIND_DRVS[d],
+                    'driver': WIND_DRVS[d],
                     'value': 0,
-                    'uom': uom.UOM[driver_list[d]]
+                    'uom': UOM[driver_list[d]]
                 })
 
         LOGGER.debug(f'Wind Node drivers = {WindNode.drivers}')

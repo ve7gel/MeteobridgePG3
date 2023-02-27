@@ -13,7 +13,6 @@ import time
 from udi_interface import Node, Custom, LOGGER
 
 import write_profile
-import uom
 import requests
 
 from nodes import TemperatureNode

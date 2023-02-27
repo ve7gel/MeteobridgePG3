@@ -4,7 +4,7 @@ Polyglot v3 node server for Meteobridge
 Copyright (C) 2021 Gordon Larsen
 """
 from udi_interface import LOGGER, Node
-import uom
+from constants import TEMP_DRVS, UOM
 
 
 class TemperatureNode(Node):
@@ -30,9 +30,9 @@ class TemperatureNode(Node):
         for d in driver_list:
             TemperatureNode.drivers.append(
                 {
-                    'driver': uom.TEMP_DRVS[d],
+                    'driver': TEMP_DRVS[d],
                     'value': 0,
-                    'uom': uom.UOM[driver_list[d]]
+                    'uom': UOM[driver_list[d]]
                 })
 
         LOGGER.debug(f'Temperature Node drivers {TemperatureNode.drivers}')
