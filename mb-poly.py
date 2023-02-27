@@ -7,7 +7,7 @@ import json
 vf = open("version.json")
 data = json.load(vf)
 version = data['version']
-print(f'Starting Meteobridge version {version}')
+
 
 if __name__ == "__main__":
     try:
@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
         # Initialize the interface
         polyglot.start(version)
-
+        print(f'Starting Meteobridge version {version}')
         # Start the node server (I.E. create the controller node)
         control = Controller(polyglot, 'controller', 'controller', 'Meteobridge')
 
