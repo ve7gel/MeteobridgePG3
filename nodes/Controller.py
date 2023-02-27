@@ -303,7 +303,7 @@ class Controller(Node):
         ip_exists = False
         password_exists = False
 
-        self.ip = self.Parameters['IPAddress']
+        self.ip = self.Parameters['Address']
         if self.units is not None:
             self.units = self.Parameters['Units'].lower()
         self.password = self.Parameters['Password']
