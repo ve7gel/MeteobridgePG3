@@ -12,7 +12,7 @@ import time
 
 from udi_interface import Node, Custom, LOGGER
 
-import write_profile
+from write_profile import write_profile
 import requests
 
 from nodes import TemperatureNode
@@ -361,9 +361,9 @@ class Controller(Node):
 
         # Build the node definition
         LOGGER.info('Creating node definition profile based on config.')
-        write_profile.write_profile(self.temperature_list,
-                                    self.humidity_list, self.pressure_list, self.wind_list,
-                                    self.rain_list, self.light_list, self.lightning_list)
+        write_profile(self.temperature_list,
+                      self.humidity_list, self.pressure_list, self.wind_list,
+                      self.rain_list, self.light_list, self.lightning_list)
         time.sleep(3)
         # push updated profile to ISY
         try:
@@ -371,9 +371,6 @@ class Controller(Node):
 
         except:
             LOGGER.error('Failed to push profile to ISY')
-
-    def SetUnits(self, u):
-        self.units = u
 
     # Hub status information here: battery and data health values.
 
