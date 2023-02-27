@@ -280,7 +280,7 @@ class Controller(Node):
         self.poly.addNode(node)
         self.wait_for_node_done()
 
-                # Barometric Pressures Node
+        # Barometric Pressures Node
         node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
         node.drivers = node.define_drivers(self.pressure_list)
         self.poly.addNode(node)
