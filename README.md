@@ -50,6 +50,8 @@ Then restart the MeteoBridge nodeserver by selecting it in the Polyglot dashboar
 The MeteoBridge nodeserver keeps track of the version number and when a profile rebuild is necessary.  The profile/version.txt will contain the MeteoBridge profile_version which is updated in server.json when the profile should be rebuilt.
 
 # Release Notes
+- 3.1.0 01/03/2023
+  - clean up code and update for latest PG3/PG3x requirements.
 - 3.0.6 29/10/2022
   - bugfixes and profile updates to correct wind values in programs on ISY.
   - make nls values more descriptive to differentiate raw values from configured units values

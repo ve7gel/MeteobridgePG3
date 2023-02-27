@@ -361,7 +361,7 @@ class Controller(Node):
 
         # Build the node definition
         LOGGER.info('Creating node definition profile based on config.')
-        write_profile.write_profile(LOGGER, self.temperature_list,
+        write_profile.write_profile(self.temperature_list,
                                     self.humidity_list, self.pressure_list, self.wind_list,
                                     self.rain_list, self.light_list, self.lightning_list)
         time.sleep(3)
