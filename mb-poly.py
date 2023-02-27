@@ -7,8 +7,7 @@ import json
 vf = open("version.json")
 data = json.load(vf)
 version = data['version']
-
-# version = '3.1.0'
+print(f'Starting Meteobridge version {version}')
 
 if __name__ == "__main__":
     try:

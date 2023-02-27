@@ -44,6 +44,7 @@ Please raise any issues on the UDI forum at "https://forum.universal-devices.com
 # Release Notes
 - 3.1.0 01/03/2023
   - added max/min to humidity node info
+  - added falling rapidly and rising rapidly to pressure trend
   - clean up code and update for latest PG3/PG3x requirements.
 - 3.0.6 29/10/2022
   - bugfixes and profile updates to correct wind values in programs on ISY.
