@@ -21,7 +21,9 @@ class PressureNode(Node):
             if units == 'us':
                 value = round(value * 0.02952998751, 2)
             else:
-                value = round(value + 2, 1)
+                value = round(value, 1)
+        else:
+            value = round(value + 2, 0)
             # Meteobridge reports -2, -1, 0, +1, +2 for trends,converted for ISY
         super(PressureNode, self).setDriver(driver, value)
 
