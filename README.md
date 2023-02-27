@@ -21,9 +21,9 @@ the evapotranspiration values provided by the VP2+ will be missing
 The settings for this node are:
 
 #### Short Poll
-   * Not used
-#### Long Poll
    * How often the MeteoBridge is polled for data
+#### Long Poll
+   * Not used
 #### Password
    * Password associated with above username
 #### IPAddress
@@ -36,18 +36,11 @@ The settings for this node are:
 ## Requirements
 
 1. This NS has been tested and verified for compatibility with UDI Polisy.
-2. This has only been tested with ISY 5.4 so it is not guaranteed to work with any other version.
+2. This has only been tested with ISY 5.4 or later so it is not guaranteed to work with any other version.
 3. The NS has only been tested with a Davis Vantage Pro2+ via Meteobridge, so full compatibility with other platforms is not guaranteed.
 
 ## Issues
 Please raise any issues on the UDI forum at "https://forum.universal-devices.com/topic/28637-new-meteobridge-weather-nodeserver/" Github is not watched.
-# Upgrading
-
-Open the Polyglot web page, go to nodeserver store and click "Update" for "MeteoBridge".
-
-Then restart the MeteoBridge nodeserver by selecting it in the Polyglot dashboard and select Control -> Restart, then watch the log to make sure everything goes well.
-
-The MeteoBridge nodeserver keeps track of the version number and when a profile rebuild is necessary.  The profile/version.txt will contain the MeteoBridge profile_version which is updated in server.json when the profile should be rebuilt.
 
 # Release Notes
 - 3.1.0 01/03/2023
