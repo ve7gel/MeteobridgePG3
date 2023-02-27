@@ -6,7 +6,7 @@ import re
 import os
 import zipfile
 import json
-import uom
+import constants as uom
 
 LOGGER = udi_interface.LOGGER
 pfx = "write_profile:"
@@ -30,10 +30,12 @@ STATUS_TMPL = "      <st id=\"%s\" editor=\"%s\" />\n"
 
 def write_profile(logger, temperature_list, humidity_list, pressure_list,
                   wind_list, rain_list, light_list, lightning_list):
+    """
     sd = get_server_data(logger)
     if sd is False:
         logger.error("Unable to complete without server data...")
         return False
+    """
 
     logger.info("{0} Writing profile/nodedef/nodedefs.xml".format(pfx))
     if not os.path.exists("profile/nodedef"):
@@ -123,14 +125,16 @@ def write_profile(logger, temperature_list, humidity_list, pressure_list,
     nodedef.write("</nodeDefs>")
 
     nodedef.close()
-
+    """
     # Update the profile version file with the info from server.json
     with open(VERSION_FILE, 'w') as outfile:
         outfile.write(sd['profile_version'])
     outfile.close()
-
+    
+    
     # Create the zip file that can be uploaded to the ISY
-    #write_profile_zip(logger)
+    write_profile_zip(logger)
+    """
 
     logger.info(pfx + " done.")
 
@@ -152,6 +156,7 @@ def write_profile_zip(logger):
     zf.close()
 
 
+"""
 def get_server_data(logger):
     # Read the SERVER info from the json.
     try:
@@ -183,3 +188,4 @@ def get_server_data(logger):
     serverdata['version_major'] = v1
     serverdata['version_minor'] = v2
     return serverdata
+"""
