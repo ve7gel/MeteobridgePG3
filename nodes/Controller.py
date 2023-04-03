@@ -217,7 +217,7 @@ class Controller(Node):
             if uvpresent:
                 node.set_Driver(d[0]['driver'], uv, )
             else:
-                node.set_Driver(d[0]['driver']['uv'], 0, )
+                node.set_Driver(d[0]['driver'], 0, )
             if vp2plus:
 
                 node.set_Driver(d[2]['driver'], et0, units=self.units)
