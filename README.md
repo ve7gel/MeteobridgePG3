@@ -42,6 +42,8 @@ The settings for this node are:
 Please raise any issues on the UDI forum at "https://forum.universal-devices.com/topic/28637-new-meteobridge-weather-nodeserver/" Github is not watched.
 
 # Release Notes
+- 3.1.3 03/04/2023
+  - update for case of no UV sensor
 - 3.1.2 03/04/2023
   - update requirements to latest udi_interface
 - 3.1.0 01/03/2023

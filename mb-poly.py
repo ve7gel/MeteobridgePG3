@@ -2,7 +2,7 @@
 import sys
 from udi_interface import Interface
 from nodes import Controller
-version = '3.1.2'
+version = '3.1.3'
 
 if __name__ == "__main__":
     try:
