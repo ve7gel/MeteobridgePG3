@@ -254,7 +254,6 @@ class Controller(Node):
 
             # Update controller drivers now
 
-
             self.setDriver('GV3', data[30])  # Last good data
             self.setDriver('GV0', int(float(data[26])))  # Console battery
             self.setDriver('GV1', int(float(data[27])))  # ISS battery
@@ -426,5 +425,9 @@ class Controller(Node):
             LOGGER.error(f"Error in getstationdata: {e}")
             LOGGER.error("Invalid value")
             LOGGER.error(mbrarray)
+
+        for i in range(len(mbrarray)):
+            if "[" in mbrarray[i] is True:
+                mbrarray[i] = '0'
 
         return mbrarray, result_code
