@@ -427,7 +427,8 @@ class Controller(Node):
             LOGGER.error(mbrarray)
 
         for i in range(len(mbrarray)):
-            if "[" in mbrarray[i] is True:
+            if "[" in mbrarray[i]:
                 mbrarray[i] = '0'
+        LOGGER.debug("filtered mbrarray: {}".format(mbrarray))
 
         return mbrarray, result_code
