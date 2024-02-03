@@ -1,4 +1,5 @@
-version = "3.1.4"  # added error trapping to catch missing values from Meteobridge
+# version = "3.1.4"  # added error trapping to catch missing values from Meteobridge
+version = "3.2.0"  # added indoor readings to various node displays
 
 
 def cardinal_wind_dir_map(cardinal_dir):
@@ -33,40 +34,43 @@ def mbtemplate():
         "[wind0chill-act]",  # 2 current windchill as calculated by MeteoBridge
         "[th0temp-dmax]",  # 3, max outdoor temp today
         "[th0temp-dmin]",  # 4, min outdoor temp today
+        "[thb0temp-act]",  # 5, indoor temperature
+        "[thb0dew-act]",  # 6, indoor dew point
 
-        "[th0hum-act]",  # 5 current outdoor relative humidity
-        "[th0hum-dmax]",  # 6 max outdoor relative humidity today
-        "[th0hum-dmin]",  # 7 min outddor relative humidity today
+        "[th0hum-act]",  # 7 current outdoor relative humidity
+        "[th0hum-dmax]",  # 8 max outdoor relative humidity today
+        "[th0hum-dmin]",  # 9 min outddor relative humidity today
+        "[thb0hum-act]",  # 10 indoor humidity
 
-        "[thb0press-act]",  # 8 current station pressure
-        "[thb0seapress-act]",  # 9 current sealevel barometric pressure
-        "[thb0press-delta3h=barotrend]",  # 10 pressure trend
+        "[thb0press-act]",  # 11 current station pressure
+        "[thb0seapress-act]",  # 12 current sealevel barometric pressure
+        "[thb0press-delta3h=barotrend]",  # 13 pressure trend
 
-        "[sol0rad-act]",  # 11 current solar radiation
-        "[uv0index-act]",  # 12 current UV index
-        "[sol0evo-daysum]",  # 13 today's cumulative evapotranspiration - Davis Vantage only
+        "[sol0rad-act]",  # 14 current solar radiation
+        "[uv0index-act]",  # 15 current UV index
+        "[sol0evo-daysum]",  # 16 today's cumulative evapotranspiration - Davis Vantage only
 
-        "[wind0avgwind-act]",  # 14 average wind (depends on particular station)
-        "[wind0wind-max10]",  # 15 10 minute wind gust
-        "[wind0dir-act]",  # 16 current wind direction
-        "[wind0dir-act=endir]",  # 17 current cardinal wind direction
+        "[wind0avgwind-act]",  # 17 average wind (depends on particular station)
+        "[wind0wind-max10]",  # 18 10 minute wind gust
+        "[wind0dir-act]",  # 19 current wind direction
+        "[wind0dir-act=endir]",  # 20 current cardinal wind direction
 
-        "[rain0rate-act]",  # 18 current rate of rainfall
-        "[rain0total-daysum]",  # 19 rain accumulation for today
-        "[rain0total-sum24h]",  # 20 rain over the last 24 hours
-        "[rain0total-ydmax]",  # 21 total rainfall yesterday
-        "[rain0total-monthsum]",  # 22 rain accumulation for this month
-        "[rain0total-yearsum]",  # 23 rain accumulation year-to-date
+        "[rain0rate-act]",  # 21 current rate of rainfall
+        "[rain0total-daysum]",  # 22 rain accumulation for today
+        "[rain0total-sum24h]",  # 23 rain over the last 24 hours
+        "[rain0total-ydmax]",  # 24 total rainfall yesterday
+        "[rain0total-monthsum]",  # 25 rain accumulation for this month
+        "[rain0total-yearsum]",  # 26 rain accumulation year-to-date
 
-        "[mbsystem-station]",  # 24 station id
-        "[mbsystem-stationnum]",  # 25 meteobridge station number
-        "[thb0lowbat-act]",  # 26 Station battery status (0=Ok, 1=Replace)
-        "[th0lowbat-act]",  # 27 Station battery status (0=Ok, 1=Replace)
+        "[mbsystem-station]",  # 27 station id
+        "[mbsystem-stationnum]",  # 28 meteobridge station number
+        "[thb0lowbat-act]",  # 29 Station battery status (0=Ok, 1=Replace)
+        "[th0lowbat-act]",  # 30 Station battery status (0=Ok, 1=Replace)
 
-        #  "[UYYYY][UMM][UDD][Uhh][Umm][Uss] ",  # 28 current observation time
+        #  "[UYYYY][UMM][UDD][Uhh][Umm][Uss] ",  # 31 current observation time
         "[hh][mm][ss]",
-        "[epoch]",  # 29 current unix time
-        "[mbsystem-lastgooddata]",  # 30 seconds since last good data received from console
+        "[epoch]",  # 32 current unix time
+        "[mbsystem-lastgooddata]",  # 33 seconds since last good data received from console
     ]
     mbtemplate_tmp = ""
     # values = str(CreateTemplate())

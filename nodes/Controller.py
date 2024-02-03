@@ -134,133 +134,116 @@ class Controller(Node):
 
     def set_drivers(self, data):
         try:
+
+            # Temperature values
+            node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
+            d = node.drivers
+            LOGGER.debug(f'Updating Temps Drivers {d}')
+
+            x = 0
+            for n in range(len(d)):
+                node.set_Driver(d[n]['driver'], float(data[x]), self.units)
+                x += 1
+
+            # Precipitation values
+            node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation')
+            d = node.drivers
+            LOGGER.debug(f'Updating Precip Drivers{d}')
+
+            x = 0
+            for n in range(len(d)):
+                node.set_Driver(d[n]['driver'], float(data[21 + x]), self.units)
+                x += 1
+
+            # Humidity values
+            node = HumidityNode(self.poly, self.address, 'humid', 'Humidity')
+
+            d = node.drivers
+            LOGGER.debug(f'Updating Humidity Drivers {d}')
+            x = 0
+            for n in range(len(d)):
+                node.set_Driver(d[n]['driver'], float(data[7 + x]), )
+                x += 1
+
+            # Wind values
+            node = WindNode(self.poly, self.address, 'winds', 'Wind')
+            d = node.drivers
+            LOGGER.debug(f'Updating Wind Drivers {d}')
+
+            try:  # Meteobridge seems to sometimes return a nul string for wind0dir-act=endir
+                # so we substitute the last good reading
+                # self.wind_dir_cardinal = self.wind_card_dict[data[20]]
+                wind_dir_cardinal = cardinal_wind_dir_map(data[20])
+                self.last_wind_dir = wind_dir_cardinal
+
+            except:
+                wind_dir_cardinal = self.last_wind_dir
+                LOGGER.info(
+                    f"Cardinal wind direction substituted for last good reading: {self.last_wind_dir} ({data[20]})")
+
+            LOGGER.debug(
+                f"mbr wind: {float(data[17])}, gust: {float(data[18])}, dir: {data[19]}, wdc: {data[20]}, "
+                f"wind_dir_cardinal: {wind_dir_cardinal}, last_wind_dir: {self.last_wind_dir}")
+
+            node.set_Driver(d[0]['driver'], float(data[17]), self.units)
+            node.set_Driver(d[1]['driver'], data[18], self.units)
+            node.set_Driver(d[2]['driver'], float(data[19]), self.units)
+            node.set_Driver(d[3]['driver'], wind_dir_cardinal, )
+            node.set_Driver(d[4]['driver'], float(data[17]), self.units)
+            node.set_Driver(d[5]['driver'], float(data[18]), self.units)
+
+            # Light values
+            node = LightNode(self.poly, self.address, 'solar', 'Illumination')
+            d = node.drivers
+            LOGGER.debug(f'Updating Humidity Drivers {d}')
             try:
-                # Temperature values
-                node = TemperatureNode(self.poly, self.address, 'temps', 'Temperatures')
-                d = node.drivers
-                LOGGER.debug(f'Updating Temps Drivers {d}')
+                uv = float(data[15])
+                uvpresent = True
 
-                x = 0
-                for n in range(len(d)):
-                    node.set_Driver(d[n]['driver'], float(data[x]), self.units)
-                    x += 1
-            except ValueError as e:
-                LOGGER.error("Error in assigning driver values from template: {}".format(e))
-
-            try:
-                # Precipitation values
-                node = PrecipNode(self.poly, self.address, 'precip', 'Precipitation')
-                d = node.drivers
-                LOGGER.debug(f'Updating Precip Drivers{d}')
-
-                x = 0
-                for n in range(len(d)):
-                    node.set_Driver(d[n]['driver'], float(data[18 + x]), self.units)
-                    x += 1
-            except ValueError as e:
-                LOGGER.error("Error in assigning driver values from template: {}".format(e))
-
-            try:
-                # Humidity values
-                node = HumidityNode(self.poly, self.address, 'humid', 'Humidity')
-
-                d = node.drivers
-                LOGGER.debug(f'Updating Humidity Drivers {d}')
-                x = 0
-                for n in range(len(d)):
-                    node.set_Driver(d[n]['driver'], float(data[5 + x]), )
-                    x += 1
-            except ValueError as e:
-                LOGGER.error("Error in assigning driver values from template: {}".format(e))
-
-            try:
-                # Wind values
-                node = WindNode(self.poly, self.address, 'winds', 'Wind')
-                d = node.drivers
-                LOGGER.debug(f'Updating Wind Drivers {d}')
-
-                try:  # Meteobridge seems to sometimes return a nul string for wind0dir-act=endir
-                    # so we substitute the last good reading
-                    # self.wind_dir_cardinal = self.wind_card_dict[data[17]]
-                    wind_dir_cardinal = cardinal_wind_dir_map(data[17])
-                    self.last_wind_dir = wind_dir_cardinal
-
-                except:
-                    wind_dir_cardinal = self.last_wind_dir
-                    LOGGER.info(
-                        f"Cardinal wind direction substituted for last good reading: {self.last_wind_dir} ({data[17]})")
-
-                LOGGER.debug(
-                    f"mbr wind: {float(data[14])}, gust: {float(data[15])}, dir: {data[16]}, wdc: {data[17]}, "
-                    f"wind_dir_cardinal: {wind_dir_cardinal}, last_wind_dir: {self.last_wind_dir}")
-
-                node.set_Driver(d[0]['driver'], float(data[14]), self.units)
-                node.set_Driver(d[1]['driver'], data[15], self.units)
-                node.set_Driver(d[2]['driver'], float(data[16]), self.units)
-                node.set_Driver(d[3]['driver'], wind_dir_cardinal, )
-                node.set_Driver(d[4]['driver'], float(data[14]), self.units)
-                node.set_Driver(d[5]['driver'], float(data[15]), self.units)
-            except ValueError as e:
-                LOGGER.error("Error in assigning driver values from template: {}".format(e))
-
-            try:
-                # Light values
-                node = LightNode(self.poly, self.address, 'solar', 'Illumination')
-                d = node.drivers
-                LOGGER.debug(f'Updating Humidity Drivers {d}')
-                try:
-                    uv = float(data[12])
-                    uvpresent = True
-
-                except:  # no uv sensor
-                    uv = 0
-                    uvpresent = False
-
-                try:
-                    solarradiation = float(data[11])
-                    et0 = float(data[13])
-                    vp2plus = True
-
-                except:  # catch case where solar data is not available
-                    vp2plus = False
-                    solarradiation = 0
-                    et0 = 0
-
-                node.set_Driver(d[1]['driver'], solarradiation, )
-                if uvpresent:
-                    node.set_Driver(d[0]['driver'], uv, )
-                else:
-                    node.set_Driver(d[0]['driver'], 0)
-                if vp2plus:
-
-                    node.set_Driver(d[2]['driver'], et0, units=self.units)
-                else:
-                    node.set_Driver(d[2]['driver'], 0, )
-                    LOGGER.info("Evapotranspiration not available (Davis Vantage stations with Solar Sensor only)")
-            except ValueError as e:
-                LOGGER.error("Error in assigning driver values from template: {}".format(e))
+            except:  # no uv sensor
+                uv = 0
+                uvpresent = False
 
             try:
-                # Barometric pressure values
-                node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
-                d = node.drivers
-                LOGGER.debug(f'Updating Humidity Drivers {d}')
+                solarradiation = float(data[14])
+                et0 = float(data[16])
+                vp2plus = True
 
-                node.set_Driver(d[0]['driver'], float(data[8]), self.units)
-                node.set_Driver(d[1]['driver'], float(data[9]), self.units)
-                node.set_Driver(d[2]['driver'], float(data[10]), self.units)
-            except ValueError as e:
-                LOGGER.error("Error in assigning driver values from template: {}".format(e))
+            except:  # catch case where solar data is not available
+                vp2plus = False
+                solarradiation = 0
+                et0 = 0
+
+            node.set_Driver(d[1]['driver'], solarradiation, )
+            if uvpresent:
+                node.set_Driver(d[0]['driver'], uv, )
+            else:
+                node.set_Driver(d[0]['driver'], 0)
+            if vp2plus:
+
+                node.set_Driver(d[2]['driver'], et0, units=self.units)
+            else:
+                node.set_Driver(d[2]['driver'], 0, )
+                LOGGER.info("Evapotranspiration not available (Davis Vantage stations with Solar Sensor only)")
+
+            # Barometric pressure values
+            node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
+            d = node.drivers
+            LOGGER.debug(f'Updating Humidity Drivers {d}')
+
+            node.set_Driver(d[0]['driver'], float(data[11]), self.units)
+            node.set_Driver(d[1]['driver'], float(data[12]), self.units)
+            node.set_Driver(d[2]['driver'], float(data[13]), self.units)
 
             # Update controller drivers now
 
-            self.setDriver('GV3', data[30])  # Last good data
-            self.setDriver('GV0', int(float(data[26])))  # Console battery
-            self.setDriver('GV1', int(float(data[27])))  # ISS battery
+            self.setDriver('GV3', data[33])  # Last good data
+            self.setDriver('GV0', int(float(data[29])))  # Console battery
+            self.setDriver('GV1', int(float(data[30])))  # ISS battery
             # value 0 = Ok, 1 = Replace
-            self.setDriver('GV2', data[28])
+            self.setDriver('GV2', data[31])
 
-            LOGGER.debug(f"Timestamp: {int(float(data[28]))}, Last good data: {data[30]} second(s) ago")
+            LOGGER.debug(f"Timestamp: {int(float(data[31]))}, Last good data: {data[33]} second(s) ago")
 
         except ValueError as e:
             LOGGER.error("Uncaught error: {}".format(e))
@@ -350,9 +333,14 @@ class Controller(Node):
         self.temperature_list['windchill'] = 'I_TEMP_F' if units == 'us' else 'I_TEMP_C'
         self.temperature_list['tempmax'] = 'I_TEMP_F' if units == 'us' else 'I_TEMP_C'
         self.temperature_list['tempmin'] = 'I_TEMP_F' if units == 'us' else 'I_TEMP_C'
+        self.temperature_list['indoor'] = 'I_TEMP_F' if units == 'us' else 'I_TEMP_C'
+        self.temperature_list['dewin'] = 'I_TEMP_F' if units == 'us' else 'I_TEMP_C'
+
         self.humidity_list['main'] = 'I_HUMIDITY'
         self.humidity_list['max'] = 'I_HUMIDITY'
         self.humidity_list['min'] = 'I_HUMIDITY'
+        self.humidity_list['humin'] = 'I_HUMIDITY'
+
         self.pressure_list['station'] = 'I_INHG' if units == 'us' else 'I_MB'
         self.pressure_list['sealevel'] = 'I_INHG' if units == 'us' else 'I_MB'
         self.pressure_list['trend'] = 'I_TREND'
