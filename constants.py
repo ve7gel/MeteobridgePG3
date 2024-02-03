@@ -1,3 +1,6 @@
+version = "3.1.4"  # added error trapping to catch missing values from Meteobridge
+
+
 def cardinal_wind_dir_map(cardinal_dir):
     CARDINAL_WIND_DIR_MAP = {
         'N': 0,
