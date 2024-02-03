@@ -128,7 +128,7 @@ TEMP_DRVS = {
     'extra7': 'GV11',
     'extra8': 'GV12',
     'extra9': 'GV13',
-    'extra10': 'GV14',
+    'dewin': 'GV14',
     'tempmax': 'GV15',
     'tempmin': 'GV16',
     'soil': 'GV17',

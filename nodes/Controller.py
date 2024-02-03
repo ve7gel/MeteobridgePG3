@@ -333,13 +333,13 @@ class Controller(Node):
         self.temperature_list['windchill'] = 'I_TEMP_F' if units == 'us' else 'I_TEMP_C'
         self.temperature_list['tempmax'] = 'I_TEMP_F' if units == 'us' else 'I_TEMP_C'
         self.temperature_list['tempmin'] = 'I_TEMP_F' if units == 'us' else 'I_TEMP_C'
-        self.temperature_list['indoor'] = 'I_TEMP_F' if units == 'us' else 'I_TEMP_C'
+        self.temperature_list['inside'] = 'I_TEMP_F' if units == 'us' else 'I_TEMP_C'
         self.temperature_list['dewin'] = 'I_TEMP_F' if units == 'us' else 'I_TEMP_C'
 
         self.humidity_list['main'] = 'I_HUMIDITY'
         self.humidity_list['max'] = 'I_HUMIDITY'
         self.humidity_list['min'] = 'I_HUMIDITY'
-        self.humidity_list['humin'] = 'I_HUMIDITY'
+        self.humidity_list['inside'] = 'I_HUMIDITY'
 
         self.pressure_list['station'] = 'I_INHG' if units == 'us' else 'I_MB'
         self.pressure_list['sealevel'] = 'I_INHG' if units == 'us' else 'I_MB'
