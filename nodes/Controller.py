@@ -426,6 +426,10 @@ class Controller(Node):
             LOGGER.error("Invalid value")
             LOGGER.error(mbrarray)
 
+        # Check for invalid responses from Meteobridge and replace them with zeroes to avoid type errors during
+        # conversions from strings to numbers. This can happen when a value is missing from the template request and
+        # the meteobridge returns the template value rather than the actual information.
+
         for i in range(len(mbrarray)):
             if "[" in mbrarray[i]:
                 mbrarray[i] = '0'
