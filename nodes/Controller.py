@@ -114,7 +114,7 @@ class Controller(Node):
             # read data
             LOGGER.debug(f'Configured: {self.configured}')
             while not self.configured:
-                LOGGER.info("Node server not configured yet")
+                LOGGER.info("Plugin not configured yet")
                 return
             # Code for testing new polling structure
             for node_address in self.poly.getNodes():
@@ -198,33 +198,31 @@ class Controller(Node):
             LOGGER.debug(f'Updating Humidity Drivers {d}')
             try:
                 uv = float(data[15])
-                uvpresent = True
-
+                node.set_Driver(d[0]['driver'], uv, )
             except:  # no uv sensor
-                uv = 0
-                uvpresent = False
+                node.set_Driver(d[0]['driver'], 0)
 
             try:
                 solarradiation = float(data[14])
-                et0 = float(data[16])
-                vp2plus = True
-
-            except:  # catch case where solar data is not available
-                vp2plus = False
+                solrad = True
+            except:
+            # catch case where solar data is not available
+                solrad = False
                 solarradiation = 0
-                et0 = 0
 
             node.set_Driver(d[1]['driver'], solarradiation, )
-            if uvpresent:
-                node.set_Driver(d[0]['driver'], uv, )
-            else:
-                node.set_Driver(d[0]['driver'], 0)
-            if vp2plus:
 
-                node.set_Driver(d[2]['driver'], et0, units=self.units)
+            et0 = 0
+            if solrad:
+                if data[27] != "Vantage":
+                    et0 = calculate_et0(obs_data=data)
+                else:
+                    et0 = float(data[16])
             else:
-                node.set_Driver(d[2]['driver'], 0, )
-                LOGGER.info("Evapotranspiration not available (Davis Vantage stations with Solar Sensor only)")
+                LOGGER.info("Evapotranspiration not available ")
+
+            node.set_Driver(d[2]['driver'], et0, units=self.units)
+
 
             # Barometric pressure values
             node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
@@ -424,3 +422,30 @@ class Controller(Node):
         LOGGER.debug("filtered mbrarray: {}".format(mbrarray))
 
         return mbrarray, result_code
+
+def calculate_et0(obs_data):
+    # Thanks to dwburger for this Python script
+    # dwburger (https://github.com/dwburger/Tempest-ET0/blob/main/Tempest-ET0.py)
+    # modified to suit array configuration from existing package
+    # obs_data = data['obs'][0]
+    air_temp = (float(obs_data[3])+float(obs_data[4])) / 2
+    wind_speed = float(obs_data[17])
+    rel_humidity = (float(obs_data[8] + obs_data[9])) / 2
+
+    # Check if solar radiation data is available; use 0 if None
+    solar_radiation_raw = float(obs_data[14])
+    solar_radiation = solar_radiation_raw * 0.0864 if solar_radiation_raw is not None else 0  # MJ/m^2/day conversion
+
+    ALBEDO = 0.23
+    G = 0.0
+    PSY_CONST = 0.665e-3
+    es = 0.6108 * (10 ** ((7.5 * air_temp) / (237.3 + air_temp)))
+    ea = es * (rel_humidity / 100.0)
+    delta = (4098.0 * es) / ((air_temp + 237.3) ** 2)
+    Rn = (1 - ALBEDO) * solar_radiation - 0.34 * (1.35 * solar_radiation / 2.3 - 1.0)
+    et0_daily = (0.408 * delta * (Rn - G) + PSY_CONST * (900 / (air_temp + 273)) * wind_speed * (es - ea)) / (
+                delta + PSY_CONST * (1 + 0.34 * wind_speed))
+
+    et0_hourly = et0_daily / 24  # Daily to hourly ET0
+    # et0_in_inches = et0_hourly / 25.4  # Convert mm to inches
+    return et0_daily # mm/hour

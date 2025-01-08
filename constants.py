@@ -1,6 +1,7 @@
 # version = "3.1.4"  # added error trapping to catch missing values from Meteobridge
-version = "3.2.0"  # added indoor readings to various node displays
-
+# version = "3.2.0"  # added indoor readings to various node displays
+version = "3.3.0"   # added et0 calculations for non-Vantage weather stations provide offer Solar Radiation values
+                    # basic Penman-Monteith method.  Use with discretion
 
 def cardinal_wind_dir_map(cardinal_dir):
     CARDINAL_WIND_DIR_MAP = {
