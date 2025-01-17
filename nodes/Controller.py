@@ -378,7 +378,7 @@ class Controller(Node):
         self.light_list['solar_radiation'] = 'I_RADIATION'
         self.light_list['evapotranspiration'] = 'I_MM' if units == 'metric' else 'I_INCHES'
         self.lightning_list['strikes'] = 'I_STRIKES'
-        self.lightning_list['lighting_distance'] = 'I_KM' if units == 'metric' else 'I_MILE'
+        self.lightning_list['distance'] = 'I_KM' if units == 'metric' else 'I_MILE'
 
         # Build the node definition
         LOGGER.info('Creating node definition profile based on config.')
