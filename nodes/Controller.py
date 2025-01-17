@@ -295,7 +295,7 @@ class Controller(Node):
         self.wait_for_node_done()
 
         # Lightning Node
-        node = LightningNode(self.poly, self.address, 'zap', 'Lightning')
+        node = LightningNode(self.poly, self.address, 'lightning', 'Lightning')
         node.drivers = node.define_drivers(self.lightning_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
