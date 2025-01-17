@@ -21,6 +21,7 @@ from nodes import PressureNode
 from nodes import WindNode
 from nodes import PrecipNode
 from nodes import LightNode
+from nodes import LightningNode
 
 from constants import *
 
@@ -227,11 +228,20 @@ class Controller(Node):
             # Barometric pressure values
             node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
             d = node.drivers
-            LOGGER.debug(f'Updating Humidity Drivers {d}')
+            LOGGER.debug(f'Updating Pressure Drivers {d}')
 
             node.set_Driver(d[0]['driver'], float(data[11]), self.units)
             node.set_Driver(d[1]['driver'], float(data[12]), self.units)
             node.set_Driver(d[2]['driver'], float(data[13]), self.units)
+
+            # Lightning values
+            node = LightningNode(self.poly, self.address, 'press', 'Barometric Pressure')
+            d = node.drivers
+            LOGGER.debug(f'Updating Lightning Drivers {d}')
+
+            node.set_Driver(d[0]['driver'], float(data[34]), self.units)
+            node.set_Driver(d[1]['driver'], float(data[35]), self.units)
+            #node.set_Driver(d[2]['driver'], float(data[13]), self.units)
 
             # Update controller drivers now
 
@@ -281,6 +291,12 @@ class Controller(Node):
         # Barometric Pressures Node
         node = PressureNode(self.poly, self.address, 'press', 'Barometric Pressure')
         node.drivers = node.define_drivers(self.pressure_list)
+        self.poly.addNode(node)
+        self.wait_for_node_done()
+
+        # Lightning Node
+        node = LightningNode(self.poly, self.address, 'zap', 'Lightning')
+        node.drivers = node.define_drivers(self.lightning_list)
         self.poly.addNode(node)
         self.wait_for_node_done()
 
@@ -361,6 +377,8 @@ class Controller(Node):
         self.light_list['uv'] = 'I_UV'
         self.light_list['solar_radiation'] = 'I_RADIATION'
         self.light_list['evapotranspiration'] = 'I_MM' if units == 'metric' else 'I_INCHES'
+        self.lightning_list['strikes'] = 'I_STRIKES'
+        self.lightning_list['lighting_distance'] = 'I_KM' if units == 'metric' else 'I_MILE'
 
         # Build the node definition
         LOGGER.info('Creating node definition profile based on config.')

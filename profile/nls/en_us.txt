@@ -75,10 +75,10 @@ ST-LIGHT-GV0-NAME = Solar Radiation
 ST-LIGHT-GV1-NAME = Illumination
 ST-LIGHT-GV2-NAME = Evapotranspiration
 
-ND-lightning-NAME = Lightning Strike
+ND-lightning-NAME = Lightning
 ND-lightning-ICON = Input
-ST-139S-ST-NAME = Strikes
-ST-139S-GV0-NAME = Distance
+ST-lightning-ST-NAME = Strikes
+ST-lightning-GV0-NAME = Distance
 
 EN_RAINTYPE-0 = None
 EN_RAINTYPE-1 = Rain

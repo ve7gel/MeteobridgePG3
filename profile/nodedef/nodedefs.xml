@@ -55,6 +55,12 @@
       <st id="GV4" editor="I_MM" />
     </sts>
   </nodeDef>
+  <nodeDef id="lightning" nls="ZAP">
+    <sts>
+      <st id="ST" editor="I_STRIKES" />
+      <st id="GV0" editor="I_KM" />
+    </sts>
+  </nodeDef>
   <nodeDef id="light" nls="LIGHT">
     <sts>
       <st id="ST" editor="I_UV" />
@@ -62,4 +68,5 @@
       <st id="GV2" editor="I_MM" />
     </sts>
   </nodeDef>
+
 </nodeDefs>
