@@ -8,7 +8,7 @@ from constants import LITE_DRVS, UOM
 
 
 class LightningNode(Node):
-    id = 'zap'
+    id = 'lightning'
     units = 'metric'
     drivers = []
     hint = [1, 0x0b, 1, 0]
