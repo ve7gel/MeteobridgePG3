@@ -235,7 +235,7 @@ class Controller(Node):
             node.set_Driver(d[2]['driver'], float(data[13]), self.units)
 
             # Lightning values
-            node = LightningNode(self.poly, self.address, 'press', 'Barometric Pressure')
+            node = LightningNode(self.poly, self.address, 'lightning', 'Lightning')
             d = node.drivers
             LOGGER.debug(f'Updating Lightning Drivers {d}')
 
