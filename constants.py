@@ -74,8 +74,8 @@ def mbtemplate():
         "[mbsystem-lastgooddata]",  # 33 seconds since last good data received from console
 
         # Lightning data added to accommodate Weatherflow Tempest and others
-        "[lgt0total-act]", # 34 number of lightning strikes
-        "[lgt0dist-act]", # 35 distance to lightning strikes
+        "[lgt0total-daysum]", # 34 number of lightning strikes
+        "[lgt0dist-davg]", # 35 distance to lightning strikes
     ]
     mbtemplate_tmp = ""
     # values = str(CreateTemplate())
