@@ -466,4 +466,5 @@ def calculate_et0(obs_data):
 
     et0_hourly = et0_daily / 24  # Daily to hourly ET0
     # et0_in_inches = et0_hourly / 25.4  # Convert mm to inches
+    LOGGER.debug("et0 calculated: {}".format(et0_daily))
     return et0_daily # mm/hour
