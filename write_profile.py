@@ -105,7 +105,7 @@ def write_profile(temperature_list, humidity_list, pressure_list,
         nodedef.write("  </nodeDef>\n")
 
     if len(lightning_list) > 0:
-        nodedef.write(NODEDEF_TMPL % ('lightning', 'ZAP'))
+        nodedef.write(NODEDEF_TMPL % ('lightning', 'LTNG'))
         nodedef.write("    <sts>\n")
         for t in lightning_list:
             nodedef.write(STATUS_TMPL % (uom.LTNG_DRVS[t], lightning_list[t]))
