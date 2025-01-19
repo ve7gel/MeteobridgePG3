@@ -192,5 +192,6 @@ LITE_EDIT = {
 
 LTNG_DRVS = {
     'strikes': 'ST',
-    'distance': 'GV0'
+    'distance': 'GV0',
+    'energy': 'GV1'
 }

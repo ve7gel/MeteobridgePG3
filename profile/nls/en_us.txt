@@ -77,8 +77,8 @@ ST-LIGHT-GV2-NAME = Evapotranspiration
 
 ND-lightning-NAME = Lightning
 ND-lightning-ICON = Input
-ST-lightning-ST-NAME = Strikes
-ST-lightning-GV0-NAME = Distance
+ST-LIGHTNING-ST-NAME = Strikes
+ST-LIGHTNING-GV0-NAME = Distance
 
 EN_RAINTYPE-0 = None
 EN_RAINTYPE-1 = Rain
