@@ -76,6 +76,7 @@ def mbtemplate():
         # Lightning data added to accommodate Weatherflow Tempest and others
         "[lgt0total-daysum]", # 34 number of lightning strikes
         "[lgt0dist-davg]", # 35 distance to lightning strikes
+        "[lgt0energy-davg]", # 36 average lightning strike intensity
     ]
     mbtemplate_tmp = ""
     # values = str(CreateTemplate())
