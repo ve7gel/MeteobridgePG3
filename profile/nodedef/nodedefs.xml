@@ -55,7 +55,7 @@
       <st id="GV4" editor="I_MM" />
     </sts>
   </nodeDef>
-  <nodeDef id="lightning" nls="ZAP">
+  <nodeDef id="lightning" nls="LTNG">
     <sts>
       <st id="ST" editor="I_STRIKES" />
       <st id="GV0" editor="I_KM" />
