@@ -241,7 +241,7 @@ class Controller(Node):
 
             node.set_Driver(d[0]['driver'], float(data[34]), self.units)
             node.set_Driver(d[1]['driver'], float(data[35]), self.units)
-            node.set_Driver(d[2]['driver'], float(data[36]), '0')
+            node.set_Driver(d[2]['driver'], float(data[36]), self.units)
 
             # Update controller drivers now
 
@@ -379,7 +379,7 @@ class Controller(Node):
         self.light_list['evapotranspiration'] = 'I_MM' if units == 'metric' else 'I_INCHES'
         self.lightning_list['strikes'] = 'I_STRIKES'
         self.lightning_list['distance'] = 'I_KM' if units == 'metric' else 'I_MILE'
-        self.lightning_list['energy'] = 'I_ENERGy'
+        self.lightning_list['energy'] = 'I_ENERGY'
 
         # Build the node definition
         LOGGER.info('Creating node definition profile based on config.')
