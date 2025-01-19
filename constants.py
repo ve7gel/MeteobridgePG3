@@ -40,11 +40,11 @@ def mbtemplate():
 
         "[th0hum-act]",  # 7 current outdoor relative humidity
         "[th0hum-dmax]",  # 8 max outdoor relative humidity today
-        "[th0hum-dmin]",  # 9 min outddor relative humidity today
+        "[th0hum-dmin]",  # 9 min outdoor relative humidity today
         "[thb0hum-act]",  # 10 indoor humidity
 
         "[thb0press-act]",  # 11 current station pressure
-        "[thb0seapress-act]",  # 12 current sealevel barometric pressure
+        "[thb0seapress-act]",  # 12 current sea level barometric pressure
         "[thb0press-delta3h=barotrend]",  # 13 pressure trend
 
         "[sol0rad-act]",  # 14 current solar radiation

@@ -253,8 +253,8 @@ class Controller(Node):
 
             LOGGER.debug(f"Timestamp: {int(float(data[31]))}, Last good data: {data[33]} second(s) ago")
 
-        except ValueError as e:
-            LOGGER.error("Uncaught error: {}".format(e))
+        except Exception as error:
+            LOGGER.error("Uncaught error:", type(error), __name__, "-", error) # Some error occurred
 
     def discover(self, *args, **kwargs):
         LOGGER.info("Creating nodes.")
