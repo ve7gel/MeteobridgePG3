@@ -446,6 +446,8 @@ def calculate_et0(obs_data):
     # dwburger (https://github.com/dwburger/Tempest-ET0/blob/main/Tempest-ET0.py)
     # modified to suit array configuration from existing package
     # obs_data = data['obs'][0]
+    LOGGER.debug(f'obs_data in calculate_et0 is: {obs_data}')
+
     air_temp = (float(obs_data[3])+float(obs_data[4])) / 2
     wind_speed = float(obs_data[17])
     rel_humidity = (float(obs_data[8] + float(obs_data[9]))) / 2
