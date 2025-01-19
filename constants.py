@@ -116,6 +116,7 @@ UOM = {
     'I_BATTERY': 25,
     'I_LAST_UPDATE': 56,
     'I_CARDINAL': 25,
+    'I_ENERGY': 0,
 }
 
 TEMP_DRVS = {
