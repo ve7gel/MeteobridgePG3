@@ -241,7 +241,7 @@ class Controller(Node):
 
             node.set_Driver(d[0]['driver'], float(data[34]), self.units)
             node.set_Driver(d[1]['driver'], float(data[35]), self.units)
-            #node.set_Driver(d[2]['driver'], float(data[13]), self.units)
+            node.set_Driver(d[2]['driver'], float(data[36]), '0')
 
             # Update controller drivers now
 
