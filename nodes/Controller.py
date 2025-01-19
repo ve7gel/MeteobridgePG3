@@ -448,7 +448,7 @@ def calculate_et0(obs_data):
     # obs_data = data['obs'][0]
     air_temp = (float(obs_data[3])+float(obs_data[4])) / 2
     wind_speed = float(obs_data[17])
-    rel_humidity = (float(obs_data[8] + obs_data[9])) / 2
+    rel_humidity = (float(obs_data[8] + float(obs_data[9]))) / 2
 
     # Check if solar radiation data is available; use 0 if None
     solar_radiation_raw = float(obs_data[14])
